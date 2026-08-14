@@ -22,7 +22,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     '@id': `${siteUrl}/#organization`,
     name: brand,
     url: siteUrl,
-    logo: { '@type': 'ImageObject', url: `${siteUrl}/logo-icon.svg`, width: 512, height: 512 },
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/logo-icon.png`, width: 512, height: 512 },
     sameAs: [repositoryUrl],
   };
 }
@@ -121,8 +121,14 @@ export function converterJsonLd(tool: ConverterConfig): Record<string, unknown>[
 }
 
 /** Generic WebApplication JSON-LD for simple tools (time/date + everyday). */
-export function simpleJsonLd(name: string, path: string, category: string, description: string): Record<string, unknown>[] {
-  return [
+export function simpleJsonLd(
+  name: string,
+  path: string,
+  category: string,
+  description: string,
+  extras: { howToSteps?: string[]; faqs?: { q: string; a: string }[] } = {},
+): Record<string, unknown>[] {
+  const graph: Record<string, unknown>[] = [
     {
       '@type': 'WebApplication',
       name,
@@ -133,4 +139,11 @@ export function simpleJsonLd(name: string, path: string, category: string, descr
       description,
     },
   ];
+  if (extras.howToSteps?.length) {
+    graph.push(howToJsonLd(extras.howToSteps, name));
+  }
+  if (extras.faqs?.length) {
+    graph.push({ '@type': 'FAQPage', mainEntity: faqEntities(extras.faqs) });
+  }
+  return graph;
 }

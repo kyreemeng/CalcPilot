@@ -10,10 +10,12 @@ interface Props {
   description?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  /** Override the path used for canonical/OG URL (e.g. 404 → `/`). */
+  canonicalPath?: string;
 }
 
-const { title, description = '', jsonLd, noindex = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const { title, description = '', jsonLd, noindex = false, canonicalPath } = Astro.props;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, siteUrl).href;
 
 // Always emit Organization + WebSite, then merge any page-specific schema.
 const pageGraph = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
@@ -39,12 +41,13 @@ const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': 
     <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonical} />
     {description && <meta property="og:description" content={description} />}
-    <meta property="og:image" content={`${siteUrl}/og-image.svg`} />
+    <meta property="og:image" content={`${siteUrl}/og-image.png`} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${brand} — free online calculators`} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={`${siteUrl}/og-image.svg`} />
+    <meta name="twitter:image" content={`${siteUrl}/og-image.png`} />
     <meta name="twitter:image:alt" content={`${brand} — free online calculators`} />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}

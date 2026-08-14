@@ -4,19 +4,54 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Countdown Calculator';
-const desc = 'Count the days remaining until an upcoming date or event.';
+const desc =
+  'Count days, weeks and approximate months remaining until any target date or event. Instant countdown planning in your browser.';
+const path = '/time-date/countdown-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Time & Date', href: '/time-date' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Pick the target date for your event or deadline.',
+    'Read how many days remain from today.',
+    'Use the weeks and approximate months for a longer-horizon view.',
+  ],
+};
+const understanding = {
+  desc: 'The countdown measures whole days from today’s local midnight to the target date’s midnight. If the target is in the past, the tool shows how many days have passed since that date instead.',
+};
+const faqs = [
+  {
+    q: 'Does the countdown include today?',
+    a: 'It counts midnights between today and the target. If the target is tomorrow, the remaining day count is 1.',
+  },
+  {
+    q: 'What time zone is used?',
+    a: 'Your browser’s local time zone. Changing devices or time zones can shift “today” near midnight boundaries.',
+  },
+  {
+    q: 'Can I countdown to a specific time of day?',
+    a: 'This version is date-based. For hour-level planning, pick the date that matches the event day.',
+  },
+];
+const related = ['date-difference-calculator', 'date-add-calculator', 'age-calculator'];
 ---
 
-<Base title={`${title} — Days Until a Date | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/countdown-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — Days Until a Date | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Pick a target date and see how many days (and weeks) are left until it arrives."
+    lead="Pick a target date and see how many days (and weeks) are left until it arrives — or how many have passed if it already did."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -28,8 +63,8 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Days remaining</p>
-      <div class="result-amount" id="days">--</div>
-      <div class="result-subtitle" id="sub">—</div>
+      <div class="result-amount" id="days">—</div>
+      <div class="result-subtitle" id="sub">calculating…</div>
       <hr class="result-divider" />
       <div class="breakdown" id="detail"></div>
     </div>

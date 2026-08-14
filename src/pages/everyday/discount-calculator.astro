@@ -4,19 +4,54 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Discount Calculator';
-const desc = 'Find the final price and savings after a percentage discount.';
+const desc =
+  'Find the final price and savings after any percentage discount. Instant sale-price math for shopping and promo checks.';
+const path = '/everyday/discount-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Everyday', href: '/everyday' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Enter the original price before the discount.',
+    'Enter the discount percentage shown on the sale or coupon.',
+    'Read the final price and the amount you save.',
+  ],
+};
+const understanding = {
+  desc: 'Savings = original price × discount% ÷ 100. Final price = original price − savings. Stacked discounts and tax rules vary by retailer, so use this for quick comparisons and confirm the checkout total before buying.',
+};
+const faqs = [
+  {
+    q: 'How do I calculate 25% off?',
+    a: 'Multiply the original price by 0.25 to get the discount, then subtract that from the original price. Example: $80 × 25% = $20 off → $60 final.',
+  },
+  {
+    q: 'Does this include sales tax?',
+    a: 'No. It calculates the discounted item price only. Add local tax separately if your receipt includes it.',
+  },
+  {
+    q: 'Can I model an extra coupon after a sale?',
+    a: 'Run the first discount, then use the final price as the new original price for a second pass.',
+  },
+];
+const related = ['percentage-calculator', 'tip-calculator', 'bmi-calculator'];
 ---
 
-<Base title={`${title} — Final Price After Discount | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/everyday/discount-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — Final Price After Discount | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Enter the original price and a discount percentage to see the final price."
+    lead="Enter the original price and a discount percentage to see the final price and how much you save."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -32,10 +67,13 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Final price</p>
-      <div class="result-amount" id="final">--</div>
-      <div class="result-subtitle" id="sub">—</div>
+      <div class="result-amount" id="final">$60.00</div>
+      <div class="result-subtitle" id="sub">after 25% off</div>
       <hr class="result-divider" />
-      <div class="breakdown" id="detail"></div>
+      <div class="breakdown" id="detail">
+        <div class="breakdown-row"><span class="blabel">You save</span><span class="bvalue">$20.00</span></div>
+        <div class="breakdown-row"><span class="blabel">Original price</span><span class="bvalue">$80.00</span></div>
+      </div>
     </div>
   </SimpleTool>
 </Base>

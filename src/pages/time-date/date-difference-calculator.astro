@@ -4,19 +4,54 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Date Difference Calculator';
-const desc = 'Calculate the days, weeks and months between any two dates. Updated instantly.';
+const desc =
+  'Calculate exact days between two dates, plus weeks and approximate months. Useful for project timelines, billing periods and travel planning.';
+const path = '/time-date/date-difference-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Time & Date', href: '/time-date' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Choose a start date and an end date.',
+    'Read the absolute day count between them.',
+    'Use the weeks and approximate months for a quicker sense of span.',
+  ],
+};
+const understanding = {
+  desc: 'Day count is the number of midnights between the two calendar dates. Weeks are full 7-day blocks. Months are an approximation using 30.4375 days (the average Gregorian month), so they are useful for planning, not legal billing unless your contract says otherwise.',
+};
+const faqs = [
+  {
+    q: 'Are both dates inclusive?',
+    a: 'This calculator reports the day difference between the two midnights. Crossing from Jan 1 to Jan 2 is 1 day.',
+  },
+  {
+    q: 'What if the end date is earlier?',
+    a: 'You still get a positive day count, with a note that the end date is before the start date.',
+  },
+  {
+    q: 'Why are months approximate?',
+    a: 'Months vary in length. The months figure uses an average-month conversion so you can estimate longer spans quickly.',
+  },
+];
+const related = ['age-calculator', 'date-add-calculator', 'countdown-calculator'];
 ---
 
-<Base title={`${title} — Days Between Dates | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/date-difference-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — Days Between Dates | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Pick a start and end date to see exactly how many days, weeks and months are between them."
+    lead="Pick a start and end date to see exactly how many days, weeks and approximate months are between them."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -32,10 +67,13 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Days between</p>
-      <div class="result-amount" id="days">--</div>
-      <div class="result-subtitle" id="sub">—</div>
+      <div class="result-amount" id="days">364</div>
+      <div class="result-subtitle" id="sub">between the two dates</div>
       <hr class="result-divider" />
-      <div class="breakdown" id="detail"></div>
+      <div class="breakdown" id="detail">
+        <div class="breakdown-row"><span class="blabel">Weeks</span><span class="bvalue">52</span></div>
+        <div class="breakdown-row"><span class="blabel">Months (approx.)</span><span class="bvalue">11</span></div>
+      </div>
     </div>
   </SimpleTool>
 </Base>

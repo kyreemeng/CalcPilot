@@ -1,5 +1,8 @@
 ---
 import Breadcrumb from './Breadcrumb.astro';
+import FAQ from './FAQ.astro';
+import RelatedCards from './RelatedCards.astro';
+import DisclaimerSnippet from './DisclaimerSnippet.astro';
 
 interface Crumb {
   label: string;
@@ -10,9 +13,27 @@ interface Props {
   crumbs: Crumb[];
   title: string;
   lead: string;
+  howTo?: { title?: string; steps: string[] };
+  understanding?: { title?: string; desc: string };
+  faqs?: { q: string; a: string }[];
+  related?: string[];
+  relatedTitle?: string;
+  relatedVerb?: string;
+  disclaimer?: string;
 }
 
-const { crumbs, title, lead } = Astro.props;
+const {
+  crumbs,
+  title,
+  lead,
+  howTo,
+  understanding,
+  faqs = [],
+  related = [],
+  relatedTitle,
+  relatedVerb = 'Open calculator',
+  disclaimer = "CalcPilot's results are estimates for everyday and planning use. Verify critical decisions with an authoritative source.",
+} = Astro.props;
 ---
 
 <div class="container">
@@ -29,4 +50,33 @@ const { crumbs, title, lead } = Astro.props;
       <slot name="result" />
     </div>
   </div>
+
+  {
+    howTo && (
+      <section class="section">
+        <h2 class="section-title">{howTo.title ?? 'How to use this calculator'}</h2>
+        <div class="how-steps">
+          {howTo.steps.map((s, i) => (
+            <div class="step">
+              <span class="step-badge">{i + 1}</span>
+              <p>{s}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    understanding && (
+      <section class="section">
+        <h2 class="section-title">{understanding.title ?? 'Understanding your results'}</h2>
+        <p class="understanding-desc">{understanding.desc}</p>
+      </section>
+    )
+  }
+
+  {faqs.length > 0 && <FAQ faqs={faqs} />}
+  {related.length > 0 && <RelatedCards slugs={related} title={relatedTitle} verb={relatedVerb} />}
+  <DisclaimerSnippet text={disclaimer} />
 </div>

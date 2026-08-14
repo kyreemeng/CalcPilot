@@ -4,19 +4,54 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Percentage Calculator';
-const desc = 'Find what a percentage of any number is, instantly.';
+const desc =
+  'Find what percent of any number is instantly. Use X% of Y for discounts, tips, tax estimates, and everyday percentage math.';
+const path = '/everyday/percentage-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Everyday', href: '/everyday' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Enter the base number you want to take a percentage of.',
+    'Enter the percentage value (for example 15 for 15%).',
+    'Read the result and the breakdown showing the exact multiplication used.',
+  ],
+};
+const understanding = {
+  desc: 'A percentage is a fraction of 100. To find X% of Y, multiply Y by X and divide by 100: result = Y × (X ÷ 100). This calculator focuses on that core everyday case so you can price discounts, tips, fees, and markups without leaving the page.',
+};
+const faqs = [
+  {
+    q: 'What is the formula for a percentage of a number?',
+    a: 'Multiply the number by the percentage, then divide by 100. Example: 15% of 200 = 200 × 0.15 = 30.',
+  },
+  {
+    q: 'Can I use decimals like 12.5%?',
+    a: 'Yes. Enter any decimal percentage and the result updates immediately.',
+  },
+  {
+    q: 'How is this different from a tip or discount calculator?',
+    a: 'This tool solves the plain math question “what is X% of Y?” Tip and discount calculators add bill totals, split shares, and savings context on top of that formula.',
+  },
+];
+const related = ['tip-calculator', 'discount-calculator', 'bmi-calculator'];
 ---
 
-<Base title={`${title} — What is X% of Y | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/everyday/percentage-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — What is X% of Y | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Enter a number and a percentage to see the result instantly."
+    lead="Enter a number and a percentage to see X% of Y instantly — useful for tips, discounts, fees, and quick checks."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -32,10 +67,12 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Result</p>
-      <div class="result-amount" id="res">--</div>
-      <div class="result-subtitle" id="sub">—</div>
+      <div class="result-amount" id="res">30</div>
+      <div class="result-subtitle" id="sub">15% of 200</div>
       <hr class="result-divider" />
-      <div class="breakdown" id="detail"></div>
+      <div class="breakdown" id="detail">
+        <div class="breakdown-row"><span class="blabel">200 × 15%</span><span class="bvalue">30</span></div>
+      </div>
     </div>
   </SimpleTool>
 </Base>

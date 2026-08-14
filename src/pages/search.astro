@@ -4,6 +4,9 @@ import Icon from '../components/Icon.astro';
 import { allTools, toolIcon, brand } from '../data/site';
 import { iconSvg } from '../lib/icons';
 
+const query = Astro.url.searchParams.get('q')?.trim() ?? '';
+const term = query.toLowerCase();
+
 const tools = allTools.map((t) => ({
   href: t.href,
   title: t.title,
@@ -11,6 +14,11 @@ const tools = allTools.map((t) => ({
   verb: t.category === 'converters' ? 'Open converter' : 'Open calculator',
   icon: iconSvg(toolIcon(t.slug), 22),
 }));
+
+const matches = term
+  ? tools.filter((t) => `${t.title} ${t.shortDesc} ${t.verb}`.toLowerCase().includes(term))
+  : tools;
+
 const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
 ---
 
@@ -21,17 +29,35 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
       <p class="lead">Find the calculator or converter you need.</p>
     </div>
 
-    <form class="hero-search-row" id="search-form" role="search">
+    <form class="hero-search-row" id="search-form" action="/search" method="get" role="search">
       <label class="hero-search">
         <Icon name="search" size={18} />
-        <input type="search" id="search-input" placeholder="Try 'mortgage' or 'kg to lbs'" aria-label="Search" />
+        <input
+          type="search"
+          id="search-input"
+          name="q"
+          value={query}
+          placeholder="Try 'mortgage' or 'kg to lbs'"
+          aria-label="Search"
+        />
       </label>
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
 
     <section class="section section--tight">
-      <div class="card-grid" id="results"></div>
-      <p class="search-empty" id="empty" hidden>No tools found. Try a different search.</p>
+      <div class="card-grid" id="results">
+        {
+          matches.map((t) => (
+            <a class="tool-card" href={t.href}>
+              <span class="tool-icon" set:html={t.icon} />
+              <h3>{t.title}</h3>
+              <p>{t.shortDesc}</p>
+              <span class="link-arrow">{t.verb} →</span>
+            </a>
+          ))
+        }
+      </div>
+      <p class="search-empty" id="empty" hidden={matches.length > 0}>No tools found. Try a different search.</p>
     </section>
   </div>
 </Base>
@@ -52,9 +78,6 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
   const empty = document.getElementById('empty')!;
   const form = document.getElementById('search-form')!;
 
-  const initial = new URL(location.href).searchParams.get('q') || '';
-  input.value = initial;
-
   function render(query: string) {
     const term = query.trim().toLowerCase();
     const matches = term
@@ -74,10 +97,14 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
       .join('');
   }
 
-  render(initial);
   input.addEventListener('input', () => render(input.value));
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    const next = new URL(location.href);
+    const q = input.value.trim();
+    if (q) next.searchParams.set('q', q);
+    else next.searchParams.delete('q');
+    history.replaceState(null, '', next);
     render(input.value);
   });
 </script>

@@ -4,19 +4,54 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Tip Calculator';
-const desc = 'Calculate the tip amount, total bill and split per person.';
+const desc =
+  'Calculate tip amount, total bill, and per-person split from any tip percentage. Instant results for restaurants and shared checks.';
+const path = '/everyday/tip-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Everyday', href: '/everyday' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Enter the pre-tip bill amount.',
+    'Choose a tip percentage and how many people are splitting the check.',
+    'Read the tip amount, full total, and the amount each person owes.',
+  ],
+};
+const understanding = {
+  desc: 'Tip amount = bill × tip% ÷ 100. Total bill = bill + tip. Per person = total ÷ number of people. Common restaurant tips range from about 15% to 20%, but customs vary by place and service type.',
+};
+const faqs = [
+  {
+    q: 'Should I tip on tax?',
+    a: 'Local customs differ. Many people tip on the pre-tax subtotal; others tip on the full receipt. Enter whichever base you prefer.',
+  },
+  {
+    q: 'How do I split a tip evenly?',
+    a: 'Set “Split between” to the number of people. The calculator divides the tipped total evenly across that count.',
+  },
+  {
+    q: 'Can I use a custom tip percentage?',
+    a: 'Yes. Enter any percentage, including decimals, and the tip, total, and split update immediately.',
+  },
+];
+const related = ['percentage-calculator', 'discount-calculator', 'bmi-calculator'];
 ---
 
-<Base title={`${title} — Tip Amount & Total Bill | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/everyday/tip-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — Tip Amount & Total Bill | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Enter the bill, choose a tip percentage, and split the total across people."
+    lead="Enter the bill, choose a tip percentage, and split the tipped total across people — updated as you type."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -36,10 +71,13 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Tip amount</p>
-      <div class="result-amount" id="tip-val">--</div>
-      <div class="result-subtitle" id="sub">—</div>
+      <div class="result-amount" id="tip-val">$9.00</div>
+      <div class="result-subtitle" id="sub">18% tip on $50.00</div>
       <hr class="result-divider" />
-      <div class="breakdown" id="detail"></div>
+      <div class="breakdown" id="detail">
+        <div class="breakdown-row"><span class="blabel">Total bill</span><span class="bvalue">$59.00</span></div>
+        <div class="breakdown-row"><span class="blabel">Per person</span><span class="bvalue">$29.50</span></div>
+      </div>
     </div>
   </SimpleTool>
 </Base>

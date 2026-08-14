@@ -4,19 +4,55 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'BMI Calculator';
-const desc = 'Calculate your body mass index and see your weight category.';
+const desc =
+  'Calculate body mass index from height and weight, see your WHO weight category, and understand the BMI formula instantly.';
+const path = '/everyday/bmi-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Everyday', href: '/everyday' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Enter your height in centimeters and your weight in kilograms.',
+    'Read your BMI score and the matching weight category.',
+    'Compare against the standard ranges below, then adjust inputs to model a goal weight.',
+  ],
+};
+const understanding = {
+  desc: 'BMI equals weight in kilograms divided by height in meters squared (BMI = kg / m²). Categories used here follow common adult cutoffs: underweight below 18.5, normal 18.5–24.9, overweight 25–29.9, and obese 30+. BMI is a screening estimate and does not measure body fat or fitness directly.',
+};
+const faqs = [
+  {
+    q: 'How is BMI calculated?',
+    a: 'Divide your weight in kilograms by your height in meters squared. For example, 70 kg at 1.75 m is 70 ÷ (1.75 × 1.75) = 22.9.',
+  },
+  {
+    q: 'Is BMI the same for men and women?',
+    a: 'The standard adult BMI formula and category cutoffs are the same for men and women, but they do not account for muscle mass, bone density, or fat distribution.',
+  },
+  {
+    q: 'Can athletes have a high BMI and still be healthy?',
+    a: 'Yes. Extra muscle can raise BMI without meaning excess body fat. Treat BMI as one planning signal, not a diagnosis.',
+  },
+];
+const related = ['percentage-calculator', 'tip-calculator', 'discount-calculator'];
 ---
 
-<Base title={`${title} — Body Mass Index | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/everyday/bmi-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — Body Mass Index | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'HealthApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Enter your height and weight to calculate your body mass index (BMI)."
+    lead="Enter your height and weight to calculate your body mass index (BMI) and see the matching adult weight category."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
+    disclaimer="BMI results are screening estimates only and are not medical advice. Consult a qualified clinician for health decisions."
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -32,10 +68,13 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Your BMI</p>
-      <div class="result-amount" id="bmi">--</div>
-      <div class="result-subtitle" id="sub">—</div>
+      <div class="result-amount" id="bmi">22.9</div>
+      <div class="result-subtitle" id="sub">normal weight</div>
       <hr class="result-divider" />
-      <div class="breakdown" id="detail"></div>
+      <div class="breakdown" id="detail">
+        <div class="breakdown-row"><span class="blabel">Height</span><span class="bvalue">175 cm</span></div>
+        <div class="breakdown-row"><span class="blabel">Weight</span><span class="bvalue">70 kg</span></div>
+      </div>
     </div>
   </SimpleTool>
 </Base>

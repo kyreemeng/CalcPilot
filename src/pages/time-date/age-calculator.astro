@@ -4,19 +4,54 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Age Calculator';
-const desc = 'Find your exact age in years, months and days from your date of birth. Updated instantly.';
+const desc =
+  'Find your exact age in years, months and days from your date of birth, plus total weeks and days lived — updated instantly.';
+const path = '/time-date/age-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Time & Date', href: '/time-date' },
   { label: title },
 ];
+const howTo = {
+  steps: [
+    'Enter your date of birth.',
+    'Read your age in years, months and days as of today.',
+    'Use the breakdown for total months, weeks and days when you need a finer count.',
+  ],
+};
+const understanding = {
+  desc: 'Age is counted from your birth date to today’s local calendar date. Months and days account for different month lengths, so the result is a calendar age, not a fixed 30-day approximation. Total days use a simple day difference for convenience.',
+};
+const faqs = [
+  {
+    q: 'Does this use today’s date automatically?',
+    a: 'Yes. The calculator compares your birth date with the current local date in your browser.',
+  },
+  {
+    q: 'Why can month and day counts look different from “years × 365”?',
+    a: 'Calendar months have 28–31 days and leap years add an extra day. Exact age uses calendar arithmetic; total days uses elapsed midnights.',
+  },
+  {
+    q: 'Can I calculate age on a future or past reference date?',
+    a: 'This version always measures against today. For custom ranges, use the Date Difference Calculator.',
+  },
+];
+const related = ['date-difference-calculator', 'date-add-calculator', 'countdown-calculator'];
 ---
 
-<Base title={`${title} — Find Your Exact Age | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/age-calculator', 'UtilitiesApplication', desc)}>
+<Base
+  title={`${title} — Find Your Exact Age | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Enter your date of birth and see your exact age in years, months and days — updated instantly."
+    lead="Enter your date of birth and see your exact age in years, months and days — plus totals for months, weeks and days lived."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
@@ -28,8 +63,8 @@ const crumbs = [
 
     <div slot="result">
       <p class="result-label">Your age</p>
-      <div class="result-amount" id="age">--</div>
-      <div class="result-subtitle" id="age-sub">—</div>
+      <div class="result-amount" id="age">36</div>
+      <div class="result-subtitle" id="age-sub">calculating…</div>
       <hr class="result-divider" />
       <div class="breakdown" id="age-detail"></div>
     </div>

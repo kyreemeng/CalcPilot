@@ -16,11 +16,11 @@ const crumbs = [{ label: 'Home', href: '/' }, { label: hub.title }];
 const verb = hub.id === 'converters' ? 'Open converter' : 'Open calculator';
 ---
 
-<Base title={`${hub.title} Calculators | ${brand}`} description={hub.intro.slice(0, 158)}>
+<Base title={`${hub.seoTitle} | ${brand}`} description={hub.seoDescription}>
   <div class="container">
     <Breadcrumb crumbs={crumbs} />
     <div class="title-block">
-      <h1>{hub.title}</h1>
+      <h1>{hub.seoTitle}</h1>
       <p class="hub-intro">{hub.intro}</p>
     </div>
 
