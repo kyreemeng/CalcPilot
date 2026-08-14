@@ -68,8 +68,8 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Mortgage Calculator',
     intro: 'Estimate your monthly payment including principal, interest, property tax and home insurance. Results update instantly as you type.',
     seo: {
-      title: 'Mortgage Calculator — Estimate Your Monthly Payment | CalcPilot',
-      description: 'Calculate your monthly mortgage payment with taxes and insurance included. See a full amortization schedule, compare 15- vs 30-year terms, and understand what drives your payment.',
+      title: 'Mortgage Calculator 2026 — Free Monthly Payment Tool | CalcPilot',
+      description: 'Free mortgage calculator with taxes, insurance, and full amortization schedule. Compare 15 vs 30-year terms, see total interest, and get instant results — no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Mortgage Calculator'],
     currency: 'USD',
@@ -105,7 +105,7 @@ export const financeTools: FinanceToolConfig[] = [
     },
     understanding: {
       title: 'Understanding your results',
-      desc: 'Your payment splits into principal, interest, and escrow. Early payments go mostly to interest; over time more shifts to principal.',
+      desc: 'Your monthly mortgage payment splits into three parts: <strong>principal</strong> (the loan balance you pay down), <strong>interest</strong> (the cost of borrowing), and <strong>escrow</strong> (property taxes and home insurance). In the early years of a 30-year fixed-rate mortgage, most of each payment goes toward interest; over time, the balance shifts and more chips away at the principal. This is why making extra payments early in the loan has an outsized effect on total interest. Use the <a href="/finance/loan-calculator">loan calculator</a> to compare different borrowing scenarios, or the <a href="/finance/savings-calculator">savings calculator</a> to see how building a larger down payment reduces your monthly cost.',
     },
     hasAmortization: true,
     amortFirstCol: 'Year',
@@ -142,8 +142,8 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Loan Calculator',
     intro: 'Estimate your monthly payment for a personal, auto, or student loan. See total interest and how extra payments shorten your term.',
     seo: {
-      title: 'Loan Calculator — Monthly Payment & Total Interest | CalcPilot',
-      description: 'Calculate your monthly payment for personal, auto, and student loans. See total interest, origination fees, and how extra payments shorten your term.',
+      title: 'Loan Calculator 2026 — Monthly Payment & Interest | CalcPilot',
+      description: 'Free loan calculator for personal, auto, and student loans. Get monthly payments, total interest, origination fees, and a full payment schedule — instantly, no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Loan Calculator'],
     currency: 'USD',
@@ -179,7 +179,7 @@ export const financeTools: FinanceToolConfig[] = [
     },
     understanding: {
       title: 'Understanding your results',
-      desc: 'Your payment covers principal and interest. In the early months, most of each payment goes toward interest; over time a larger share chips away at the balance. The amortization table below shows exactly how that shifts.',
+      desc: 'Your monthly <strong>loan payment</strong> covers two things: <strong>principal</strong> (the amount you borrowed) and <strong>interest</strong> (the lender\'s charge for lending). In the early months, most of each payment goes toward interest; over time, a larger share chips away at the principal balance. The amortization table below shows exactly how that shift happens month by month. Shortening the term (e.g., from 60 to 36 months) raises your monthly payment but cuts total interest significantly. See how different rates affect your borrowing cost with the <a href="/finance/mortgage-calculator">mortgage calculator</a>, or project how saved money could grow using the <a href="/finance/compound-calculator">compound interest calculator</a>.',
     },
     hasAmortization: true,
     amortFirstCol: 'Payment',
@@ -216,8 +216,8 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Salary Calculator',
     intro: 'Convert an annual salary into hourly, weekly and monthly take-home pay after tax and deductions. Results update instantly as you type.',
     seo: {
-      title: 'Salary Calculator — Take-Home Pay After Tax | CalcPilot',
-      description: 'Convert your annual salary to hourly, weekly and monthly take-home pay. See how much tax is withheld and what actually reaches your bank account.',
+      title: 'Salary Calculator 2026 — Take-Home Pay After Tax | CalcPilot',
+      description: 'Free salary calculator converts annual pay to hourly, weekly, and monthly take-home. See tax breakdown and net income instantly — no sign-up required.',
     },
     breadcrumb: ['Home', 'Finance', 'Salary Calculator'],
     currency: 'USD',
@@ -252,7 +252,7 @@ export const financeTools: FinanceToolConfig[] = [
     },
     understanding: {
       title: 'Understanding your results',
-      desc: 'Your gross pay is the amount you earn before anything is taken out. Tax and pre-tax deductions reduce that to your take-home pay. Understanding this split helps you budget realistically and compare job offers.',
+      desc: 'Your <strong>gross pay</strong> is the full amount you earn before anything is taken out. <strong>Federal income tax</strong>, <strong>state tax</strong>, and <strong>pre-tax deductions</strong> (like health insurance and retirement contributions) reduce that to your <strong>take-home pay</strong> — the amount that actually reaches your bank account. Understanding this split helps you budget realistically and compare job offers on equal footing. If you\'re planning a major purchase, pair this with the <a href="/finance/mortgage-calculator">mortgage calculator</a> to see how much house your net income can support, or use the <a href="/finance/savings-calculator">savings calculator</a> to set aside part of each paycheck.',
     },
     hasAmortization: false,
     factors: {
@@ -288,8 +288,8 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Savings Calculator',
     intro: 'Project how your savings grow from a starting balance, regular contributions and compound interest. Results update instantly as you type.',
     seo: {
-      title: 'Savings Calculator — Project Your Savings Growth | CalcPilot',
-      description: 'Calculate how your savings grow with a starting balance, monthly contributions and compound interest. See contributions vs. interest earned at a glance.',
+      title: 'Savings Calculator 2026 — Project Your Savings Growth | CalcPilot',
+      description: 'Free savings calculator shows how starting balance, monthly deposits, and compound interest grow over time. See contributions vs. interest instantly — no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Savings Calculator'],
     currency: 'USD',
@@ -324,7 +324,7 @@ export const financeTools: FinanceToolConfig[] = [
     },
     understanding: {
       title: 'Understanding your results',
-      desc: 'Your savings grow from three sources: the money you start with, the contributions you add, and the interest those earn. Because interest compounds, even modest monthly deposits add up significantly over time.',
+      desc: 'Your savings grow from three sources: the <strong>starting balance</strong> (money you already have), the <strong>monthly contributions</strong> (money you add regularly), and the <strong>compound interest</strong> those amounts earn. Because interest compounds — meaning your interest earns its own interest — even modest monthly deposits add up significantly over time. The earlier you start, the more time compounding has to work. For a deeper look at how compounding frequency affects growth, try the <a href="/finance/compound-calculator">compound interest calculator</a>, or see how your <a href="/finance/salary-calculator">take-home pay</a> determines how much you can save each month.',
     },
     hasAmortization: false,
     factors: {
@@ -360,8 +360,8 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Compound Interest Calculator',
     intro: 'Project the future value of your investments with compound interest and regular contributions. Results update instantly as you type.',
     seo: {
-      title: 'Compound Interest Calculator — Future Value | CalcPilot',
-      description: 'Calculate the future value of an investment with compound interest and monthly contributions. See how starting early and contributing regularly accelerate growth.',
+      title: 'Compound Interest Calculator 2026 — Future Value | CalcPilot',
+      description: 'Free compound interest calculator projects investment growth with regular contributions. See how compounding frequency and time horizon accelerate wealth — instantly.',
     },
     breadcrumb: ['Home', 'Finance', 'Compound Interest Calculator'],
     currency: 'USD',
@@ -396,7 +396,7 @@ export const financeTools: FinanceToolConfig[] = [
     },
     understanding: {
       title: 'Understanding your results',
-      desc: 'Compound interest means your interest earns interest. The longer your money stays invested and the more you contribute, the steeper the growth curve becomes — which is why starting early matters.',
+      desc: '<strong>Compound interest</strong> means your interest earns interest. Each compounding period — monthly, quarterly, or annually — adds the earned interest to your principal, so the next period earns on a larger base. The longer your money stays invested and the more frequently it compounds, the steeper the growth curve becomes. This is why starting early matters far more than the amount you contribute. To see how regular deposits accelerate this effect, use the <a href="/finance/savings-calculator">savings calculator</a>. If you\'re comparing a lump-sum investment against recurring contributions, the <a href="/finance/loan-calculator">loan calculator</a> shows how borrowing costs compound in the opposite direction.',
     },
     hasAmortization: false,
     factors: {

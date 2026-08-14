@@ -11,9 +11,9 @@ interface Props {
 const { slugs, title = 'Related calculators', verb = 'Open calculator' } = Astro.props;
 ---
 
-<section class="section">
+<section class="section reveal">
   <h2 class="section-title">{title}</h2>
-  <div class="related-cards">
+  <div class="related-cards reveal-stagger">
     {slugs.map((slug) => {
       const t = getToolRef(slug);
       if (!t) return null;

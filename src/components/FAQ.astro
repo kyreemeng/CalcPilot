@@ -9,9 +9,9 @@ interface Props {
 const { faqs, title = 'Frequently asked questions' } = Astro.props;
 ---
 
-<section class="section">
+<section class="section reveal">
   <h2 class="section-title">{title}</h2>
-  <div class="faq">
+  <div class="faq reveal-stagger">
     {faqs.map((f) => (
       <details class="faq-item">
         <summary class="faq-q">

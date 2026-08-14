@@ -26,15 +26,15 @@ const verb = hub.id === 'converters' ? 'Open converter' : 'Open calculator';
 
     {
       hub.toolRefs.length > 0 ? (
-        <section class="section section--tight">
-          <div class="card-grid">
+        <section class="section section--tight reveal">
+          <div class="card-grid reveal-stagger">
             {hub.toolRefs.map((t) => (
               <ToolCard href={t.href} title={t.title} shortDesc={t.shortDesc} icon={toolIcon(t.slug)} verb={verb} />
             ))}
           </div>
         </section>
       ) : (
-        <section class="section section--tight">
+        <section class="section section--tight reveal">
           <div class="planned-note">
             These tools are coming soon. In the meantime, explore our <a href="/finance">Finance</a> and{' '}
             <a href="/converters">Converters</a> categories.

@@ -134,8 +134,8 @@ export const hubs: Hub[] = [
   {
     id: 'finance',
     title: 'Finance',
-    seoTitle: 'Finance Calculators',
-    seoDescription: 'Free mortgage, loan, salary, savings and compound interest calculators with instant results and clear payment breakdowns.',
+    seoTitle: 'Free Finance Calculators 2026',
+    seoDescription: 'Free mortgage, loan, salary, savings and compound interest calculators. Instant results, full amortization schedules, no sign-up — try CalcPilot.',
     lead: 'Personal finance calculators',
     intro: "Planning a major purchase or trying to make sense of your money? CalcPilot's finance calculators turn rough numbers into clear, confident answers. Our mortgage calculator shows your true monthly housing cost including principal, interest, property tax and home insurance, while the loan calculator breaks any fixed-rate borrowing into a simple payment schedule. The salary calculator converts an annual salary into hourly, weekly and monthly figures so you can compare job offers on equal terms, and the savings calculator projects how regular contributions compound toward a goal. Every tool updates the moment you type, needs no account, and shows the formula behind each result so you can trust what you see. Use these estimators to budget, plan and negotiate with confidence, then confirm the final details with a qualified professional before you commit. New to CalcPilot? Start with the mortgage calculator if you are house-hunting, or open the savings calculator to see how small monthly deposits add up over time. All figures are estimates for planning only.",
     toolRefs: financeToolRefs,
@@ -143,8 +143,8 @@ export const hubs: Hub[] = [
   {
     id: 'converters',
     title: 'Converters',
-    seoTitle: 'Unit Converters',
-    seoDescription: 'Convert kg to lbs, meters to feet, Celsius to Fahrenheit, hours to minutes, and MB to GB instantly in your browser.',
+    seoTitle: 'Free Unit Converters — kg, m, °C, MB',
+    seoDescription: 'Free unit converters for kg to lbs, meters to feet, Celsius to Fahrenheit, hours to minutes, and MB to GB. Bidirectional, instant, no sign-up.',
     lead: 'Everyday unit converters',
     intro: "Quick, precise unit conversions for everyday use. Convert kilograms to pounds, meters to feet, Celsius to Fahrenheit, hours to minutes, or megabytes to gigabytes — all in real time, right in your browser. Every converter is bidirectional: type in either box and the other updates instantly, with no buttons to press and no page reloads. Below the converter you will find a quick-reference table of common values and a short explanation of the units, so you can trust the result at a glance. All figures are estimates for everyday and planning use.",
     toolRefs: converterToolRefs,
@@ -152,8 +152,8 @@ export const hubs: Hub[] = [
   {
     id: 'time-date',
     title: 'Time & Date',
-    seoTitle: 'Time & Date Calculators',
-    seoDescription: 'Calculate exact age, days between dates, date offsets, and event countdowns with free online date tools.',
+    seoTitle: 'Free Time & Date Calculators 2026',
+    seoDescription: 'Free age calculator, date difference, date add/subtract, and countdown tools. Instant results in your browser — no sign-up required.',
     lead: 'Date arithmetic and time tools',
     intro: "Plan dates, birthdays and deadlines with simple, instant date tools. Find your exact age, count the days between two dates, add or subtract days, or count down to an important event. Every tool runs right in your browser — pick a date and the answer updates immediately, with no buttons and no page reloads. All results are for everyday and planning use.",
     toolRefs: timeDateToolRefs,
@@ -161,8 +161,8 @@ export const hubs: Hub[] = [
   {
     id: 'everyday',
     title: 'Everyday',
-    seoTitle: 'Everyday Calculators',
-    seoDescription: 'Free percentage, tip, discount and BMI calculators for everyday math — instant results, no sign-up required.',
+    seoTitle: 'Free Everyday Calculators — %, Tip, BMI',
+    seoDescription: 'Free percentage, tip, discount and BMI calculators for everyday math. Instant results, no sign-up — try CalcPilot today.',
     lead: 'Calculators for daily life',
     intro: "Quick calculators for the numbers you use every day. Work out a percentage, split a tip, apply a discount, or check your body mass index. Type a value and the result updates instantly — no account, no sign-up, no downloads. All results are estimates for everyday use.",
     toolRefs: everydayToolRefs,

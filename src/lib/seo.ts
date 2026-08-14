@@ -23,7 +23,13 @@ export function organizationJsonLd(): Record<string, unknown> {
     name: brand,
     url: siteUrl,
     logo: { '@type': 'ImageObject', url: `${siteUrl}/logo-icon.png`, width: 512, height: 512 },
+    description: 'Free online calculators and unit converters for finance, everyday math, and measurement. No sign-up, instant results.',
     sameAs: [repositoryUrl],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      url: `${siteUrl}/contact`,
+    },
   };
 }
 
@@ -36,6 +42,14 @@ export function websiteJsonLd(): Record<string, unknown> {
     url: siteUrl,
     inLanguage: 'en',
     publisher: { '@id': `${siteUrl}/#organization` },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 
@@ -93,8 +107,12 @@ export function financeJsonLd(tool: FinanceToolConfig): Record<string, unknown>[
       url: `${siteUrl}/finance/${tool.slug}`,
       applicationCategory: 'FinanceApplication',
       operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript. Requires HTML5.',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       description: tool.seo.description,
+      featureList: ['Instant calculation', 'Amortization schedule', 'Payment breakdown', 'No sign-up required', 'Mobile friendly'],
+      audience: { '@type': 'Audience', audienceType: 'General public' },
+      isAccessibleForFree: true,
     },
     howToJsonLd(tool.howTo.steps, tool.title),
   ];
@@ -113,8 +131,12 @@ export function converterJsonLd(tool: ConverterConfig): Record<string, unknown>[
       url: `${siteUrl}/converters/${tool.slug}`,
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript. Requires HTML5.',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       description: tool.seo.description,
+      featureList: ['Bidirectional conversion', 'Instant results', 'Common conversion table', 'No sign-up required', 'Mobile friendly'],
+      audience: { '@type': 'Audience', audienceType: 'General public' },
+      isAccessibleForFree: true,
     },
     howToJsonLd(tool.howTo.steps, tool.title),
   ];

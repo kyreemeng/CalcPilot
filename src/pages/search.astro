@@ -44,7 +44,7 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
 
-    <section class="section section--tight">
+    <section class="section section--tight reveal">
       <div class="card-grid" id="results">
         {
           matches.map((t) => (
@@ -86,8 +86,8 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
     empty.hidden = matches.length > 0;
     results.innerHTML = matches
       .map(
-        (t) => `
-        <a class="tool-card" href="${t.href}">
+        (t, i) => `
+        <a class="tool-card" href="${t.href}" style="animation: fade-up 0.35s var(--ease-out) ${Math.min(i * 0.04, 0.3)}s both;">
           <span class="tool-icon">${t.icon}</span>
           <h3>${t.title}</h3>
           <p>${t.shortDesc}</p>

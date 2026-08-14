@@ -112,9 +112,9 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   </div>
 
   <!-- How to use -->
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">{tool.howTo.title}</h2>
-    <div class="how-steps">
+    <div class="how-steps reveal-stagger">
       {tool.howTo.steps.map((s, i) => (
         <div class="step">
           <span class="step-badge">{i + 1}</span>
@@ -125,9 +125,9 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   </section>
 
   <!-- Understanding -->
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">{tool.understanding.title}</h2>
-    <p class="understanding-desc">{tool.understanding.desc}</p>
+    <p class="understanding-desc" set:html={tool.understanding.desc}></p>
 
     {tool.hasAmortization && (
       <div class="table-card">
@@ -163,9 +163,9 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   </section>
 
   <!-- What factors affect -->
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">{tool.factors.title}</h2>
-    <div class="factor-cards">
+    <div class="factor-cards reveal-stagger">
       {tool.factors.cards.map((c) => (
         <div class="factor-card">
           <h3>{c.name}</h3>
@@ -176,9 +176,9 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   </section>
 
   <!-- Worked examples -->
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">{tool.examples.title}</h2>
-    <div class="example-cards">
+    <div class="example-cards reveal-stagger">
       {tool.examples.cards.map((c) => (
         <div class="example-card">
           <p class="ex-title">{c.title}</p>
@@ -224,13 +224,17 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   }
 
   let currentCurrency = cfg.currency;
+  const resAmountEl = document.getElementById('res-amount')!;
 
   function render() {
     const res = computeFinance(cfg.id, readValues());
     const currencySelect = root!.querySelector<HTMLSelectElement>('[data-key="currency"]');
     currentCurrency = (currencySelect?.value ?? cfg.currency) as string;
 
-    document.getElementById('res-amount')!.textContent = money(res.main, currentCurrency);
+    resAmountEl.textContent = money(res.main, currentCurrency);
+    resAmountEl.classList.remove('updating');
+    void resAmountEl.offsetWidth; // force reflow to restart animation
+    resAmountEl.classList.add('updating');
     document.getElementById('res-subtitle')!.textContent = res.subtitle;
 
     document.getElementById('res-breakdown')!.innerHTML = cfg.breakdown

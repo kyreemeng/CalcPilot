@@ -72,9 +72,9 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     </div>
   </div>
 
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">{tool.howTo.title}</h2>
-    <div class="how-steps">
+    <div class="how-steps reveal-stagger">
       {tool.howTo.steps.map((s, i) => (
         <div class="step">
           <span class="step-badge">{i + 1}</span>
@@ -84,12 +84,12 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     </div>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">{tool.understanding.title}</h2>
-    <p class="understanding-desc">{tool.understanding.desc}</p>
+    <p class="understanding-desc" set:html={tool.understanding.desc}></p>
   </section>
 
-  <section class="section">
+  <section class="section reveal">
     <h2 class="section-title">Common conversions</h2>
     <div class="common-table">
       <table>
@@ -155,6 +155,8 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
   swapBtn.addEventListener('click', () => {
     swapped = !swapped;
+    swapBtn.classList.add('swapping');
+    setTimeout(() => swapBtn.classList.remove('swapping'), 300);
     const aLabel = cfg.a.label;
     const bLabel = cfg.b.label;
     const aUnit = cfg.a.unit;
@@ -165,5 +167,8 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     unitB.textContent = swapped ? aUnit : bUnit;
     unitEl.textContent = swapped ? aUnit : bUnit;
     renderFromA();
+    resultEl.classList.remove('updating');
+    void resultEl.offsetWidth;
+    resultEl.classList.add('updating');
   });
 </script>
