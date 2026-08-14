@@ -5,7 +5,7 @@ import { financeTools } from './finance-tools';
 import { converterTools } from './converters';
 
 export const brand = 'CalcPilot';
-export const siteUrl = (import.meta.env.PUBLIC_SITE_URL || 'https://calcpilot.vercel.app').replace(/\/$/, '');
+export const siteUrl = (import.meta.env.PUBLIC_SITE_URL || 'https://calcpilot-ten.vercel.app').replace(/\/$/, '');
 export const repositoryUrl = 'https://github.com/kyreemeng/CalcPilot';
 
 export interface NavItem {
