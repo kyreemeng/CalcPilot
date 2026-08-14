@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-const site = process.env.PUBLIC_SITE_URL || 'https://calcpilot-ten.vercel.app';
+const site = process.env.PUBLIC_SITE_URL || 'https://calcpilot.net';
 
 // https://astro.build/config
 export default defineConfig({

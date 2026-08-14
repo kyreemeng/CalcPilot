@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /search
 
-Sitemap: https://calcpilot-ten.vercel.app/sitemap-index.xml
+Sitemap: https://calcpilot.net/sitemap-index.xml
