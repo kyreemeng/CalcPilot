@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import { brand, nav } from '../data/site';
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${brand} home`}>
+      <img class="brand-img" src="/logo-icon.svg" alt="" width="32" height="32" />
+      <span class="brand-name">{brand}</span>
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={pathname.startsWith(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header-search">
+      <form action="/search" method="get" role="search">
+        <label class="search-box">
+          <Icon name="search" size={16} />
+          <input type="search" name="q" placeholder="Search calculators…" aria-label="Search calculators" />
+        </label>
+      </form>
+    </div>
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+      <Icon name="menu" size={22} />
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const navEl = document.getElementById('main-nav');
+  toggle?.addEventListener('click', () => {
+    const open = navEl?.classList.toggle('open') ?? false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>

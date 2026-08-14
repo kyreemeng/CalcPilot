@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import { getToolRef, toolIcon } from '../data/site';
+
+interface Props {
+  slugs: string[];
+  title?: string;
+  verb?: string;
+}
+
+const { slugs, title = 'Related calculators', verb = 'Open calculator' } = Astro.props;
+---
+
+<section class="section">
+  <h2 class="section-title">{title}</h2>
+  <div class="related-cards">
+    {slugs.map((slug) => {
+      const t = getToolRef(slug);
+      if (!t) return null;
+      return (
+        <a class="tool-card" href={t.href}>
+          <span class="tool-icon"><Icon name={toolIcon(t.slug)} size={22} /></span>
+          <h3>{t.title}</h3>
+          <p>{t.shortDesc}</p>
+          <span class="link-arrow">{verb} <Icon name="arrow-right" size={16} /></span>
+        </a>
+      );
+    })}
+  </div>
+</section>

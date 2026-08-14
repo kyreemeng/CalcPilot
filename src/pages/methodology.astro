@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import TrustLayout from '../components/TrustLayout.astro';
+import { repositoryUrl } from '../data/site';
+
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Methodology' }];
+---
+
+<Base
+  title="Calculation Methodology & Accuracy | CalcPilot"
+  description="See the formulas, assumptions, rounding rules, and verification process behind CalcPilot's finance calculators and unit converters."
+>
+  <TrustLayout
+    title="Calculation Methodology"
+    lead="The formulas, assumptions, and checks behind every CalcPilot result."
+    crumbs={crumbs}
+  >
+    <h2>How calculations are produced</h2>
+    <p>
+      Every calculator runs locally in your browser. Inputs are passed to deterministic TypeScript functions, so the
+      same values and settings produce the same result. Displayed figures are rounded for readability; calculations
+      use the full JavaScript number precision until the final formatting step.
+    </p>
+
+    <h2>Loan and mortgage payments</h2>
+    <p>
+      Fixed-rate payments use the standard amortization formula:
+      <strong> payment = principal × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</strong>,
+      where <em>r</em> is the periodic interest rate and <em>n</em> is the number of payments. Taxes, insurance,
+      fees, and extra payments are displayed separately when a tool includes them.
+    </p>
+
+    <h2>Savings and compound interest</h2>
+    <p>
+      Growth projections compound the starting balance at the selected frequency and add regular contributions over
+      the selected period. Rates are user-provided assumptions, not live quotes or forecasts. Actual returns, taxes,
+      fees, and inflation can materially change the outcome.
+    </p>
+
+    <h2>Salary estimates</h2>
+    <p>
+      Salary results convert annual gross pay into monthly, weekly, and hourly equivalents. The tax field is an
+      effective-rate assumption supplied by the user; CalcPilot does not calculate jurisdiction-specific payroll
+      taxes or replace an official payroll estimate.
+    </p>
+
+    <h2>Unit conversions</h2>
+    <p>
+      Each converter publishes its factor or formula beside the result. Ratio conversions multiply or divide by a
+      fixed factor. Temperature conversions also apply the required offset. The data converter explicitly uses
+      binary units, where 1 GB equals 1,024 MB.
+    </p>
+
+    <h2>Verification and corrections</h2>
+    <p>
+      Worked examples, boundary cases, and inverse conversions are checked during development. The source code is
+      public, so formulas can be independently reviewed. If a result looks wrong, include the calculator name,
+      inputs, expected result, and a reliable reference in a{' '}
+      <a href={`${repositoryUrl}/issues/new`} rel="external">GitHub issue</a>.
+    </p>
+
+    <p>
+      <strong>Last reviewed:</strong> August 14, 2026. Results are estimates for planning and educational use only.
+      See the <a href="/disclaimer">Disclaimer</a> before making financial, legal, tax, health, or other consequential
+      decisions.
+    </p>
+  </TrustLayout>
+</Base>

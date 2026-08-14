@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Date Difference Calculator';
+const desc = 'Calculate the days, weeks and months between any two dates. Updated instantly.';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Time & Date', href: '/time-date' },
+  { label: title },
+];
+---
+
+<Base title={`${title} — Days Between Dates | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/date-difference-calculator', 'UtilitiesApplication', desc)}>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Pick a start and end date to see exactly how many days, weeks and months are between them."
+  >
+    <div slot="form">
+      <h2 class="form-title">Your details</h2>
+      <div class="field">
+        <label for="start">Start date</label>
+        <div class="input-wrap"><input id="start" type="date" value="2026-01-01" /></div>
+      </div>
+      <div class="field">
+        <label for="end">End date</label>
+        <div class="input-wrap"><input id="end" type="date" value="2026-12-31" /></div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">Days between</p>
+      <div class="result-amount" id="days">--</div>
+      <div class="result-subtitle" id="sub">—</div>
+      <hr class="result-divider" />
+      <div class="breakdown" id="detail"></div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const startEl = document.getElementById('start') as HTMLInputElement;
+  const endEl = document.getElementById('end') as HTMLInputElement;
+  const daysEl = document.getElementById('days')!;
+  const subEl = document.getElementById('sub')!;
+  const detailEl = document.getElementById('detail')!;
+
+  function calc() {
+    const start = new Date(startEl.value + 'T00:00:00');
+    const end = new Date(endEl.value + 'T00:00:00');
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) return;
+
+    const diff = Math.round((end.getTime() - start.getTime()) / 86400000);
+    const abs = Math.abs(diff);
+    const weeks = Math.floor(abs / 7);
+    const months = Math.floor(abs / 30.4375);
+
+    daysEl.textContent = abs.toLocaleString('en-US');
+    subEl.textContent = diff < 0 ? 'end date is before start date' : 'between the two dates';
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">Weeks</span><span class="bvalue">${weeks.toLocaleString('en-US')}</span></div>
+      <div class="breakdown-row"><span class="blabel">Months (approx.)</span><span class="bvalue">${months.toLocaleString('en-US')}</span></div>
+    `;
+  }
+
+  startEl.addEventListener('change', calc);
+  endEl.addEventListener('change', calc);
+  calc();
+</script>

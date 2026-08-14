@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Countdown Calculator';
+const desc = 'Count the days remaining until an upcoming date or event.';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Time & Date', href: '/time-date' },
+  { label: title },
+];
+---
+
+<Base title={`${title} — Days Until a Date | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/countdown-calculator', 'UtilitiesApplication', desc)}>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Pick a target date and see how many days (and weeks) are left until it arrives."
+  >
+    <div slot="form">
+      <h2 class="form-title">Your details</h2>
+      <div class="field">
+        <label for="target">Target date</label>
+        <div class="input-wrap"><input id="target" type="date" value="2026-12-25" /></div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">Days remaining</p>
+      <div class="result-amount" id="days">--</div>
+      <div class="result-subtitle" id="sub">—</div>
+      <hr class="result-divider" />
+      <div class="breakdown" id="detail"></div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const targetEl = document.getElementById('target') as HTMLInputElement;
+  const daysEl = document.getElementById('days')!;
+  const subEl = document.getElementById('sub')!;
+  const detailEl = document.getElementById('detail')!;
+
+  function calc() {
+    const target = new Date(targetEl.value + 'T00:00:00');
+    if (isNaN(target.getTime())) return;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const diff = Math.round((target.getTime() - today.getTime()) / 86400000);
+    const abs = Math.abs(diff);
+
+    daysEl.textContent = abs.toLocaleString('en-US');
+    subEl.textContent = diff >= 0 ? `until ${target.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}` : 'days since (date has passed)';
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">Weeks</span><span class="bvalue">${Math.floor(abs / 7).toLocaleString('en-US')}</span></div>
+      <div class="breakdown-row"><span class="blabel">Months (approx.)</span><span class="bvalue">${Math.floor(abs / 30.4375).toLocaleString('en-US')}</span></div>
+    `;
+  }
+
+  targetEl.addEventListener('change', calc);
+  calc();
+</script>

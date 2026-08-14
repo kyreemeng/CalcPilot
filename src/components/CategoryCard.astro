@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  name: string;
+  href: string;
+  blurb: string;
+  icon: string;
+}
+
+const { name, href, blurb, icon } = Astro.props;
+---
+
+<a class="category-card" href={href}>
+  <span class="cat-icon"><Icon name={icon} size={22} /></span>
+  <div>
+    <h3>{name}</h3>
+    <p>{blurb}</p>
+    <span class="link-arrow">Explore <Icon name="arrow-right" size={16} /></span>
+  </div>
+</a>

@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { allTools, toolIcon, brand } from '../data/site';
+import { iconSvg } from '../lib/icons';
+
+const tools = allTools.map((t) => ({
+  href: t.href,
+  title: t.title,
+  shortDesc: t.shortDesc,
+  verb: t.category === 'converters' ? 'Open converter' : 'Open calculator',
+  icon: iconSvg(toolIcon(t.slug), 22),
+}));
+const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
+---
+
+<Base title={`Search | ${brand}`} description="Search CalcPilot calculators and converters." noindex>
+  <div class="container">
+    <div class="title-block">
+      <h1>Search</h1>
+      <p class="lead">Find the calculator or converter you need.</p>
+    </div>
+
+    <form class="hero-search-row" id="search-form" role="search">
+      <label class="hero-search">
+        <Icon name="search" size={18} />
+        <input type="search" id="search-input" placeholder="Try 'mortgage' or 'kg to lbs'" aria-label="Search" />
+      </label>
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <section class="section section--tight">
+      <div class="card-grid" id="results"></div>
+      <p class="search-empty" id="empty" hidden>No tools found. Try a different search.</p>
+    </section>
+  </div>
+</Base>
+
+<script is:inline type="application/json" id="tools-data" set:html={toolsJson}></script>
+
+<script>
+  interface Tool {
+    href: string;
+    title: string;
+    shortDesc: string;
+    verb: string;
+    icon: string;
+  }
+  const tools = JSON.parse(document.getElementById('tools-data')!.textContent!) as Tool[];
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const results = document.getElementById('results')!;
+  const empty = document.getElementById('empty')!;
+  const form = document.getElementById('search-form')!;
+
+  const initial = new URL(location.href).searchParams.get('q') || '';
+  input.value = initial;
+
+  function render(query: string) {
+    const term = query.trim().toLowerCase();
+    const matches = term
+      ? tools.filter((t) => `${t.title} ${t.shortDesc} ${t.verb}`.toLowerCase().includes(term))
+      : tools;
+    empty.hidden = matches.length > 0;
+    results.innerHTML = matches
+      .map(
+        (t) => `
+        <a class="tool-card" href="${t.href}">
+          <span class="tool-icon">${t.icon}</span>
+          <h3>${t.title}</h3>
+          <p>${t.shortDesc}</p>
+          <span class="link-arrow">${t.verb} →</span>
+        </a>`
+      )
+      .join('');
+  }
+
+  render(initial);
+  input.addEventListener('input', () => render(input.value));
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    render(input.value);
+  });
+</script>

@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import FinanceTool from '../../components/FinanceTool.astro';
+import { financeTools, getFinanceTool } from '../../data/finance-tools';
+import { financeJsonLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return financeTools.map((t) => ({ params: { slug: t.slug } }));
+}
+
+const { slug } = Astro.params;
+const tool = getFinanceTool(slug ?? '');
+if (!tool) return Astro.redirect('/404');
+---
+
+<Base title={tool.seo.title} description={tool.seo.description} jsonLd={financeJsonLd(tool)}>
+  <FinanceTool tool={tool} />
+</Base>

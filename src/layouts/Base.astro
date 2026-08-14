@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { siteUrl, brand } from '../data/site';
+import { organizationJsonLd, websiteJsonLd, webPageJsonLd } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description = '', jsonLd, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+
+// Always emit Organization + WebSite, then merge any page-specific schema.
+const pageGraph = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+const graph = [organizationJsonLd(), websiteJsonLd(), webPageJsonLd(canonical, title, description), ...pageGraph];
+const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:site_name" content={brand} />
+    <meta property="og:title" content={title} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={canonical} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={`${siteUrl}/og-image.svg`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${brand} — free online calculators`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={`${siteUrl}/og-image.svg`} />
+    <meta name="twitter:image:alt" content={`${brand} — free online calculators`} />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Sora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    {safeJsonLd && <script is:inline type="application/ld+json" set:html={safeJsonLd} />}
+  </head>
+  <body>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

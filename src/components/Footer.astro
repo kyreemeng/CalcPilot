@@ -1,0 +1,36 @@
+---
+import { brand, footerColumns } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-logo">
+          <img class="footer-img" src="/logo-icon.svg" alt="" width="32" height="32" />
+          <span class="footer-name">{brand}</span>
+        </div>
+        <p class="footer-tagline">Free, fast calculators for everyday money and measurement questions.</p>
+      </div>
+
+      <div class="footer-cols">
+        {
+          footerColumns.map((col) => (
+            <div class="footer-col">
+              <h2 class="footer-col-title">{col.title}</h2>
+              <ul>
+                {col.links.map((l) => (
+                  <li><a href={l.href}>{l.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 {brand}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

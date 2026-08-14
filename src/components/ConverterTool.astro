@@ -1,0 +1,169 @@
+---
+import Icon from './Icon.astro';
+import Breadcrumb from './Breadcrumb.astro';
+import RelatedCards from './RelatedCards.astro';
+import DisclaimerSnippet from './DisclaimerSnippet.astro';
+import type { ConverterConfig } from '../data/converters';
+
+interface Props {
+  tool: ConverterConfig;
+}
+
+const { tool } = Astro.props;
+
+const crumbs = tool.breadcrumb.map((label, i) => ({
+  label,
+  href: i === 0 ? '/' : i === 1 ? '/converters' : undefined,
+}));
+
+const clientConfig = {
+  id: tool.id,
+  factor: tool.factor,
+  offset: tool.offset ?? 0,
+  a: tool.a,
+  b: tool.b,
+  resultUnit: tool.resultUnit,
+  precision: tool.precision,
+};
+const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
+---
+
+<div class="container" id="calc">
+  <Breadcrumb crumbs={crumbs} />
+
+  <div class="title-block">
+    <h1>{tool.h1}</h1>
+    <p class="lead">{tool.intro}</p>
+  </div>
+
+  <div class="calc-block">
+    <div class="form-card">
+      <div class="bidir">
+        <div class="field">
+          <label for="conv-a">{tool.a.label}</label>
+          <div class="input-wrap">
+            <input id="conv-a" data-box="a" type="number" inputmode="decimal" step="any" value={tool.a.defaultValue} />
+            <span class="suffix" data-unit-a>{tool.a.unit}</span>
+          </div>
+        </div>
+
+        <button class="swap-btn" id="swap-btn" type="button">
+          <Icon name="swap" size={16} /> Swap units
+        </button>
+
+        <div class="field">
+          <label for="conv-b">{tool.b.label}</label>
+          <div class="input-wrap">
+            <input id="conv-b" data-box="b" type="number" inputmode="decimal" step="any" value={tool.b.defaultValue} />
+            <span class="suffix" data-unit-b>{tool.b.unit}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <p class="result-label">Result</p>
+      <div>
+        <span class="conv-result-value" id="conv-result">{tool.b.defaultValue}</span>
+        <span class="conv-result-unit" id="conv-unit">{tool.resultUnit}</span>
+      </div>
+      <p class="conv-formula">{tool.formula}</p>
+      <p class="conv-note">{tool.note}</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2 class="section-title">{tool.howTo.title}</h2>
+    <div class="how-steps">
+      {tool.howTo.steps.map((s, i) => (
+        <div class="step">
+          <span class="step-badge">{i + 1}</span>
+          <p>{s}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">{tool.understanding.title}</h2>
+    <p class="understanding-desc">{tool.understanding.desc}</p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Common conversions</h2>
+    <div class="common-table">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">{tool.commonTable.header[0]}</th>
+            <th scope="col">{tool.commonTable.header[1]}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tool.commonTable.rows.map((r) => (
+            <tr>
+              <td>{r[0]}</td>
+              <td>{r[1]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <RelatedCards slugs={tool.related} title="Related converters" verb="Open converter" />
+  <DisclaimerSnippet text="CalcPilot's conversions are mathematically precise estimates for everyday and planning use. Always verify critical measurements with an official source before relying on them." />
+</div>
+
+<script is:inline type="application/json" id="conv-config" set:html={safeConfig}></script>
+
+<script>
+  import { toB, toA } from '../lib/convert';
+  import { number } from '../lib/format';
+
+  const cfg = JSON.parse(document.getElementById('conv-config')!.textContent!);
+  const inputA = document.getElementById('conv-a') as HTMLInputElement;
+  const inputB = document.getElementById('conv-b') as HTMLInputElement;
+  const resultEl = document.getElementById('conv-result')!;
+  const unitEl = document.getElementById('conv-unit')!;
+  const labelA = document.querySelector('label[for="conv-a"]')!;
+  const labelB = document.querySelector('label[for="conv-b"]')!;
+  const unitA = document.querySelector('[data-unit-a]')!;
+  const unitB = document.querySelector('[data-unit-b]')!;
+  const swapBtn = document.getElementById('swap-btn')!;
+
+  let swapped = false;
+  const spec = { id: cfg.id, factor: cfg.factor, offset: cfg.offset };
+
+  const fmt = (n: number) => number(n, cfg.precision);
+
+  function renderFromA() {
+    const a = parseFloat(inputA.value) || 0;
+    const b = swapped ? toA(a, spec) : toB(a, spec);
+    inputB.value = fmt(b);
+    resultEl.textContent = fmt(b);
+  }
+  function renderFromB() {
+    const b = parseFloat(inputB.value) || 0;
+    const a = swapped ? toB(b, spec) : toA(b, spec);
+    inputA.value = fmt(a);
+    resultEl.textContent = fmt(b);
+  }
+
+  inputA.addEventListener('input', renderFromA);
+  inputB.addEventListener('input', renderFromB);
+
+  swapBtn.addEventListener('click', () => {
+    swapped = !swapped;
+    const aLabel = cfg.a.label;
+    const bLabel = cfg.b.label;
+    const aUnit = cfg.a.unit;
+    const bUnit = cfg.b.unit;
+    labelA.textContent = swapped ? bLabel : aLabel;
+    labelB.textContent = swapped ? aLabel : bLabel;
+    unitA.textContent = swapped ? bUnit : aUnit;
+    unitB.textContent = swapped ? aUnit : bUnit;
+    unitEl.textContent = swapped ? aUnit : bUnit;
+    renderFromA();
+  });
+</script>

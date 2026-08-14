@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import ToolCard from '../components/ToolCard.astro';
+import { brand, categories, categoryIcons, getToolRef, toolIcon, popularSlugs } from '../data/site';
+---
+
+<Base
+  title={`Free Online Calculators — ${brand}`}
+  description="Accurate mortgage, loan, salary, savings and compound interest calculators, plus everyday unit converters. No sign-up, no downloads — instant answers."
+>
+  <div class="container">
+    <section class="hero">
+      <span class="hero-eyebrow">Free online calculators</span>
+      <h1>Calculate anything in seconds.</h1>
+      <p class="hero-sub">
+        Accurate mortgage, loan, salary and tax calculators, plus everyday unit converters. No sign-up, no
+        downloads, just instant answers.
+      </p>
+      <form class="hero-search-row" action="/search" method="get" role="search">
+        <label class="hero-search">
+          <Icon name="search" size={18} />
+          <input type="search" name="q" placeholder="Try 'mortgage calculator' or 'kg to lbs'" aria-label="Search calculators" />
+        </label>
+        <button class="btn btn-primary" type="submit">Calculate</button>
+      </form>
+      <div class="trust-badges">
+        <span class="badge"><Icon name="check" size={18} /> No sign-up required</span>
+        <span class="badge"><Icon name="check" size={18} /> Instant results (&lt;200ms)</span>
+        <span class="badge"><Icon name="check" size={18} /> Mobile friendly</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Categories</h2>
+      <div class="grid-4">
+        {categories.map((c) => (
+          <CategoryCard name={c.name} href={c.href} blurb={c.blurb} icon={categoryIcons[c.id]} />
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Popular calculators</h2>
+      <div class="card-grid">
+        {popularSlugs.map((slug) => {
+          const t = getToolRef(slug);
+          if (!t) return null;
+          return (
+            <ToolCard
+              href={t.href}
+              title={t.title}
+              shortDesc={t.shortDesc}
+              icon={toolIcon(t.slug)}
+              verb={t.category === 'converters' ? 'Open converter' : 'Open calculator'}
+            />
+          );
+        })}
+      </div>
+    </section>
+  </div>
+</Base>

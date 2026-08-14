@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Date Add Calculator';
+const desc = 'Add or subtract days, weeks or months from a date to find the new date.';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Time & Date', href: '/time-date' },
+  { label: title },
+];
+---
+
+<Base title={`${title} — Add or Subtract Days | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/date-add-calculator', 'UtilitiesApplication', desc)}>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Start from a date, choose add or subtract, and enter how many days to move."
+  >
+    <div slot="form">
+      <h2 class="form-title">Your details</h2>
+      <div class="field">
+        <label for="start">Start date</label>
+        <div class="input-wrap"><input id="start" type="date" value="2026-01-01" /></div>
+      </div>
+      <div class="field">
+        <label for="op">Operation</label>
+        <div class="input-wrap">
+          <select id="op">
+            <option value="add">Add days</option>
+            <option value="subtract">Subtract days</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="days">Number of days</label>
+        <div class="input-wrap"><input id="days" type="number" inputmode="numeric" min="0" step="1" value="90" /></div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">New date</p>
+      <div class="result-amount" id="new-date">--</div>
+      <div class="result-subtitle" id="sub">—</div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const startEl = document.getElementById('start') as HTMLInputElement;
+  const opEl = document.getElementById('op') as HTMLSelectElement;
+  const daysEl = document.getElementById('days') as HTMLInputElement;
+  const outEl = document.getElementById('new-date')!;
+  const subEl = document.getElementById('sub')!;
+
+  function calc() {
+    const start = new Date(startEl.value + 'T00:00:00');
+    const n = parseInt(daysEl.value, 10);
+    if (isNaN(start.getTime()) || !Number.isFinite(n)) return;
+
+    const delta = opEl.value === 'subtract' ? -n : n;
+    const result = new Date(start.getTime() + delta * 86400000);
+
+    outEl.textContent = result.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    subEl.textContent = `${opEl.value === 'subtract' ? 'minus' : 'plus'} ${n} day${n === 1 ? '' : 's'}`;
+  }
+
+  startEl.addEventListener('change', calc);
+  opEl.addEventListener('change', calc);
+  daysEl.addEventListener('input', calc);
+  calc();
+</script>

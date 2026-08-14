@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<section class="section section--tight">
+  <div class="disclaimer">
+    <span class="disc-icon" aria-hidden="true"><Icon name="info" size={18} /></span>
+    <div>
+      <p class="disc-title">Disclaimer</p>
+      <p>{text}</p>
+    </div>
+  </div>
+</section>

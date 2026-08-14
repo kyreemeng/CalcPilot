@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Percentage Calculator';
+const desc = 'Find what a percentage of any number is, instantly.';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Everyday', href: '/everyday' },
+  { label: title },
+];
+---
+
+<Base title={`${title} — What is X% of Y | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/everyday/percentage-calculator', 'UtilitiesApplication', desc)}>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Enter a number and a percentage to see the result instantly."
+  >
+    <div slot="form">
+      <h2 class="form-title">Your details</h2>
+      <div class="field">
+        <label for="value">Number</label>
+        <div class="input-wrap"><input id="value" type="number" inputmode="decimal" step="any" value="200" /></div>
+      </div>
+      <div class="field">
+        <label for="pct">Percentage</label>
+        <div class="input-wrap"><input id="pct" type="number" inputmode="decimal" step="any" value="15" /><span class="suffix">%</span></div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">Result</p>
+      <div class="result-amount" id="res">--</div>
+      <div class="result-subtitle" id="sub">—</div>
+      <hr class="result-divider" />
+      <div class="breakdown" id="detail"></div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const valueEl = document.getElementById('value') as HTMLInputElement;
+  const pctEl = document.getElementById('pct') as HTMLInputElement;
+  const resEl = document.getElementById('res')!;
+  const subEl = document.getElementById('sub')!;
+  const detailEl = document.getElementById('detail')!;
+
+  function calc() {
+    const value = parseFloat(valueEl.value);
+    const pct = parseFloat(pctEl.value);
+    if (!Number.isFinite(value) || !Number.isFinite(pct)) return;
+    const result = (value * pct) / 100;
+
+    resEl.textContent = result.toLocaleString('en-US', { maximumFractionDigits: 4 });
+    subEl.textContent = `${pct}% of ${value.toLocaleString('en-US')}`;
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">${value.toLocaleString('en-US')} × ${pct}%</span><span class="bvalue">${result.toLocaleString('en-US', { maximumFractionDigits: 4 })}</span></div>
+    `;
+  }
+
+  valueEl.addEventListener('input', calc);
+  pctEl.addEventListener('input', calc);
+  calc();
+</script>

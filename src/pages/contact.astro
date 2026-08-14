@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import TrustLayout from '../components/TrustLayout.astro';
+import { repositoryUrl } from '../data/site';
+
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
+---
+
+<Base
+  title="Contact Us | CalcPilot"
+  description="Questions, feedback, or a correction to report? We would love to hear from you. Reach CalcPilot by email or use the contact form."
+>
+  <TrustLayout
+    title="Contact Us"
+    lead="Questions, feedback, or a correction to report? We would love to hear from you."
+    crumbs={crumbs}
+  >
+    <div class="contact-card">
+      <h2>Contact and corrections</h2>
+      <p>
+        CalcPilot is an open-source project. To report an incorrect result, suggest a calculator, or ask a question,
+        open an issue in our public repository.
+      </p>
+      <p>
+        <a class="btn btn-primary" href={`${repositoryUrl}/issues/new`} rel="external">Open a GitHub issue</a>
+      </p>
+      <p>Please do not include sensitive financial, health, or personal information in a public issue.</p>
+    </div>
+  </TrustLayout>
+</Base>

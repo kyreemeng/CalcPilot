@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import ConverterTool from '../../components/ConverterTool.astro';
+import { converterTools, getConverterTool } from '../../data/converters';
+import { converterJsonLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return converterTools.map((t) => ({ params: { slug: t.slug } }));
+}
+
+const { slug } = Astro.params;
+const tool = getConverterTool(slug ?? '');
+if (!tool) return Astro.redirect('/404');
+---
+
+<Base title={tool.seo.title} description={tool.seo.description} jsonLd={converterJsonLd(tool)}>
+  <ConverterTool tool={tool} />
+</Base>

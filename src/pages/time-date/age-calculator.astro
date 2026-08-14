@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Age Calculator';
+const desc = 'Find your exact age in years, months and days from your date of birth. Updated instantly.';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Time & Date', href: '/time-date' },
+  { label: title },
+];
+---
+
+<Base title={`${title} — Find Your Exact Age | CalcPilot`} description={desc} jsonLd={simpleJsonLd(title, '/time-date/age-calculator', 'UtilitiesApplication', desc)}>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Enter your date of birth and see your exact age in years, months and days — updated instantly."
+  >
+    <div slot="form">
+      <h2 class="form-title">Your details</h2>
+      <div class="field">
+        <label for="dob">Date of birth</label>
+        <div class="input-wrap"><input id="dob" type="date" value="1990-01-01" /></div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">Your age</p>
+      <div class="result-amount" id="age">--</div>
+      <div class="result-subtitle" id="age-sub">—</div>
+      <hr class="result-divider" />
+      <div class="breakdown" id="age-detail"></div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const dob = document.getElementById('dob') as HTMLInputElement;
+  const ageEl = document.getElementById('age')!;
+  const subEl = document.getElementById('age-sub')!;
+  const detailEl = document.getElementById('age-detail')!;
+
+  function calc() {
+    const birth = new Date(dob.value + 'T00:00:00');
+    if (isNaN(birth.getTime())) return;
+    const now = new Date();
+    if (birth > now) return;
+
+    let years = now.getFullYear() - birth.getFullYear();
+    let months = now.getMonth() - birth.getMonth();
+    let days = now.getDate() - birth.getDate();
+    if (days < 0) {
+      months -= 1;
+      days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    }
+    if (months < 0) {
+      years -= 1;
+      months += 12;
+    }
+
+    const totalDays = Math.floor((now.getTime() - birth.getTime()) / 86400000);
+    const totalWeeks = Math.floor(totalDays / 7);
+
+    ageEl.textContent = String(years);
+    subEl.textContent = `${months} months, ${days} days`;
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">Total months</span><span class="bvalue">${(years * 12 + months).toLocaleString('en-US')}</span></div>
+      <div class="breakdown-row"><span class="blabel">Total weeks</span><span class="bvalue">${totalWeeks.toLocaleString('en-US')}</span></div>
+      <div class="breakdown-row"><span class="blabel">Total days</span><span class="bvalue">${totalDays.toLocaleString('en-US')}</span></div>
+    `;
+  }
+
+  dob.addEventListener('change', calc);
+  calc();
+</script>

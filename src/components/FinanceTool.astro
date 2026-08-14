@@ -1,0 +1,299 @@
+---
+import Icon from './Icon.astro';
+import Breadcrumb from './Breadcrumb.astro';
+import Donut from './Donut.astro';
+import FAQ from './FAQ.astro';
+import RelatedCards from './RelatedCards.astro';
+import DisclaimerSnippet from './DisclaimerSnippet.astro';
+import { computeFinance, defaultValues, type FinanceToolConfig } from '../data/finance-tools';
+import { money } from '../lib/format';
+
+interface Props {
+  tool: FinanceToolConfig;
+}
+
+const { tool } = Astro.props;
+
+const crumbs = tool.breadcrumb.map((label, i) => ({
+  label,
+  href: i === 0 ? '/' : i === 1 ? '/finance' : undefined,
+}));
+
+const initial = computeFinance(tool.id, defaultValues(tool));
+const centerValue = tool.donutCenter.valueKey === 'main' ? initial.main : (initial.values[tool.donutCenter.valueKey] ?? 0);
+const donutSegments = tool.donut.map((d) => ({ value: initial.values[d.key] ?? 0, color: d.color }));
+const amortUnit = tool.id === 'loan' ? 'payments' : 'years';
+const amortTotal = initial.amortization?.length ?? 0;
+const amortPreview = initial.amortization?.slice(0, 5) ?? [];
+
+const clientConfig = {
+  id: tool.id,
+  currency: tool.currency,
+  breakdown: tool.breakdown,
+  donut: tool.donut,
+  donutCenter: tool.donutCenter,
+  hasAmortization: tool.hasAmortization,
+  amortFirstCol: tool.amortFirstCol ?? 'Year',
+  amortUnit,
+};
+const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
+---
+
+<div class="container" id="calc">
+  <Breadcrumb crumbs={crumbs} />
+
+  <div class="title-block">
+    <h1>{tool.h1}</h1>
+    <p class="lead">{tool.intro}</p>
+  </div>
+
+  <div class="calc-block">
+    <!-- Input form -->
+    <div class="form-card">
+      <h2 class="form-title">Your details</h2>
+      {
+        tool.fields.map((f) => (
+          <div class="field">
+            <label for={`f-${tool.id}-${f.key}`}>{f.label}</label>
+            {f.type === 'select' ? (
+              <div class="input-wrap">
+                <select id={`f-${tool.id}-${f.key}`} data-key={f.key}>
+                  {(f.options ?? []).map((o) => <option value={o}>{o}</option>)}
+                </select>
+              </div>
+            ) : (
+              <div class="input-wrap">
+                {f.prefix && <span class="prefix">{f.prefix}</span>}
+                <input
+                  id={`f-${tool.id}-${f.key}`}
+                  data-key={f.key}
+                  type="number"
+                  inputmode="decimal"
+                  min={f.min}
+                  max={f.max}
+                  step={f.step}
+                  value={f.defaultValue as number}
+                />
+                {f.unit && <span class="suffix">{f.unit}</span>}
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Result card -->
+    <div class="result-card">
+      <p class="result-label">{tool.resultLabel}</p>
+      <div class="result-amount" id="res-amount">{money(initial.main, tool.currency)}</div>
+      <div class="result-subtitle" id="res-subtitle">{tool.subtitle}</div>
+      <hr class="result-divider" />
+      <div class="breakdown" id="res-breakdown">
+        {tool.breakdown.map((b) => (
+          <div class="breakdown-row">
+            <span class="blabel">{b.label}</span>
+            <span class="bvalue">{money(initial.values[b.key] ?? 0, tool.currency)}</span>
+          </div>
+        ))}
+      </div>
+      <div class="donut-wrap">
+        <Donut segments={donutSegments} centerBig={money(centerValue, tool.currency)} centerSmall={tool.donutCenter.label} />
+        <div class="legend" id="res-legend">
+          {tool.donut.map((d) => (
+            <div class="legend-row">
+              <span class="dot" style={`background:${d.color}`}></span>
+              <span class="lname">{d.label}</span>
+              <span class="lval" data-legend-val={d.key}>{money(initial.values[d.key] ?? 0, tool.currency)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to use -->
+  <section class="section">
+    <h2 class="section-title">{tool.howTo.title}</h2>
+    <div class="how-steps">
+      {tool.howTo.steps.map((s, i) => (
+        <div class="step">
+          <span class="step-badge">{i + 1}</span>
+          <p>{s}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Understanding -->
+  <section class="section">
+    <h2 class="section-title">{tool.understanding.title}</h2>
+    <p class="understanding-desc">{tool.understanding.desc}</p>
+
+    {tool.hasAmortization && (
+      <div class="table-card">
+        <table class="amort" id="amort-table">
+          <thead>
+            <tr>
+              <th scope="col">{tool.amortFirstCol ?? 'Year'}</th>
+              <th scope="col">Starting balance</th>
+              <th scope="col">Interest</th>
+              <th scope="col">Principal</th>
+              <th scope="col">Ending balance</th>
+            </tr>
+          </thead>
+          <tbody id="amort-body">
+            {amortPreview.map((r) => (
+              <tr>
+                <td>{r.n}</td>
+                <td class="num">{money(r.start, tool.currency)}</td>
+                <td class="num">{money(r.interest, tool.currency)}</td>
+                <td class="num">{money(r.principal, tool.currency)}</td>
+                <td class="num">{money(r.end, tool.currency)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div class="table-more">
+          <span id="amort-note">Showing first {Math.min(5, amortTotal)} of {amortTotal} {amortUnit}</span>
+          {' · '}
+          <button type="button" id="amort-toggle" class="btn-ghost link-arrow">View full schedule <Icon name="arrow-right" size={16} /></button>
+        </div>
+      </div>
+    )}
+  </section>
+
+  <!-- What factors affect -->
+  <section class="section">
+    <h2 class="section-title">{tool.factors.title}</h2>
+    <div class="factor-cards">
+      {tool.factors.cards.map((c) => (
+        <div class="factor-card">
+          <h3>{c.name}</h3>
+          <p>{c.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Worked examples -->
+  <section class="section">
+    <h2 class="section-title">{tool.examples.title}</h2>
+    <div class="example-cards">
+      {tool.examples.cards.map((c) => (
+        <div class="example-card">
+          <p class="ex-title">{c.title}</p>
+          <p class="ex-input">{c.input}</p>
+          <p class="ex-result">{c.result}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <FAQ faqs={tool.faqs} />
+  <RelatedCards slugs={tool.related} verb="Open calculator" />
+  <DisclaimerSnippet text="CalcPilot's calculations are estimates for planning purposes only. They are not financial, legal, or tax advice. Consult a qualified professional before acting on any result." />
+</div>
+
+<script is:inline type="application/json" id="tool-config" set:html={safeConfig}></script>
+
+<script>
+  import { computeFinance } from '../data/finance-tools';
+  import { money } from '../lib/format';
+  import { donutArcs } from '../lib/donut';
+
+  const root = document.getElementById('calc');
+  const cfg = JSON.parse(document.getElementById('tool-config')!.textContent!);
+  const inputs = root!.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-key]');
+
+  const periodsMap: Record<string, number> = { Monthly: 12, Quarterly: 4, Annually: 1 };
+
+  function readValues(): Record<string, number> {
+    const v: Record<string, number> = {};
+    inputs.forEach((el) => {
+      const key = el.dataset.key!;
+      if (el.tagName === 'SELECT') {
+        const val = (el as HTMLSelectElement).value;
+        if (key === 'term') v.term = parseInt(val, 10) || 1;
+        else if (key === 'compoundFrequency') v.periods = periodsMap[val] ?? 12;
+      } else {
+        const n = parseFloat((el as HTMLInputElement).value);
+        v[key] = Number.isFinite(n) ? n : 0;
+      }
+    });
+    return v;
+  }
+
+  let currentCurrency = cfg.currency;
+
+  function render() {
+    const res = computeFinance(cfg.id, readValues());
+    const currencySelect = root!.querySelector<HTMLSelectElement>('[data-key="currency"]');
+    currentCurrency = (currencySelect?.value ?? cfg.currency) as string;
+
+    document.getElementById('res-amount')!.textContent = money(res.main, currentCurrency);
+    document.getElementById('res-subtitle')!.textContent = res.subtitle;
+
+    document.getElementById('res-breakdown')!.innerHTML = cfg.breakdown
+      .map((r: { key: string; label: string }) => {
+        const val = res.values[r.key] ?? 0;
+        return `<div class="breakdown-row"><span class="blabel">${r.label}</span><span class="bvalue">${money(val, currentCurrency)}</span></div>`;
+      })
+      .join('');
+
+    document.getElementById('res-legend')!.innerHTML = cfg.donut
+      .map((d: { key: string; label: string; color: string }) => {
+        const val = res.values[d.key] ?? 0;
+        return `<div class="legend-row"><span class="dot" style="background:${d.color}"></span><span class="lname">${d.label}</span><span class="lval">${money(val, currentCurrency)}</span></div>`;
+      })
+      .join('');
+
+    const centerValue = cfg.donutCenter.valueKey === 'main' ? res.main : (res.values[cfg.donutCenter.valueKey] ?? 0);
+    document.getElementById('donut-big')!.textContent = money(centerValue, currentCurrency);
+    document.getElementById('donut-small')!.textContent = cfg.donutCenter.label;
+
+    const arcs = donutArcs(cfg.donut.map((d: { key: string }) => res.values[d.key] ?? 0));
+    document.querySelectorAll<SVGCircleElement>('.donut-seg').forEach((c, i) => {
+      if (arcs[i]) {
+        c.setAttribute('stroke-dasharray', arcs[i].dash);
+        c.setAttribute('stroke-dashoffset', String(arcs[i].offset));
+      }
+    });
+
+    if (cfg.hasAmortization && res.amortization) {
+      lastAmort = res.amortization;
+      renderAmort(false);
+    }
+  }
+
+  let lastAmort: { n: number; start: number; interest: number; principal: number; end: number }[] = [];
+  let showAll = false;
+
+  function renderAmort(full: boolean) {
+    const rows = full ? lastAmort : lastAmort.slice(0, 5);
+    const tbody = document.getElementById('amort-body')!;
+    tbody.innerHTML = rows
+      .map((r) => `<tr><td>${r.n}</td><td class="num">${money(r.start, currentCurrency)}</td><td class="num">${money(r.interest, currentCurrency)}</td><td class="num">${money(r.principal, currentCurrency)}</td><td class="num">${money(r.end, currentCurrency)}</td></tr>`)
+      .join('');
+    const note = document.getElementById('amort-note');
+    const toggle = document.getElementById('amort-toggle');
+    if (note && toggle) {
+      note.textContent = full
+        ? `Showing all ${lastAmort.length} ${cfg.amortUnit}`
+        : `Showing first ${Math.min(5, lastAmort.length)} of ${lastAmort.length} ${cfg.amortUnit}`;
+      toggle.innerHTML = full ? 'Show less ↑' : 'View full schedule →';
+    }
+  }
+
+  inputs.forEach((el) => el.addEventListener('input', render));
+  inputs.forEach((el) => el.addEventListener('change', render));
+
+  const toggle = document.getElementById('amort-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      showAll = !showAll;
+      renderAmort(showAll);
+    });
+  }
+
+  render();
+</script>

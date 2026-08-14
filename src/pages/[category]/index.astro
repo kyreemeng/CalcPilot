@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import { hubs, getHub, toolIcon, brand } from '../../data/site';
+
+export function getStaticPaths() {
+  return hubs.map((h) => ({ params: { category: h.id } }));
+}
+
+const { category } = Astro.params;
+const hub = getHub(category ?? '');
+if (!hub) return Astro.redirect('/404');
+
+const crumbs = [{ label: 'Home', href: '/' }, { label: hub.title }];
+const verb = hub.id === 'converters' ? 'Open converter' : 'Open calculator';
+---
+
+<Base title={`${hub.title} Calculators | ${brand}`} description={hub.intro.slice(0, 158)}>
+  <div class="container">
+    <Breadcrumb crumbs={crumbs} />
+    <div class="title-block">
+      <h1>{hub.title}</h1>
+      <p class="hub-intro">{hub.intro}</p>
+    </div>
+
+    {
+      hub.toolRefs.length > 0 ? (
+        <section class="section section--tight">
+          <div class="card-grid">
+            {hub.toolRefs.map((t) => (
+              <ToolCard href={t.href} title={t.title} shortDesc={t.shortDesc} icon={toolIcon(t.slug)} verb={verb} />
+            ))}
+          </div>
+        </section>
+      ) : (
+        <section class="section section--tight">
+          <div class="planned-note">
+            These tools are coming soon. In the meantime, explore our <a href="/finance">Finance</a> and{' '}
+            <a href="/converters">Converters</a> categories.
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Base>

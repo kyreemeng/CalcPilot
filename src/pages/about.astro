@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import TrustLayout from '../components/TrustLayout.astro';
+import { brand } from '../data/site';
+
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'About' }];
+---
+
+<Base
+  title={`About ${brand} | ${brand}`}
+  description="Learn about CalcPilot — a free collection of personal-finance calculators and everyday unit converters that run entirely in your browser."
+>
+  <TrustLayout
+    title={`About ${brand}`}
+    lead="Free, fast, and trustworthy calculators for everyday money and measurement questions."
+    crumbs={crumbs}
+  >
+    <p>
+      {brand} is a free collection of personal-finance calculators and everyday unit converters, built for one
+      reason: to give you instant, accurate answers without sign-up, downloads, or paywalls.
+    </p>
+    <p>
+      Every tool runs entirely in your browser. Enter a value and the result appears immediately — no server
+      round-trip, no waiting, and none of your data leaves your device.
+    </p>
+    <p>
+      Accuracy matters to us. Finance tools use documented amortization and compound-interest formulas, while
+      converters use fixed conversion factors shown on each page. You can review our{' '}
+      <a href="/methodology">calculation methodology</a> and verify the open-source implementation.
+    </p>
+    <p>
+      We are transparent about what our tools can and cannot do. Results are estimates for planning only and never
+      replace advice from a qualified professional. See our <a href="/disclaimer">Disclaimer</a> for full details.
+    </p>
+    <p>
+      Have a question, suggestion, or spotted an error? We would love to hear from you — visit our{' '}
+      <a href="/contact">Contact</a> page.
+    </p>
+  </TrustLayout>
+</Base>

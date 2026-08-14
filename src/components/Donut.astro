@@ -1,0 +1,34 @@
+---
+import { donutArcs } from '../lib/donut';
+
+interface Props {
+  segments: { value: number; color: string }[];
+  centerBig: string;
+  centerSmall: string;
+}
+
+const { segments, centerBig, centerSmall } = Astro.props;
+const arcs = donutArcs(segments.map((s) => s.value));
+---
+
+<div class="donut">
+  <svg width="160" height="160" viewBox="0 0 160 160" aria-hidden="true">
+    {segments.map((s, i) => (
+      <circle
+        class="donut-seg"
+        cx="80"
+        cy="80"
+        r="64"
+        fill="none"
+        stroke={s.color}
+        stroke-width="20"
+        stroke-dasharray={arcs[i].dash}
+        stroke-dashoffset={arcs[i].offset}
+      />
+    ))}
+  </svg>
+  <div class="donut-center">
+    <span class="big" id="donut-big">{centerBig}</span>
+    <span class="small" id="donut-small">{centerSmall}</span>
+  </div>
+</div>

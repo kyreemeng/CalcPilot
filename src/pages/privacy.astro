@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import TrustLayout from '../components/TrustLayout.astro';
+
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Privacy' }];
+---
+
+<Base
+  title="Privacy Policy | CalcPilot"
+  description="How CalcPilot handles your information and cookies. Calculators run locally in your browser — your inputs never leave your device."
+>
+  <TrustLayout
+    title="Privacy Policy"
+    lead="How CalcPilot handles your information and cookies."
+    crumbs={crumbs}
+  >
+    <p>
+      <strong>Information we collect:</strong> CalcPilot is designed to be privacy-friendly. Calculators run locally
+      in your browser, so the values you enter are never sent to our servers or stored by us.
+    </p>
+    <p>
+      <strong>Cookies:</strong> CalcPilot does not set advertising or analytics cookies. Our hosting provider may
+      process standard request data, such as IP address and browser type, to deliver and secure the site.
+    </p>
+    <p>
+      <strong>Data retention:</strong> We do not create accounts or retain calculator inputs. Hosting security logs
+      are handled under the hosting provider's retention and security policies.
+    </p>
+    <p>
+      <strong>Your rights:</strong> Depending on where you live (including GDPR in the EU and CCPA in California),
+      you have rights to access, correct, or delete your personal information. Contact us to exercise these rights.
+    </p>
+    <p>
+      <strong>Contact:</strong> For privacy questions, visit our <a href="/contact">Contact</a> page.
+    </p>
+  </TrustLayout>
+</Base>
