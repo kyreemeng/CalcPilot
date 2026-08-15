@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Percentage Change Calculator';
+const desc = 'Calculate percentage increase or decrease between two values, see the absolute change, and apply the percentage change formula instantly.';
+const path = '/everyday/percentage-change-calculator';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Everyday', href: '/everyday' },
+  { label: title },
+];
+const howTo = {
+  steps: [
+    'Enter the original value before the change.',
+    'Enter the new value after the increase or decrease.',
+    'Read the percentage change and absolute difference. A positive result is an increase; a negative result is a decrease.',
+  ],
+};
+const understanding = {
+  desc: 'Percentage change compares the difference with the magnitude of the original value: <strong>((new − original) ÷ |original|) × 100</strong>. The sign tells you the direction, while the absolute difference shows the raw change. Because division by zero is undefined, a zero starting value has no finite percentage change. To find a simple portion instead, use the <a href="/everyday/percentage-calculator">percentage calculator</a>; for price reductions, try the <a href="/everyday/discount-calculator">discount calculator</a>.',
+};
+const faqs = [
+  { q: 'What is the percentage change formula?', a: 'Subtract the original value from the new value, divide by the absolute value of the original, then multiply by 100.' },
+  { q: 'What is the difference between percentage increase and decrease?', a: 'The formula is the same. A positive result means an increase, while a negative result means a decrease.' },
+  { q: 'Why can’t percentage change start from zero?', a: 'Percentage change divides by the original value. Division by zero is undefined, so there is no finite percentage increase from zero.' },
+  { q: 'Can percentage change be greater than 100%?', a: 'Yes. A value that more than doubles has increased by more than 100%.' },
+];
+const related = ['percentage-calculator', 'discount-calculator', 'loan-calculator'];
+---
+
+<Base
+  title="Percentage Change Calculator — Increase & Decrease | CalcPilot"
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Compare an original and new value to calculate the percentage increase or decrease and the exact difference."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
+  >
+    <div slot="form">
+      <h2 class="form-title">Values to compare</h2>
+      <div class="field">
+        <label for="original-value">Original value</label>
+        <div class="input-wrap"><input id="original-value" type="number" inputmode="decimal" step="any" value="80" /></div>
+      </div>
+      <div class="field">
+        <label for="new-value">New value</label>
+        <div class="input-wrap"><input id="new-value" type="number" inputmode="decimal" step="any" value="100" /></div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">Percentage change</p>
+      <div class="result-amount" id="change-result">+25%</div>
+      <div class="result-subtitle" id="change-direction">increase</div>
+      <hr class="result-divider" />
+      <div class="breakdown">
+        <div class="breakdown-row"><span class="blabel">Absolute change</span><span class="bvalue" id="absolute-change">+20</span></div>
+        <div class="breakdown-row"><span class="blabel">Formula</span><span class="bvalue" id="change-formula">(20 ÷ 80) × 100</span></div>
+      </div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const originalEl = document.getElementById('original-value') as HTMLInputElement;
+  const newEl = document.getElementById('new-value') as HTMLInputElement;
+  const resultEl = document.getElementById('change-result')!;
+  const directionEl = document.getElementById('change-direction')!;
+  const absoluteEl = document.getElementById('absolute-change')!;
+  const formulaEl = document.getElementById('change-formula')!;
+  const format = (value: number) => value.toLocaleString('en-US', { maximumFractionDigits: 4 });
+  const signed = (value: number) => `${value > 0 ? '+' : ''}${format(value)}`;
+
+  function calculateChange() {
+    const original = Number.parseFloat(originalEl.value);
+    const next = Number.parseFloat(newEl.value);
+    if (!Number.isFinite(original) || !Number.isFinite(next)) return;
+
+    const difference = next - original;
+    absoluteEl.textContent = signed(difference);
+    if (original === 0) {
+      resultEl.textContent = 'Undefined';
+      directionEl.textContent = 'The original value cannot be zero';
+      formulaEl.textContent = 'Division by zero';
+      return;
+    }
+
+    const percentage = (difference / Math.abs(original)) * 100;
+    resultEl.textContent = `${signed(percentage)}%`;
+    directionEl.textContent = percentage > 0 ? 'increase' : percentage < 0 ? 'decrease' : 'no change';
+    formulaEl.textContent = `(${format(difference)} ÷ ${format(Math.abs(original))}) × 100`;
+  }
+
+  originalEl.addEventListener('input', calculateChange);
+  newEl.addEventListener('input', calculateChange);
+  calculateChange();
+</script>

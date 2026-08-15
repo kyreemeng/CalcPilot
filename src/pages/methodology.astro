@@ -27,14 +27,18 @@ const crumbs = [{ label: 'Home', href: '/' }, { label: 'Methodology' }];
       Fixed-rate payments use the standard amortization formula:
       <strong> payment = principal × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1)</strong>,
       where <em>r</em> is the periodic interest rate and <em>n</em> is the number of payments. Taxes, insurance,
-      fees, and extra payments are displayed separately when a tool includes them.
+      fees, and extra payments are displayed separately when a tool includes them. Apply this formula with the{' '}
+      <a href="/finance/mortgage-calculator">Mortgage Calculator</a> or the{' '}
+      <a href="/finance/loan-calculator">Loan Calculator</a>.
     </p>
 
     <h2>Savings and compound interest</h2>
     <p>
       Growth projections compound the starting balance at the selected frequency and add regular contributions over
       the selected period. Rates are user-provided assumptions, not live quotes or forecasts. Actual returns, taxes,
-      fees, and inflation can materially change the outcome.
+      fees, and inflation can materially change the outcome. Model regular deposits with the{' '}
+      <a href="/finance/savings-calculator">Savings Calculator</a>, or isolate compounding with the{' '}
+      <a href="/finance/compound-calculator">Compound Interest Calculator</a>.
     </p>
 
     <h2>Salary estimates</h2>
@@ -48,7 +52,11 @@ const crumbs = [{ label: 'Home', href: '/' }, { label: 'Methodology' }];
     <p>
       Each converter publishes its factor or formula beside the result. Ratio conversions multiply or divide by a
       fixed factor. Temperature conversions also apply the required offset. The data converter explicitly uses
-      binary units, where 1 GB equals 1,024 MB.
+      binary units, where 1 GB equals 1,024 MB. For example, the{' '}
+      <a href="/converters/kg-to-lbs-converter">kg to lbs converter</a> applies the published weight conversion factor
+      in either direction. The{' '}
+      <a href="/converters/currency-converter">currency converter</a> loads a public ECB reference rate via
+      Frankfurter (with an open CDN fallback) and still lets you override the rate manually.
     </p>
 
     <h2>Verification and corrections</h2>

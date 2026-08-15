@@ -1,0 +1,128 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'BMR & Calorie Calculator';
+const desc = 'Estimate basal metabolic rate (BMR) and daily calorie needs (TDEE) with the Mifflin–St Jeor equation using age, sex, height, weight and activity.';
+const path = '/everyday/bmr-calorie-calculator';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Everyday', href: '/everyday' },
+  { label: title },
+];
+const howTo = {
+  steps: [
+    'Choose the sex constant used by the Mifflin–St Jeor equation and enter your age.',
+    'Enter your height, weight and usual activity level.',
+    'Review estimated BMR and total daily energy expenditure (TDEE), then use them as planning ranges rather than medical targets.',
+  ],
+};
+const understanding = {
+  desc: '<strong>Basal metabolic rate (BMR)</strong> estimates the energy your body uses at rest. This tool uses the Mifflin–St Jeor equation: 10 × weight (kg) + 6.25 × height (cm) − 5 × age, then adds a sex-specific constant. <strong>TDEE</strong> multiplies BMR by an activity factor to estimate daily calorie needs. These population formulas cannot account for every medical, hormonal or body-composition difference. You can compare weight and height with the <a href="/everyday/bmi-calculator">BMI calculator</a> or convert pounds with the <a href="/converters/kg-to-lbs-converter">weight converter</a>.',
+};
+const faqs = [
+  { q: 'What is the difference between BMR and TDEE?', a: 'BMR estimates calories used at complete rest. TDEE multiplies BMR by an activity factor to estimate your total daily calorie use.' },
+  { q: 'Which BMR formula does this calculator use?', a: 'It uses the Mifflin–St Jeor equation, a widely used population estimate based on weight, height, age and a sex-specific constant.' },
+  { q: 'How accurate is a calorie-needs estimate?', a: 'It is a starting estimate, not a precise measurement. Actual needs vary with body composition, health, activity, sleep and other factors.' },
+  { q: 'Should I eat exactly my TDEE result?', a: 'Not necessarily. Track trends and consult a registered dietitian or clinician before making significant dietary changes, especially if you have a medical condition.' },
+];
+const related = ['bmi-calculator', 'percentage-calculator', 'kg-to-lbs-converter'];
+---
+
+<Base
+  title="BMR & Calorie Calculator — Daily Energy Needs | CalcPilot"
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'HealthApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
+  <SimpleTool
+    crumbs={crumbs}
+    title={title}
+    lead="Estimate the calories your body uses at rest and during a typical day with the Mifflin–St Jeor BMR and TDEE formulas."
+    howTo={howTo}
+    understanding={understanding}
+    faqs={faqs}
+    related={related}
+    disclaimer="BMR and calorie results are population-based estimates, not medical or nutrition advice. Consult a qualified clinician or registered dietitian before making significant health or diet changes."
+  >
+    <div slot="form">
+      <h2 class="form-title">Your details</h2>
+      <div class="field">
+        <label for="bmr-sex">Equation sex constant</label>
+        <div class="input-wrap">
+          <select id="bmr-sex">
+            <option value="male">Male (+5)</option>
+            <option value="female">Female (−161)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="bmr-age">Age</label>
+        <div class="input-wrap"><input id="bmr-age" type="number" inputmode="numeric" min="18" max="100" step="1" value="30" /><span class="suffix">years</span></div>
+      </div>
+      <div class="field">
+        <label for="bmr-height">Height</label>
+        <div class="input-wrap"><input id="bmr-height" type="number" inputmode="decimal" min="100" max="250" step="1" value="175" /><span class="suffix">cm</span></div>
+      </div>
+      <div class="field">
+        <label for="bmr-weight">Weight</label>
+        <div class="input-wrap"><input id="bmr-weight" type="number" inputmode="decimal" min="25" max="350" step="0.1" value="70" /><span class="suffix">kg</span></div>
+      </div>
+      <div class="field">
+        <label for="bmr-activity">Activity level</label>
+        <div class="input-wrap">
+          <select id="bmr-activity">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375">Lightly active</option>
+            <option value="1.55" selected>Moderately active</option>
+            <option value="1.725">Very active</option>
+            <option value="1.9">Extra active</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label">Estimated daily calories</p>
+      <div class="result-amount" id="tdee-result">2,556</div>
+      <div class="result-subtitle">TDEE per day</div>
+      <hr class="result-divider" />
+      <div class="breakdown">
+        <div class="breakdown-row"><span class="blabel">BMR at rest</span><span class="bvalue" id="bmr-result">1,649 kcal</span></div>
+        <div class="breakdown-row"><span class="blabel">Activity multiplier</span><span class="bvalue" id="activity-result">× 1.55</span></div>
+      </div>
+    </div>
+  </SimpleTool>
+</Base>
+
+<script>
+  const sexEl = document.getElementById('bmr-sex') as HTMLSelectElement;
+  const ageEl = document.getElementById('bmr-age') as HTMLInputElement;
+  const heightEl = document.getElementById('bmr-height') as HTMLInputElement;
+  const weightEl = document.getElementById('bmr-weight') as HTMLInputElement;
+  const activityEl = document.getElementById('bmr-activity') as HTMLSelectElement;
+  const bmrResult = document.getElementById('bmr-result')!;
+  const tdeeResult = document.getElementById('tdee-result')!;
+  const activityResult = document.getElementById('activity-result')!;
+  const format = (value: number) => Math.round(value).toLocaleString('en-US');
+
+  function calculateCalories() {
+    const age = Number.parseFloat(ageEl.value);
+    const height = Number.parseFloat(heightEl.value);
+    const weight = Number.parseFloat(weightEl.value);
+    const activity = Number.parseFloat(activityEl.value);
+    if (![age, height, weight, activity].every(Number.isFinite) || age <= 0 || height <= 0 || weight <= 0) return;
+
+    const constant = sexEl.value === 'female' ? -161 : 5;
+    const bmr = 10 * weight + 6.25 * height - 5 * age + constant;
+    const tdee = bmr * activity;
+    bmrResult.textContent = `${format(bmr)} kcal`;
+    tdeeResult.textContent = format(tdee);
+    activityResult.textContent = `× ${activity}`;
+  }
+
+  [sexEl, ageEl, heightEl, weightEl, activityEl].forEach((element) => {
+    element.addEventListener('input', calculateCalories);
+  });
+  calculateCalories();
+</script>

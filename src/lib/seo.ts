@@ -5,7 +5,7 @@
 
 import type { FinanceToolConfig } from '../data/finance-tools';
 import type { ConverterConfig } from '../data/converters';
-import { siteUrl, brand, repositoryUrl } from '../data/site';
+import { siteUrl, brand, sameAsProfiles } from '../data/site';
 
 function faqEntities(faqs: { q: string; a: string }[]) {
   return faqs.map((f) => ({
@@ -24,7 +24,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     url: siteUrl,
     logo: { '@type': 'ImageObject', url: `${siteUrl}/logo-icon.png`, width: 512, height: 512 },
     description: 'Free online calculators and unit converters for finance, everyday math, and measurement. No sign-up, instant results.',
-    sameAs: [repositoryUrl],
+    sameAs: sameAsProfiles,
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
@@ -122,9 +122,9 @@ export function financeJsonLd(tool: FinanceToolConfig): Record<string, unknown>[
   return graph;
 }
 
-/** Converter tool page schema: WebApplication + HowTo. */
+/** Converter tool page schema: WebApplication + HowTo + FAQPage. */
 export function converterJsonLd(tool: ConverterConfig): Record<string, unknown>[] {
-  return [
+  const graph: Record<string, unknown>[] = [
     {
       '@type': 'WebApplication',
       name: tool.title,
@@ -140,6 +140,10 @@ export function converterJsonLd(tool: ConverterConfig): Record<string, unknown>[
     },
     howToJsonLd(tool.howTo.steps, tool.title),
   ];
+  if (tool.faqs.length) {
+    graph.push({ '@type': 'FAQPage', mainEntity: faqEntities(tool.faqs) });
+  }
+  return graph;
 }
 
 /** Generic WebApplication JSON-LD for simple tools (time/date + everyday). */

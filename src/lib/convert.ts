@@ -17,6 +17,14 @@ export function toA(b: number, spec: ConverterSpec): number {
   return (b - (spec.offset ?? 0)) / spec.factor;
 }
 
+/** Convert between units whose factors express one unit in a shared base unit. */
+export function convertViaBase(value: number, fromFactor: number, toFactor: number): number {
+  if (!Number.isFinite(value) || !Number.isFinite(fromFactor) || !Number.isFinite(toFactor) || toFactor === 0) {
+    return 0;
+  }
+  return (value * fromFactor) / toFactor;
+}
+
 export const specs: Record<string, ConverterSpec> = {
   weight: { id: 'weight', factor: 2.2046226218 }, // kg → lb
   length: { id: 'length', factor: 3.280839895 }, // m → ft

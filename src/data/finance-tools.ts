@@ -5,13 +5,14 @@ import type { CurrencyCode } from '../lib/format';
 import {
   computeMortgage,
   computeLoan,
+  computeAutoLoan,
   computeSalary,
   computeSavings,
   computeCompound,
   type FinanceResult,
 } from '../lib/finance';
 
-export type FinanceToolId = 'mortgage' | 'loan' | 'salary' | 'savings' | 'compound';
+export type FinanceToolId = 'mortgage' | 'loan' | 'auto-loan' | 'salary' | 'savings' | 'compound';
 
 export interface FinanceField {
   key: string;
@@ -68,7 +69,7 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Mortgage Calculator',
     intro: 'Estimate your monthly payment including principal, interest, property tax and home insurance. Results update instantly as you type.',
     seo: {
-      title: 'Mortgage Calculator 2026 — Free Monthly Payment Tool | CalcPilot',
+      title: 'Mortgage Calculator — Payment & Amortization | CalcPilot',
       description: 'Free mortgage calculator with taxes, insurance, and full amortization schedule. Compare 15 vs 30-year terms, see total interest, and get instant results — no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Mortgage Calculator'],
@@ -131,7 +132,7 @@ export const financeTools: FinanceToolConfig[] = [
       { q: 'Can I compare 15-year vs 30-year terms?', a: 'Change the loan term field and the monthly payment and total interest update instantly, so you can weigh a higher payment against long-term savings.' },
       { q: 'Is this an official mortgage quote?', a: 'No. CalcPilot provides estimates for planning only. Confirm final numbers, rates and fees with your lender before making any financial decisions.' },
     ],
-    related: ['loan-calculator', 'salary-calculator', 'savings-calculator'],
+    related: ['loan-calculator', 'auto-loan-calculator', 'savings-calculator', 'compound-calculator'],
   },
 
   {
@@ -142,7 +143,7 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Loan Calculator',
     intro: 'Estimate your monthly payment for a personal, auto, or student loan. See total interest and how extra payments shorten your term.',
     seo: {
-      title: 'Loan Calculator 2026 — Monthly Payment & Interest | CalcPilot',
+      title: 'Loan Calculator — Monthly Payment & Interest | CalcPilot',
       description: 'Free loan calculator for personal, auto, and student loans. Get monthly payments, total interest, origination fees, and a full payment schedule — instantly, no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Loan Calculator'],
@@ -205,7 +206,7 @@ export const financeTools: FinanceToolConfig[] = [
       { q: 'Is this a fixed or variable rate?', a: 'This calculator assumes a fixed rate for the full term. Variable-rate loans will change as the rate adjusts.' },
       { q: 'Is this an official quote?', a: 'No. CalcPilot provides estimates for planning only. Confirm rates and terms with your lender before borrowing.' },
     ],
-    related: ['mortgage-calculator', 'salary-calculator', 'savings-calculator'],
+    related: ['mortgage-calculator', 'auto-loan-calculator', 'salary-calculator', 'savings-calculator'],
   },
 
   {
@@ -216,7 +217,7 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Salary Calculator',
     intro: 'Convert an annual salary into hourly, weekly and monthly take-home pay after tax and deductions. Results update instantly as you type.',
     seo: {
-      title: 'Salary Calculator 2026 — Take-Home Pay After Tax | CalcPilot',
+      title: 'Salary Calculator — Take-Home Pay After Tax | CalcPilot',
       description: 'Free salary calculator converts annual pay to hourly, weekly, and monthly take-home. See tax breakdown and net income instantly — no sign-up required.',
     },
     breadcrumb: ['Home', 'Finance', 'Salary Calculator'],
@@ -288,7 +289,7 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Savings Calculator',
     intro: 'Project how your savings grow from a starting balance, regular contributions and compound interest. Results update instantly as you type.',
     seo: {
-      title: 'Savings Calculator 2026 — Project Your Savings Growth | CalcPilot',
+      title: 'Savings Calculator — Project Future Growth | CalcPilot',
       description: 'Free savings calculator shows how starting balance, monthly deposits, and compound interest grow over time. See contributions vs. interest instantly — no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Savings Calculator'],
@@ -360,7 +361,7 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'Compound Interest Calculator',
     intro: 'Project the future value of your investments with compound interest and regular contributions. Results update instantly as you type.',
     seo: {
-      title: 'Compound Interest Calculator 2026 — Future Value | CalcPilot',
+      title: 'Compound Interest Calculator — Future Value | CalcPilot',
       description: 'Free compound interest calculator projects investment growth with regular contributions. See how compounding frequency and time horizon accelerate wealth — instantly.',
     },
     breadcrumb: ['Home', 'Finance', 'Compound Interest Calculator'],
@@ -423,6 +424,80 @@ export const financeTools: FinanceToolConfig[] = [
     ],
     related: ['savings-calculator', 'loan-calculator'],
   },
+  {
+    id: 'auto-loan',
+    slug: 'auto-loan-calculator',
+    title: 'Auto Loan Calculator',
+    shortDesc: 'Estimate a car payment with tax, fees, trade-in and down payment.',
+    h1: 'Auto Loan Calculator',
+    intro: 'Estimate your monthly car payment, total interest and financed amount using the vehicle price, down payment, trade-in, taxes, fees, rate and loan term.',
+    seo: {
+      title: 'Auto Loan Calculator — Car Payment & Interest | CalcPilot',
+      description: 'Estimate your monthly car payment with vehicle price, down payment, trade-in, sales tax, fees, APR and term. See total interest and a full amortization schedule.',
+    },
+    breadcrumb: ['Home', 'Finance', 'Auto Loan Calculator'],
+    currency: 'USD',
+    fields: [
+      { key: 'vehiclePrice', label: 'Vehicle price', type: 'money', defaultValue: 35000, prefix: '$', min: 0, step: 500 },
+      { key: 'downPayment', label: 'Down payment', type: 'money', defaultValue: 5000, prefix: '$', min: 0, step: 500 },
+      { key: 'tradeIn', label: 'Trade-in value', type: 'money', defaultValue: 3000, prefix: '$', min: 0, step: 500 },
+      { key: 'salesTax', label: 'Sales tax', type: 'percent', defaultValue: 7, unit: '%', min: 0, max: 20, step: 0.1 },
+      { key: 'fees', label: 'Title and dealer fees', type: 'money', defaultValue: 800, prefix: '$', min: 0, step: 50 },
+      { key: 'rate', label: 'Annual interest rate', type: 'percent', defaultValue: 6.5, unit: '%', min: 0, max: 30, step: 0.1 },
+      { key: 'term', label: 'Loan term', type: 'select', defaultValue: '5 years', options: ['3 years', '4 years', '5 years', '6 years', '7 years'] },
+    ],
+    resultLabel: 'Estimated car payment',
+    subtitle: 'per month',
+    breakdown: [
+      { key: 'principal', label: 'Amount financed' },
+      { key: 'interest', label: 'Total interest' },
+      { key: 'taxFees', label: 'Sales tax and fees' },
+      { key: 'total', label: 'Total loan payments' },
+    ],
+    donut: [
+      { key: 'vehicleBalance', label: 'Vehicle balance', color: COLORS.primary },
+      { key: 'interest', label: 'Total interest', color: COLORS.warning },
+      { key: 'taxFees', label: 'Tax and fees', color: COLORS.neutral },
+    ],
+    donutCenter: { valueKey: 'main', label: 'per month' },
+    howTo: {
+      title: 'How to use this auto loan calculator',
+      steps: [
+        'Enter the vehicle price, down payment and trade-in value.',
+        'Add your local sales tax, estimated fees, APR and loan term.',
+        'Review the monthly payment, total interest and payment-by-payment amortization schedule.',
+      ],
+    },
+    understanding: {
+      title: 'Understanding your auto loan estimate',
+      desc: 'The <strong>amount financed</strong> starts with the vehicle price, sales tax and fees, then subtracts your down payment and trade-in. A longer term usually lowers the monthly payment but increases total interest, while a larger down payment reduces both. Compare a general borrowing scenario with the <a href="/finance/loan-calculator">loan calculator</a>, or use the <a href="/finance/savings-calculator">savings calculator</a> to plan a larger down payment.',
+    },
+    hasAmortization: true,
+    amortFirstCol: 'Payment',
+    factors: {
+      title: 'What affects your car payment',
+      cards: [
+        { name: 'Purchase price', desc: 'A lower negotiated vehicle price reduces the financed balance before interest is applied.' },
+        { name: 'APR and term', desc: 'A lower APR or shorter term reduces total interest, although a shorter term raises the monthly payment.' },
+        { name: 'Upfront equity', desc: 'Cash down and trade-in value reduce the amount you need to finance.' },
+      ],
+    },
+    examples: {
+      title: 'Worked examples',
+      cards: [
+        { title: 'Typical new car', input: '$35,000 price, $5,000 down, $3,000 trade-in, 7% tax and $800 fees at 6.5% for 5 years', result: 'About $592 per month before lender-specific charges' },
+        { title: 'Shorter term', input: 'The same balance paid over 3 years', result: 'Higher monthly payment but substantially less total interest' },
+      ],
+    },
+    faqs: [
+      { q: 'How is the amount financed calculated?', a: 'We add sales tax and fees to the vehicle price, then subtract your down payment and trade-in value. The financed amount never goes below zero.' },
+      { q: 'Does a trade-in reduce sales tax?', a: 'Rules vary by location. This estimate applies tax to the full vehicle price, so confirm your local trade-in tax treatment with the dealer or tax authority.' },
+      { q: 'Is a longer auto loan term cheaper?', a: 'It can lower the monthly payment, but you usually pay more interest over the life of the loan and may owe more than the car is worth for longer.' },
+      { q: 'Does this include insurance or fuel?', a: 'No. The result estimates loan payments only. Add insurance, fuel, maintenance and registration separately when building your car budget.' },
+      { q: 'Is this calculator a lender quote?', a: 'No. It is a planning estimate. Your lender determines the final APR, taxes, fees and approved terms.' },
+    ],
+    related: ['loan-calculator', 'salary-calculator', 'savings-calculator'],
+  },
 ];
 
 export function computeFinance(id: FinanceToolId, values: Record<string, number>): FinanceResult {
@@ -431,6 +506,8 @@ export function computeFinance(id: FinanceToolId, values: Record<string, number>
       return computeMortgage(values);
     case 'loan':
       return computeLoan(values);
+    case 'auto-loan':
+      return computeAutoLoan(values);
     case 'salary':
       return computeSalary(values);
     case 'savings':

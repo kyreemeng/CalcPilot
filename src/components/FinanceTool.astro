@@ -22,7 +22,7 @@ const crumbs = tool.breadcrumb.map((label, i) => ({
 const initial = computeFinance(tool.id, defaultValues(tool));
 const centerValue = tool.donutCenter.valueKey === 'main' ? initial.main : (initial.values[tool.donutCenter.valueKey] ?? 0);
 const donutSegments = tool.donut.map((d) => ({ value: initial.values[d.key] ?? 0, color: d.color }));
-const amortUnit = tool.id === 'loan' ? 'payments' : 'years';
+const amortUnit = tool.id === 'loan' || tool.id === 'auto-loan' ? 'payments' : 'years';
 const amortTotal = initial.amortization?.length ?? 0;
 const amortPreview = initial.amortization?.slice(0, 5) ?? [];
 
@@ -57,7 +57,7 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
             <label for={`f-${tool.id}-${f.key}`}>{f.label}</label>
             {f.type === 'select' ? (
               <div class="input-wrap">
-                <select id={`f-${tool.id}-${f.key}`} data-key={f.key}>
+                <select id={`f-${tool.id}-${f.key}`} data-key={f.key} value={f.defaultValue}>
                   {(f.options ?? []).map((o) => <option value={o}>{o}</option>)}
                 </select>
               </div>

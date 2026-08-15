@@ -27,7 +27,7 @@
 
 | 改进项 | 优化前 | 优化后 |
 |--------|--------|--------|
-| TDH 标题 | 无年份修饰，意图匹配不够精准 | 添加 2026 年份词，核心实体词前置 |
+| TDH 标题 | 年份戳分布不一致且会过期 | 使用常青标题，核心实体词与结果价值前置 |
 | Meta Description | 描述性语言，缺 CTR 触发词 | 添加 "Free"/"Instant"/"No sign-up" 等 CTR boosters |
 | WebSite schema | 无 SearchAction | 添加 potentialAction SearchAction（启用 sitelinks search box） |
 | Organization schema | 仅 name/url/logo | 添加 description + contactPoint |
@@ -76,12 +76,12 @@
 > W(t) = W₀ × e^(-λ(t-t₀)) + QDF 机制
 
 **策略：**
-- 年份词（"2026"）利用竞品内容衰减窗口，每年 12 月布局下一年份词
+- 计算器标题保持常青，避免固定年份过期后降低点击率与信任
 - 计算器类工具属于常青内容（λ 小），衰减慢
+- 仅在页面确有对应年度数据且能持续维护时使用年份词
 - 金融利率等数据需要定期更新以保持时效性
 
 **行动项：**
-- [ ] 每年 11 月更新所有标题中的年份
 - [ ] 定期检查默认利率/税率是否需要更新
 - [ ] 添加 "Last updated" 时间戳到页面
 
@@ -161,7 +161,7 @@
 > 4. 至少 15% 独家内容
 > 5. 内链锚文本语义丰富
 
-**已对齐：** 标题已优化为 "核心词 + 年份 + 结果预期" 模式
+**已对齐：** 标题采用 "核心词 + 结果预期" 的常青模式
 
 ---
 
@@ -169,12 +169,12 @@
 
 ### 品类 × 维度矩阵
 
-CalcPilot 当前有 18 个工具页面。可以通过维度扩展生成更多长尾页：
+CalcPilot 当前工具页由统一注册表与静态路由生成，可以通过维度扩展更多高质量长尾页：
 
 | 维度 | 示例 | 预估页面数 |
 |------|------|-----------|
 | 地区维度 | "mortgage calculator California" / "mortgage calculator Texas" | 50+ |
-| 年份维度 | "mortgage calculator 2026" / "loan calculator 2027" | 每年 18 |
+| 意图维度 | "auto loan calculator" / "percentage change calculator" | 10+ |
 | 对比维度 | "15 vs 30 year mortgage" / "kg vs lbs" | 10+ |
 | 场景维度 | "mortgage calculator with PMI" / "loan calculator extra payments" | 20+ |
 | 单位组合 | "100 kg to lbs" / "5 meters to feet"（预设值页面） | 100+ |
@@ -216,10 +216,26 @@ CalcPilot 当前有 18 个工具页面。可以通过维度扩展生成更多长
 
 ### GSC 接入清单
 
-1. [ ] 提交 sitemap-index.xml 到 Google Search Console
-2. [ ] 验证域名所有权（DNS TXT 记录）
-3. [ ] 监控 "排名 11-20 的词"（第二页机会词）
-4. [ ] 监控 "曝光高点击低" 的词（优化 TDH）
+1. [ ] 在 Google Search Console 创建域名级属性
+2. [ ] 使用 DNS TXT 验证域名所有权；也可设置 `PUBLIC_GOOGLE_SITE_VERIFICATION` 启用 HTML meta 验证
+3. [ ] 提交 `https://calcpilot.net/sitemap-index.xml`
+4. [ ] 分别检查带尾斜杠与无尾斜杠 URL，确认前者重定向到 canonical
+5. [ ] 监控 "排名 11-20 的词"（第二页机会词）
+6. [ ] 监控 "曝光高点击低" 的词（优化 TDH）
+
+### 站点验证与真实档案配置
+
+- `PUBLIC_GOOGLE_SITE_VERIFICATION`：Google 提供的 meta verification token；未设置时不输出验证 meta。
+- `PUBLIC_SAME_AS`：逗号分隔的真实公开档案 URL，例如已创建的 Product Hunt、LinkedIn 或 X 品牌页。构建时会过滤空值并与 GitHub 仓库去重。
+- 不要使用占位档案或尚未创建的页面；Organization `sameAs` 只声明可验证的真实身份关联。
+
+### 外链发布清单
+
+1. [ ] 将 Methodology 的公式说明整理为可引用文章，并在 dev.to、Hashnode 或 Medium 发布后链接回原文
+2. [ ] 联系大学 OER、图书馆和教育资源页，提交与其读者真正相关的计算器
+3. [ ] 准备 Product Hunt 发布素材并完成真实品牌档案
+4. [ ] 在 Hacker News 或相关社区发布产品背景与技术实现，避免批量或无上下文投放
+5. [ ] 仅在满足来源可靠性与编辑规范时向 Wikipedia 建议引用，不自行添加推广性链接
 
 ### 关键指标看板
 

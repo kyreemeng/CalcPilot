@@ -1,8 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
 import ToolCard from '../../components/ToolCard.astro';
-import { hubs, getHub, toolIcon, brand } from '../../data/site';
+import { hubs, categories, categoryIcons, getHub, toolIcon, brand } from '../../data/site';
 
 export function getStaticPaths() {
   return hubs.map((h) => ({ params: { category: h.id } }));
@@ -14,6 +15,7 @@ if (!hub) return Astro.redirect('/404');
 
 const crumbs = [{ label: 'Home', href: '/' }, { label: hub.title }];
 const verb = hub.id === 'converters' ? 'Open converter' : 'Open calculator';
+const otherCategories = categories.filter((c) => c.id !== hub.id);
 ---
 
 <Base title={`${hub.seoTitle} | ${brand}`} description={hub.seoDescription}>
@@ -42,5 +44,14 @@ const verb = hub.id === 'converters' ? 'Open converter' : 'Open calculator';
         </section>
       )
     }
+
+    <section class="section reveal">
+      <h2 class="section-title">More calculators</h2>
+      <div class="card-grid reveal-stagger">
+        {otherCategories.map((c) => (
+          <CategoryCard name={c.name} href={c.href} blurb={c.blurb} icon={categoryIcons[c.id]} />
+        ))}
+      </div>
+    </section>
   </div>
 </Base>

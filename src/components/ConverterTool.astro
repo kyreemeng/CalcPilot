@@ -3,6 +3,7 @@ import Icon from './Icon.astro';
 import Breadcrumb from './Breadcrumb.astro';
 import RelatedCards from './RelatedCards.astro';
 import DisclaimerSnippet from './DisclaimerSnippet.astro';
+import FAQ from './FAQ.astro';
 import type { ConverterConfig } from '../data/converters';
 
 interface Props {
@@ -24,8 +25,21 @@ const clientConfig = {
   b: tool.b,
   resultUnit: tool.resultUnit,
   precision: tool.precision,
+  units: tool.units,
+  defaultFromUnit: tool.defaultFromUnit,
+  defaultToUnit: tool.defaultToUnit,
+  currency: tool.currency,
 };
-const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
+const safeConfig = JSON.stringify(clientConfig).replace(/[<>&\u2028\u2029]/g, (char) => {
+  const escapes: Record<string, string> = {
+    '<': '\\u003c',
+    '>': '\\u003e',
+    '&': '\\u0026',
+    '\u2028': '\\u2028',
+    '\u2029': '\\u2029',
+  };
+  return escapes[char];
+});
 ---
 
 <div class="container" id="calc">
@@ -41,6 +55,20 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
       <div class="bidir">
         <div class="field">
           <label for="conv-a">{tool.a.label}</label>
+          {tool.units && (
+            <select id="conv-unit-a" class="unit-select" aria-label="Unit to convert from">
+              {tool.units.map((unit) => (
+                <option value={unit.unit} selected={unit.unit === tool.defaultFromUnit}>{unit.label} ({unit.unit})</option>
+              ))}
+            </select>
+          )}
+          {tool.currency && (
+            <select id="conv-unit-a" class="unit-select" aria-label="Currency to convert from">
+              {tool.currency.currencies.map((currency) => (
+                <option value={currency.code} selected={currency.code === tool.currency?.defaultFrom}>{currency.code} — {currency.name}</option>
+              ))}
+            </select>
+          )}
           <div class="input-wrap">
             <input id="conv-a" data-box="a" type="number" inputmode="decimal" step="any" value={tool.a.defaultValue} />
             <span class="suffix" data-unit-a>{tool.a.unit}</span>
@@ -53,11 +81,42 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
         <div class="field">
           <label for="conv-b">{tool.b.label}</label>
+          {tool.units && (
+            <select id="conv-unit-b" class="unit-select" aria-label="Unit to convert to">
+              {tool.units.map((unit) => (
+                <option value={unit.unit} selected={unit.unit === tool.defaultToUnit}>{unit.label} ({unit.unit})</option>
+              ))}
+            </select>
+          )}
+          {tool.currency && (
+            <select id="conv-unit-b" class="unit-select" aria-label="Currency to convert to">
+              {tool.currency.currencies.map((currency) => (
+                <option value={currency.code} selected={currency.code === tool.currency?.defaultTo}>{currency.code} — {currency.name}</option>
+              ))}
+            </select>
+          )}
           <div class="input-wrap">
             <input id="conv-b" data-box="b" type="number" inputmode="decimal" step="any" value={tool.b.defaultValue} />
             <span class="suffix" data-unit-b>{tool.b.unit}</span>
           </div>
         </div>
+        {tool.currency && (
+          <div class="field exchange-rate-field">
+            <label for="exchange-rate">
+              Exchange rate: 1 <span id="rate-from">{tool.currency.defaultFrom}</span> =
+              <span class="sr-only"> rate in </span>
+              <span id="rate-to">{tool.currency.defaultTo}</span>
+            </label>
+            <div class="input-wrap">
+              <input id="exchange-rate" type="number" inputmode="decimal" min="0" step="any" value={tool.currency.defaultRate} aria-describedby="rate-warning" />
+              <span class="suffix" id="rate-suffix">{tool.currency.defaultTo}</span>
+            </div>
+            <div class="rate-actions">
+              <button class="btn btn-secondary rate-refresh" id="rate-refresh" type="button">Refresh market rate</button>
+            </div>
+            <p class="rate-warning" id="rate-warning"><strong>Loading:</strong> fetching the latest reference rate…</p>
+          </div>
+        )}
       </div>
     </div>
 
@@ -67,7 +126,7 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
         <span class="conv-result-value" id="conv-result">{tool.b.defaultValue}</span>
         <span class="conv-result-unit" id="conv-unit">{tool.resultUnit}</span>
       </div>
-      <p class="conv-formula">{tool.formula}</p>
+      <p class="conv-formula" id="conv-formula">{tool.formula}</p>
       <p class="conv-note">{tool.note}</p>
     </div>
   </div>
@@ -111,14 +170,18 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     </div>
   </section>
 
-  <RelatedCards slugs={tool.related} title="Related converters" verb="Open converter" />
-  <DisclaimerSnippet text="CalcPilot's conversions are mathematically precise estimates for everyday and planning use. Always verify critical measurements with an official source before relying on them." />
+  <FAQ faqs={tool.faqs} />
+  <RelatedCards slugs={tool.related} title="Related tools" verb="Open tool" />
+  <DisclaimerSnippet text={tool.currency
+    ? "Currency results use public reference rates (Frankfurter/ECB, with a CDN fallback) or a rate you enter. They are planning estimates, not bank quotes, and exclude fees, spreads, and card FX markups."
+    : "CalcPilot's conversions are mathematically precise estimates for everyday and planning use. Always verify critical measurements with an official source before relying on them."} />
 </div>
 
 <script is:inline type="application/json" id="conv-config" set:html={safeConfig}></script>
 
 <script>
-  import { toB, toA } from '../lib/convert';
+  import { convertViaBase, toB, toA } from '../lib/convert';
+  import { fetchFxQuote, formatFxStatus } from '../lib/fx';
   import { number } from '../lib/format';
 
   const cfg = JSON.parse(document.getElementById('conv-config')!.textContent!);
@@ -126,37 +189,183 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   const inputB = document.getElementById('conv-b') as HTMLInputElement;
   const resultEl = document.getElementById('conv-result')!;
   const unitEl = document.getElementById('conv-unit')!;
+  const formulaEl = document.getElementById('conv-formula')!;
   const labelA = document.querySelector('label[for="conv-a"]')!;
   const labelB = document.querySelector('label[for="conv-b"]')!;
   const unitA = document.querySelector('[data-unit-a]')!;
   const unitB = document.querySelector('[data-unit-b]')!;
+  const selectA = document.getElementById('conv-unit-a') as HTMLSelectElement | null;
+  const selectB = document.getElementById('conv-unit-b') as HTMLSelectElement | null;
+  const rateInput = document.getElementById('exchange-rate') as HTMLInputElement | null;
+  const rateFrom = document.getElementById('rate-from');
+  const rateTo = document.getElementById('rate-to');
+  const rateSuffix = document.getElementById('rate-suffix');
+  const rateWarning = document.getElementById('rate-warning');
+  const rateRefresh = document.getElementById('rate-refresh') as HTMLButtonElement | null;
   const swapBtn = document.getElementById('swap-btn')!;
 
   let swapped = false;
+  let rateManual = false;
+  let rateFetchId = 0;
   const spec = { id: cfg.id, factor: cfg.factor, offset: cfg.offset };
+  const isMultiUnit = Array.isArray(cfg.units) && cfg.units.length > 0;
+  const isCurrency = Boolean(cfg.currency);
 
   const fmt = (n: number) => number(n, cfg.precision);
+  const fmtRate = (n: number) => number(n, Math.max(cfg.precision, 6));
+
+  function readNumber(input: HTMLInputElement): number {
+    const value = Number.parseFloat(input.value);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function selectedUnit(select: HTMLSelectElement | null) {
+    return cfg.units?.find((unit: { unit: string; factor: number }) => unit.unit === select?.value);
+  }
+
+  function setRateStatus(html: string) {
+    if (rateWarning) rateWarning.innerHTML = html;
+  }
+
+  function convertForward(value: number): number {
+    if (isCurrency) {
+      const rate = readNumber(rateInput!);
+      return rate > 0 ? value * rate : 0;
+    }
+    if (isMultiUnit) {
+      const from = selectedUnit(selectA);
+      const to = selectedUnit(selectB);
+      return from && to ? convertViaBase(value, from.factor, to.factor) : 0;
+    }
+    return swapped ? toA(value, spec) : toB(value, spec);
+  }
+
+  function convertBackward(value: number): number {
+    if (isCurrency) {
+      const rate = readNumber(rateInput!);
+      return rate > 0 ? value / rate : 0;
+    }
+    if (isMultiUnit) {
+      const from = selectedUnit(selectA);
+      const to = selectedUnit(selectB);
+      return from && to ? convertViaBase(value, to.factor, from.factor) : 0;
+    }
+    return swapped ? toB(value, spec) : toA(value, spec);
+  }
+
+  function updateUnitUi() {
+    if (!selectA || !selectB) return;
+    const from = selectA.value;
+    const to = selectB.value;
+    unitA.textContent = from;
+    unitB.textContent = to;
+    unitEl.textContent = to;
+    if (isCurrency) {
+      rateFrom!.textContent = from;
+      rateTo!.textContent = to;
+      rateSuffix!.textContent = to;
+      const rateLabel = rateManual ? 'manual override' : 'market reference';
+      formulaEl.textContent = `1 ${from} = ${rateInput?.value || '—'} ${to} (${rateLabel})`;
+    } else {
+      const fromUnit = selectedUnit(selectA);
+      const toUnit = selectedUnit(selectB);
+      if (fromUnit && toUnit) {
+        formulaEl.textContent = `1 ${from} = ${fmt(fromUnit.factor / toUnit.factor)} ${to}`;
+      }
+    }
+  }
 
   function renderFromA() {
-    const a = parseFloat(inputA.value) || 0;
-    const b = swapped ? toA(a, spec) : toB(a, spec);
+    const b = convertForward(readNumber(inputA));
     inputB.value = fmt(b);
     resultEl.textContent = fmt(b);
+    updateUnitUi();
   }
   function renderFromB() {
-    const b = parseFloat(inputB.value) || 0;
-    const a = swapped ? toB(b, spec) : toA(b, spec);
+    const b = readNumber(inputB);
+    const a = convertBackward(b);
     inputA.value = fmt(a);
     resultEl.textContent = fmt(b);
+    updateUnitUi();
+  }
+
+  async function loadMarketRate(force = false) {
+    if (!isCurrency || !selectA || !selectB || !rateInput) return;
+    if (rateManual && !force) {
+      renderFromA();
+      return;
+    }
+    const from = selectA.value;
+    const to = selectB.value;
+    const requestId = ++rateFetchId;
+    if (rateRefresh) rateRefresh.disabled = true;
+    setRateStatus('<strong>Loading:</strong> fetching the latest reference rate…');
+    try {
+      const quote = await fetchFxQuote(from, to);
+      if (requestId !== rateFetchId) return;
+      rateManual = false;
+      rateInput.value = fmtRate(quote.rate);
+      setRateStatus(`<strong>Market rate:</strong> ${formatFxStatus(quote)} You can edit the rate to override.`);
+      renderFromA();
+    } catch {
+      if (requestId !== rateFetchId) return;
+      setRateStatus('<strong>Unavailable:</strong> could not fetch a market rate. Enter a rate manually from a source you trust.');
+      renderFromA();
+    } finally {
+      if (requestId === rateFetchId && rateRefresh) rateRefresh.disabled = false;
+    }
   }
 
   inputA.addEventListener('input', renderFromA);
   inputB.addEventListener('input', renderFromB);
+  function handleUnitChange() {
+    if (isCurrency) {
+      rateManual = false;
+      void loadMarketRate(true);
+      return;
+    }
+    renderFromA();
+  }
+  selectA?.addEventListener('change', handleUnitChange);
+  selectB?.addEventListener('change', handleUnitChange);
+  rateInput?.addEventListener('input', () => {
+    rateManual = true;
+    setRateStatus('<strong>Manual override:</strong> using the rate you entered. Click Refresh market rate to reload a public reference rate.');
+    renderFromA();
+  });
+  rateRefresh?.addEventListener('click', () => {
+    rateManual = false;
+    void loadMarketRate(true);
+  });
 
   swapBtn.addEventListener('click', () => {
-    swapped = !swapped;
     swapBtn.classList.add('swapping');
     setTimeout(() => swapBtn.classList.remove('swapping'), 300);
+    if (selectA && selectB) {
+      const oldFrom = selectA.value;
+      selectA.value = selectB.value;
+      selectB.value = oldFrom;
+      const oldA = inputA.value;
+      inputA.value = inputB.value;
+      inputB.value = oldA;
+      if (isCurrency) {
+        if (rateManual && rateInput) {
+          const rate = readNumber(rateInput);
+          rateInput.value = rate > 0 ? String(1 / rate) : '';
+          renderFromA();
+        } else {
+          void loadMarketRate(true);
+        }
+      } else {
+        renderFromA();
+      }
+      resultEl.classList.remove('updating');
+      void resultEl.offsetWidth;
+      resultEl.classList.add('updating');
+      return;
+    }
+
+    swapped = !swapped;
     const aLabel = cfg.a.label;
     const bLabel = cfg.b.label;
     const aUnit = cfg.a.unit;
@@ -171,4 +380,7 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     void resultEl.offsetWidth;
     resultEl.classList.add('updating');
   });
+
+  updateUnitUi();
+  if (isCurrency) void loadMarketRate(true);
 </script>

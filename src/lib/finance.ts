@@ -99,6 +99,36 @@ export function computeLoan(v: Record<string, number>): FinanceResult {
   };
 }
 
+/** Auto loan — financed vehicle price after down payment, trade-in, tax and fees. */
+export function computeAutoLoan(v: Record<string, number>): FinanceResult {
+  const price = Math.max(0, v.vehiclePrice ?? 0);
+  const downPayment = Math.max(0, v.downPayment ?? 0);
+  const tradeIn = Math.max(0, v.tradeIn ?? 0);
+  const salesTax = price * (Math.max(0, v.salesTax ?? 0) / 100);
+  const fees = Math.max(0, v.fees ?? 0);
+  const vehicleBalance = Math.max(0, price - downPayment - tradeIn);
+  const principal = Math.max(0, price + salesTax + fees - downPayment - tradeIn);
+  const sched = amortSchedule(principal, Math.max(0, v.rate ?? 0), Math.max(1, v.term ?? 5));
+  const totalInterest = sched.monthly.reduce((sum, month) => sum + month.interest, 0);
+  const taxFees = salesTax + fees;
+  const total = principal + totalInterest;
+  const amortization: AmortRow[] = sched.monthly.map((month) => ({
+    n: month.month,
+    start: month.month === 1 ? principal : sched.monthly[month.month - 2].balance,
+    interest: month.interest,
+    principal: month.principal,
+    end: month.balance,
+  }));
+
+  return {
+    main: sched.payment,
+    subtitle: 'per month',
+    values: { principal, vehicleBalance, interest: totalInterest, taxFees, total },
+    amortization,
+    amortFirstCol: 'Payment',
+  };
+}
+
 /** Salary — monthly take-home after tax and pre-tax deductions. */
 export function computeSalary(v: Record<string, number>): FinanceResult {
   const grossMonthly = (v.annual ?? 0) / 12;
@@ -125,7 +155,7 @@ function computeGrowth(v: Record<string, number>, subtitle: string): FinanceResu
   const fvBalance = balance * Math.pow(1 + r, n);
   const fvContrib = r === 0 ? perPeriod * n : perPeriod * ((Math.pow(1 + r, n) - 1) / r);
   const gross = fvBalance + fvContrib;
-  const totalContrib = balance + contribution * (v.years ?? 0) * 12;
+  const totalContrib = contribution * (v.years ?? 0) * 12;
   const grossInterest = gross - totalContrib;
   const tax = grossInterest * ((v.taxRate ?? 0) / 100);
   const interest = grossInterest - tax;
@@ -142,5 +172,5 @@ export function computeSavings(v: Record<string, number>): FinanceResult {
 }
 
 export function computeCompound(v: Record<string, number>): FinanceResult {
-  return computeGrowth(v, 'after 20 years');
+  return computeGrowth(v, `after ${v.years ?? 20} years`);
 }
