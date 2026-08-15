@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '@fontsource-variable/geist/wght.css';
 import '@fontsource-variable/geist-mono/wght.css';
 import '@fontsource-variable/sora/wght.css';
+import Analytics from '@vercel/analytics/astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { siteUrl, brand } from '../data/site';
@@ -63,6 +64,7 @@ const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': 
     {description && <meta name="twitter:description" content={description} />}
 
     {safeJsonLd && <script is:inline type="application/ld+json" set:html={safeJsonLd} />}
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
