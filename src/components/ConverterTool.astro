@@ -120,7 +120,7 @@ const safeConfig = JSON.stringify(clientConfig).replace(/[<>&\u2028\u2029]/g, (c
       </div>
     </div>
 
-    <div class="result-card">
+    <div class="result-card" role="status" aria-live="polite" aria-atomic="false">
       <p class="result-label">Result</p>
       <div>
         <span class="conv-result-value" id="conv-result">{tool.b.defaultValue}</span>
@@ -133,14 +133,14 @@ const safeConfig = JSON.stringify(clientConfig).replace(/[<>&\u2028\u2029]/g, (c
 
   <section class="section reveal">
     <h2 class="section-title">{tool.howTo.title}</h2>
-    <div class="how-steps reveal-stagger">
+    <ol class="how-steps reveal-stagger">
       {tool.howTo.steps.map((s, i) => (
-        <div class="step">
+        <li class="step">
           <span class="step-badge">{i + 1}</span>
           <p>{s}</p>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </section>
 
   <section class="section reveal">

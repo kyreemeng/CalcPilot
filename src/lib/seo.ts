@@ -42,14 +42,6 @@ export function websiteJsonLd(): Record<string, unknown> {
     url: siteUrl,
     inLanguage: 'en',
     publisher: { '@id': `${siteUrl}/#organization` },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 }
 
@@ -70,6 +62,21 @@ export function webPageJsonLd(url: string, title: string, description: string): 
 export interface BreadcrumbItem {
   name: string;
   path: string;
+}
+
+/** ItemList schema for category hubs and other curated tool collections. */
+export function itemListJsonLd(items: { name: string; path: string }[]): Record<string, unknown> {
+  return {
+    '@type': 'ItemList',
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: `${siteUrl}${item.path}`,
+    })),
+  };
 }
 
 /** BreadcrumbList schema for a page's trail. */

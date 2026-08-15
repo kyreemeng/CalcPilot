@@ -46,7 +46,7 @@ const {
     <div class="form-card">
       <slot name="form" />
     </div>
-    <div class="result-card">
+    <div class="result-card" role="status" aria-live="polite" aria-atomic="false">
       <slot name="result" />
     </div>
   </div>
@@ -55,14 +55,14 @@ const {
     howTo && (
       <section class="section">
         <h2 class="section-title">{howTo.title ?? 'How to use this calculator'}</h2>
-        <div class="how-steps">
+        <ol class="how-steps">
           {howTo.steps.map((s, i) => (
-            <div class="step">
+            <li class="step">
               <span class="step-badge">{i + 1}</span>
               <p>{s}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
     )
   }

@@ -85,7 +85,7 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
     </div>
 
     <!-- Result card -->
-    <div class="result-card">
+    <div class="result-card" role="status" aria-live="polite" aria-atomic="false">
       <p class="result-label">{tool.resultLabel}</p>
       <div class="result-amount" id="res-amount">{money(initial.main, tool.currency)}</div>
       <div class="result-subtitle" id="res-subtitle">{tool.subtitle}</div>
@@ -116,14 +116,14 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
   <!-- How to use -->
   <section class="section reveal">
     <h2 class="section-title">{tool.howTo.title}</h2>
-    <div class="how-steps reveal-stagger">
+    <ol class="how-steps reveal-stagger">
       {tool.howTo.steps.map((s, i) => (
-        <div class="step">
+        <li class="step">
           <span class="step-badge">{i + 1}</span>
           <p>{s}</p>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </section>
 
   <!-- Understanding -->

@@ -4,6 +4,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import CategoryCard from '../../components/CategoryCard.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import { hubs, categories, categoryIcons, getHub, toolIcon, brand } from '../../data/site';
+import { itemListJsonLd } from '../../lib/seo';
 
 export function getStaticPaths() {
   return hubs.map((h) => ({ params: { category: h.id } }));
@@ -16,9 +17,10 @@ if (!hub) return Astro.redirect('/404');
 const crumbs = [{ label: 'Home', href: '/' }, { label: hub.title }];
 const verb = hub.id === 'converters' ? 'Open converter' : 'Open calculator';
 const otherCategories = categories.filter((c) => c.id !== hub.id);
+const itemList = itemListJsonLd(hub.toolRefs.map((tool) => ({ name: tool.title, path: tool.href })));
 ---
 
-<Base title={`${hub.seoTitle} | ${brand}`} description={hub.seoDescription}>
+<Base title={`${hub.seoTitle} | ${brand}`} description={hub.seoDescription} jsonLd={itemList}>
   <div class="container">
     <Breadcrumb crumbs={crumbs} />
     <div class="title-block">

@@ -10,7 +10,6 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.endsWith('/search'),
-      lastmod: new Date(),
       changefreq: 'weekly',
       priority: 0.7,
     }),

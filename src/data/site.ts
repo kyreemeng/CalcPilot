@@ -35,7 +35,7 @@ export interface Category {
 export const categories: Category[] = [
   { id: 'finance', name: 'Finance', href: '/finance', blurb: 'Mortgage, auto loan, salary, savings and compound interest calculators.' },
   { id: 'converters', name: 'Converters', href: '/converters', blurb: 'Currency, speed, area, volume and everyday unit converters.' },
-  { id: 'time-date', name: 'Time & Date', href: '/time-date', blurb: 'Date arithmetic, countdowns and time zone tools.' },
+  { id: 'time-date', name: 'Time & Date', href: '/time-date', blurb: 'Age, date arithmetic, deadline and countdown tools.' },
   { id: 'everyday', name: 'Everyday', href: '/everyday', blurb: 'Percentages, tips, BMI, BMR and other everyday calculators.' },
 ];
 
