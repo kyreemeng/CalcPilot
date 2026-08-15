@@ -107,4 +107,10 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
     history.replaceState(null, '', next);
     render(input.value);
   });
+
+  // SSG 无法在服务端按 q 过滤，加载时从 URL 读取并立即渲染。
+  const params = new URLSearchParams(location.search);
+  const initialQ = params.get('q')?.trim() ?? '';
+  input.value = initialQ;
+  render(initialQ);
 </script>

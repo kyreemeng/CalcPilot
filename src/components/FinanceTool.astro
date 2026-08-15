@@ -57,8 +57,10 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
             <label for={`f-${tool.id}-${f.key}`}>{f.label}</label>
             {f.type === 'select' ? (
               <div class="input-wrap">
-                <select id={`f-${tool.id}-${f.key}`} data-key={f.key} value={f.defaultValue}>
-                  {(f.options ?? []).map((o) => <option value={o}>{o}</option>)}
+                <select id={`f-${tool.id}-${f.key}`} data-key={f.key}>
+                  {(f.options ?? []).map((o) => (
+                    <option value={o} selected={o === f.defaultValue}>{o}</option>
+                  ))}
                 </select>
               </div>
             ) : (
