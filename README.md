@@ -1,114 +1,122 @@
 # CalcPilot
 
-Personal-finance calculators and everyday unit converters — an Astro static site built from the Ardot design
-`Calculator Web Prototype` (fileId `714769294030310`).
+**Precision tools for everyday decisions.**
 
-- **Framework**: [Astro](https://astro.build) 5 (SSG, static output)
-- **Language**: TypeScript
-- **Styling**: design-token CSS custom properties (no UI framework, no Tailwind)
-- **Fonts**: Geist (display/UI), Sora (body), Geist Mono (figures) — via Google Fonts
-- **Compute**: 100% client-side, instant (<200ms), no backend
+[CalcPilot](https://calcpilot.net/) is a fast, privacy-first suite of free online calculators and converters — finance, units, time & date, and everyday math. No accounts. No downloads. Instant answers in the browser.
 
-## Commands
+<p align="center">
+  <a href="https://calcpilot.net/"><strong>Live site → calcpilot.net</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://calcpilot.net/finance">Finance</a>
+  &nbsp;·&nbsp;
+  <a href="https://calcpilot.net/converters">Converters</a>
+  &nbsp;·&nbsp;
+  <a href="https://calcpilot.net/methodology">Methodology</a>
+</p>
+
+---
+
+## Why CalcPilot
+
+| | |
+|---|---|
+| **Instant** | All computation runs client-side. Results update as you type — typically under 200ms. |
+| **Private by design** | No sign-up, no tracking of your inputs, no server round-trip for the math. |
+| **Transparent** | Formulas and methodology are documented so every result is auditable. |
+| **Built for the web** | Static Astro site: crawlable URLs, strong SEO, excellent Core Web Vitals. |
+| **Mobile-ready** | Touch-friendly layouts, responsive hubs, and a clear reading experience on any screen. |
+
+---
+
+## What's included
+
+### Finance
+Mortgage, auto loan, general loan, salary, savings, and compound interest — with amortization schedules, tax/insurance options, and clear payment breakdowns.
+
+### Converters
+Currency (reference FX rates), weight, length, temperature, time, data storage, speed, area, and volume — bidirectional where it matters.
+
+### Time & Date
+Age, date difference, date add/subtract, and countdown tools for planning without the spreadsheet friction.
+
+### Everyday
+Percentage, percentage change, tip, discount, BMI, and BMR & calorie estimators for the calculations people actually need day to day.
+
+Explore the full catalog on the [homepage](https://calcpilot.net/).
+
+---
+
+## Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | [Astro](https://astro.build) 5 — static site generation |
+| Language | TypeScript |
+| Styling | Design-token CSS (custom properties; no Tailwind / UI kit) |
+| Typography | Geist · Sora · Geist Mono |
+| Compute | Pure client-side engines in `src/lib/` |
+| Deploy | Static output → CDN (e.g. Vercel) |
+
+No framework hydration tax on calculator pages — interactive logic ships as focused `<script>` modules.
+
+---
+
+## Quick start
 
 ```bash
-npm install        # install dependencies
-npm run dev        # local dev server (http://localhost:4321)
-npm run build      # production build → dist/
-npm run preview    # preview the build
-npm run check      # astro check (type-check .astro files)
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # → dist/
+npm run preview
+npm run check    # Astro + TypeScript
 ```
 
-## Directory structure
+Optional environment (see `.env.example`):
 
-```
-CalcPilot/
-├── astro.config.mjs          # Astro config (site URL, sitemap)
-├── package.json
-├── tsconfig.json
-├── public/                   # static assets, served as-is
-│   ├── favicon.svg
-│   └── robots.txt
-└── src/
-    ├── styles/
-    │   └── global.css        # design tokens + all component styles + breakpoints
-    ├── layouts/
-    │   └── Base.astro        # <html> shell: head/SEO/fonts/JSON-LD + Header/Footer
-    ├── components/
-    │   ├── Header.astro      # brand + nav + search + mobile menu
-    │   ├── Footer.astro      # dark footer + link columns + copyright
-    │   ├── Breadcrumb.astro
-    │   ├── Icon.astro        # inline SVG icon set
-    │   ├── CategoryCard.astro
-    │   ├── ToolCard.astro
-    │   ├── FAQ.astro         # <details> accordion (keyboard + aria)
-    │   ├── RelatedCards.astro
-    │   ├── DisclaimerSnippet.astro
-    │   ├── Donut.astro       # SVG donut chart
-    │   ├── FinanceTool.astro # full finance tool page body + client compute
-    │   ├── ConverterTool.astro # bidirectional converter + client compute
-    │   └── TrustLayout.astro # shared trust-page shell (title + body card)
-    ├── data/                 # single source of truth (content + config)
-    │   ├── site.ts           # brand, nav, categories, footer, hubs, tool index
-    │   ├── finance-tools.ts  # 5 finance calculator configs
-    │   └── converters.ts     # 5 converter configs
-    ├── lib/                  # pure, client-safe logic
-    │   ├── format.ts         # money / number / percent formatting
-    │   ├── finance.ts        # amortization + 5 finance engines
-    │   ├── convert.ts        # bidirectional + offset conversion
-    │   ├── donut.ts          # donut chart geometry
-    │   ├── icons.ts          # SVG icon path registry
-    │   └── seo.ts            # JSON-LD builders (WebApplication + FAQPage)
-    └── pages/                # routes (see below)
+```bash
+PUBLIC_SITE_URL=https://calcpilot.net
+PUBLIC_GOOGLE_SITE_VERIFICATION=
+PUBLIC_SAME_AS=
 ```
 
-## Page routes
+---
 
-| Route | File | Notes |
-|---|---|---|
-| `/` | `pages/index.astro` | Home (hero + categories + popular tools) |
-| `/finance` | `pages/[category]/index.astro` | Finance Hub (5 tools) |
-| `/converters` | `pages/[category]/index.astro` | Converters Hub (5 converters) |
-| `/time-date` | `pages/[category]/index.astro` | Time & Date Hub (planned) |
-| `/everyday` | `pages/[category]/index.astro` | Everyday Hub (planned) |
-| `/finance/mortgage-calculator` | `pages/finance/[slug].astro` | Mortgage Calculator |
-| `/finance/loan-calculator` | `pages/finance/[slug].astro` | Loan Calculator |
-| `/finance/salary-calculator` | `pages/finance/[slug].astro` | Salary Calculator |
-| `/finance/savings-calculator` | `pages/finance/[slug].astro` | Savings Calculator |
-| `/finance/compound-calculator` | `pages/finance/[slug].astro` | Compound Interest Calculator |
-| `/converters/kg-to-lbs-converter` | `pages/converters/[slug].astro` | kg ↔ lbs |
-| `/converters/length-converter` | `pages/converters/[slug].astro` | Length (m ↔ ft) |
-| `/converters/temperature-converter` | `pages/converters/[slug].astro` | Temperature (°C ↔ °F, offset) |
-| `/converters/time-converter` | `pages/converters/[slug].astro` | Time (hr ↔ min) |
-| `/converters/data-converter` | `pages/converters/[slug].astro` | Data (MB ↔ GB, base-2) |
-| `/about` | `pages/about.astro` | Trust page |
-| `/privacy` | `pages/privacy.astro` | Trust page |
-| `/disclaimer` | `pages/disclaimer.astro` | Trust page |
-| `/contact` | `pages/contact.astro` | Trust page |
-| `/search` | `pages/search.astro` | Client-side tool search |
-| `404` | `pages/404.astro` | Not found |
+## Project layout
 
-The 10 tool pages use the PRD R-01 "tool-page generation framework": a single dynamic route per family
-(`finance/[slug].astro`, `converters/[slug].astro`) driven by the config in `data/finance-tools.ts` and
-`data/converters.ts`. Each config maps to one unique, crawlable URL with its own SEO metadata and JSON-LD.
+```
+src/
+├── components/     # Header, tools (Finance / Converter / Simple), FAQ, SEO helpers
+├── data/           # Single source of truth — site, finance tools, converters
+├── layouts/        # Base HTML shell (SEO, fonts, JSON-LD)
+├── lib/            # Pure engines: finance, convert, FX, format, SEO
+├── pages/          # Routes — hubs, dynamic tool pages, trust pages
+└── styles/         # Design tokens + component CSS
+```
 
-## Design tokens
+Tool pages follow a config-driven generation model: one dynamic route per family, unique crawlable URLs, and per-tool SEO / FAQ structured data.
 
-Defined in `src/styles/global.css` as CSS custom properties (source: Ardot variable set "CalcPilot Tokens").
-Colors (`--primary` `#2563EB`, `--accent` `#059669`, `--text-primary` `#0F172A`, `--bg-page` `#F8FAFC`, …),
-radii (`8/12/16/999`), an 8-pt spacing scale, `--container-max: 1120px`, `--touch-target: 48px`, and the
-font stacks. Responsive breakpoints: tablet `≤1119px` (2-col calc collapses, 2-col grids), mobile `≤767px`
-(1-col grids, hamburger nav, larger type scales down).
+---
 
-## Calculator logic
+## Principles
 
-Pure functions in `src/lib/` (client-safe, deterministic):
+1. **Accuracy first** — Deterministic, testable pure functions; planning estimates only, never financial advice.
+2. **Clarity over chrome** — One job per screen; results and amortization should be readable at a glance.
+3. **Trust is a product feature** — Privacy, disclaimer, and methodology pages are first-class, not afterthoughts.
+4. **Ship for discovery** — Canonical URLs, sitemap, JSON-LD (`WebApplication` + `FAQPage`), and content that earns the click.
 
-- `finance.ts` — mortgage (P&I + tax + insurance + yearly amortization), loan (monthly payment + total interest
-  + origination fee + monthly amortization), salary (take-home after tax + pre-tax deductions), savings/compound
-  (future value with compounding frequency + interest tax).
-- `convert.ts` — generic linear conversion with an optional **offset** (temperature uses `°F = °C × 9/5 + 32`;
-  data uses base-2 `1024`).
+---
 
-Interactivity is implemented with small bundled `<script>` modules inside `FinanceTool.astro` and
-`ConverterTool.astro` — no framework, no hydration cost, instant updates on input.
+## Links
+
+- **Website:** [https://calcpilot.net/](https://calcpilot.net/)
+- **Repository:** [github.com/kyreemeng/CalcPilot](https://github.com/kyreemeng/CalcPilot)
+- **About:** [calcpilot.net/about](https://calcpilot.net/about)
+- **Methodology:** [calcpilot.net/methodology](https://calcpilot.net/methodology)
+
+---
+
+## License
+
+Private / all rights reserved unless otherwise stated by the repository owner.
+
+CalcPilot figures are **estimates for planning**. Confirm material decisions with a qualified professional.
