@@ -34,7 +34,7 @@ export interface Category {
 
 export const categories: Category[] = [
   { id: 'finance', name: 'Finance', href: '/finance', blurb: 'Mortgage, auto loan, salary, savings and compound interest calculators.' },
-  { id: 'converters', name: 'Converters', href: '/converters', blurb: 'Currency, speed, area, volume and everyday unit converters.' },
+  { id: 'converters', name: 'Converters', href: '/converters', blurb: 'kg to lbs, currency, speed, area, volume and everyday unit converters.' },
   { id: 'time-date', name: 'Time & Date', href: '/time-date', blurb: 'Age, date arithmetic, deadline and countdown tools.' },
   { id: 'everyday', name: 'Everyday', href: '/everyday', blurb: 'Percentages, tips, BMI, BMR and other everyday calculators.' },
 ];
@@ -82,11 +82,11 @@ export const everydayToolRefs: ToolRef[] = [
 export const allTools: ToolRef[] = [...financeToolRefs, ...converterToolRefs, ...timeDateToolRefs, ...everydayToolRefs];
 
 export const popularSlugs = [
+  'kg-to-lbs-converter',
+  'salary-calculator',
   'mortgage-calculator',
   'auto-loan-calculator',
-  'kg-to-lbs-converter',
   'currency-converter',
-  'age-calculator',
   'date-difference-calculator',
   'percentage-calculator',
   'bmr-calorie-calculator',
@@ -143,28 +143,28 @@ export const hubs: Hub[] = [
   {
     id: 'finance',
     title: 'Finance',
-    seoTitle: 'Finance Calculators: Mortgage, Loan & Interest',
-    seoDescription: 'Free mortgage, auto loan, salary, savings and compound interest calculators. Instant results, full amortization schedules and no sign-up.',
+    seoTitle: 'Finance Calculators: Salary, Mortgage & Loans',
+    seoDescription: 'Free USD salary calculator (hourly to monthly after tax), mortgage, auto loan, savings and compound interest tools. Instant, no sign-up.',
     lead: 'Personal finance calculators',
-    intro: "Planning a major purchase or trying to make sense of your money? CalcPilot's finance calculators turn rough numbers into clear, confident answers. Our mortgage calculator shows your true monthly housing cost, while the auto loan calculator includes vehicle price, trade-in, tax and fees. The general loan calculator breaks fixed-rate borrowing into a payment schedule, the salary calculator converts annual pay into comparable periods, and the savings tools project how regular contributions compound toward a goal. Every tool updates the moment you type, needs no account, and shows the formula behind each result so you can trust what you see. Use these estimators to budget, plan and negotiate with confidence, then confirm final details with a qualified professional before you commit. All figures are estimates for planning only.",
+    intro: "Planning a major purchase or trying to make sense of your money? CalcPilot's finance calculators turn rough numbers into clear, confident answers. The <a href=\"/finance/salary-calculator\">USD salary calculator</a> converts hourly wage to monthly take-home after tax. Our mortgage calculator shows your true monthly housing cost, while the auto loan calculator includes vehicle price, trade-in, tax and fees. The general loan calculator breaks fixed-rate borrowing into a payment schedule, and the savings tools project how regular contributions compound toward a goal. Every tool updates the moment you type, needs no account, and shows the formula behind each result so you can trust what you see. Use these estimators to budget, plan and negotiate with confidence, then confirm final details with a qualified professional before you commit. All figures are estimates for planning only.",
     toolRefs: financeToolRefs,
   },
   {
     id: 'converters',
     title: 'Converters',
-    seoTitle: 'Free Unit Converters — kg, m, °C, MB',
-    seoDescription: 'Free currency, speed, area, volume, weight, length and temperature converters. Bidirectional, instant and private with no sign-up.',
+    seoTitle: 'Free Unit Converters — kg to lbs, Length, °C & More',
+    seoDescription: 'Free kg to lbs converter plus currency, length, temperature, speed, area and volume tools. Bidirectional, instant results, no sign-up.',
     lead: 'Everyday unit converters',
-    intro: "Quick, precise conversions for everyday use. Convert currency with public ECB reference rates (and a manual override), or switch among common speed, area, volume, weight, length, temperature, time and data units right in your browser. Every converter is bidirectional and updates instantly with no page reloads. Below each tool you will find a quick-reference table, formula notes and answers to common questions. Currency rates are planning references, not bank quotes.",
+    intro: "Start with the popular <a href=\"/converters/kg-to-lbs-converter\">kg to lbs converter</a> (kilograms to pounds), then convert currency with public ECB reference rates, or switch among speed, area, volume, length, temperature, time and data units. Every converter is bidirectional and updates instantly with no page reloads. Below each tool you will find a quick-reference table, formula notes and answers to common questions. Currency rates are planning references, not bank quotes.",
     toolRefs: converterToolRefs,
   },
   {
     id: 'time-date',
     title: 'Time & Date',
-    seoTitle: 'Free Time & Date Calculators',
-    seoDescription: 'Free age calculator, date difference, date add/subtract, and countdown tools. Instant results in your browser — no sign-up required.',
+    seoTitle: 'Date Difference & Age Calculators',
+    seoDescription: 'Free date difference calculator — exact days between two dates — plus age, date add/subtract and countdown tools. Instant, no sign-up.',
     lead: 'Date arithmetic and time tools',
-    intro: "Plan dates, birthdays and deadlines with simple, instant date tools. Find your exact age, count the days between two dates, add or subtract days, or count down to an important event. Every tool runs right in your browser — pick a date and the answer updates immediately, with no buttons and no page reloads. All results are for everyday and planning use.",
+    intro: "Plan dates, birthdays and deadlines with simple, instant date tools. Use the <a href=\"/time-date/date-difference-calculator\">date difference calculator</a> to count days between two dates, find your exact age, add or subtract days, or count down to an important event. Every tool runs right in your browser — pick a date and the answer updates immediately, with no buttons and no page reloads. All results are for everyday and planning use.",
     toolRefs: timeDateToolRefs,
   },
   {

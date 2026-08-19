@@ -5,7 +5,7 @@ import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Date Difference Calculator';
 const desc =
-  'Calculate exact days between two dates, plus weeks and approximate months. Useful for project timelines, billing periods and travel planning.';
+  'Free date difference calculator: exact days between two dates, plus weeks and approximate months. Instant timeline, billing and travel planning — no sign-up.';
 const path = '/time-date/date-difference-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -35,19 +35,23 @@ const faqs = [
     q: 'Why are months approximate?',
     a: 'Months vary in length. The months figure uses an average-month conversion so you can estimate longer spans quickly.',
   },
+  {
+    q: 'How do I calculate the number of days between two dates?',
+    a: 'Pick your start and end dates above. The tool counts whole midnights between them and also shows weeks and approximate months.',
+  },
 ];
 const related = ['age-calculator', 'date-add-calculator', 'countdown-calculator'];
 ---
 
 <Base
-  title={`${title} — Days Between Dates | CalcPilot`}
+  title={`${title} — Days Between Two Dates | CalcPilot`}
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
 >
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Pick a start and end date to see exactly how many days, weeks and approximate months are between them."
+    lead="Calculate the exact days between two dates — plus weeks and approximate months — for project timelines, billing periods and travel planning."
     howTo={howTo}
     understanding={understanding}
     faqs={faqs}

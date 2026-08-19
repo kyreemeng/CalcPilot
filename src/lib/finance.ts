@@ -129,18 +129,24 @@ export function computeAutoLoan(v: Record<string, number>): FinanceResult {
   };
 }
 
-/** Salary — monthly take-home after tax and pre-tax deductions. */
+/** Salary — monthly take-home after tax and pre-tax deductions.
+ *  Prefer hourly wage when provided (GSC intent: "X an hour is how much a month after taxes").
+ *  Fall back to annual salary when hourly is zero. */
 export function computeSalary(v: Record<string, number>): FinanceResult {
-  const grossMonthly = (v.annual ?? 0) / 12;
+  const hours = Math.max(1, v.hoursPerWeek ?? 40);
+  const hourlyWage = Math.max(0, v.hourly ?? 0);
+  const annualFromHourly = hourlyWage * hours * 52;
+  const annual = annualFromHourly > 0 ? annualFromHourly : Math.max(0, v.annual ?? 0);
+  const grossMonthly = annual / 12;
   const deductions = v.deductions ?? 0; // per month
   const tax = grossMonthly * ((v.taxRate ?? 0) / 100);
   const net = grossMonthly - tax - deductions;
-  const weekly = (v.annual ?? 0) / 52;
-  const hourly = weekly / Math.max(1, v.hoursPerWeek ?? 40);
+  const weekly = annual / 52;
+  const hourly = hourlyWage > 0 ? hourlyWage : weekly / hours;
   return {
     main: net,
-    subtitle: 'per month',
-    values: { gross: grossMonthly, tax, deductions, net, weekly, hourly },
+    subtitle: 'per month after tax',
+    values: { gross: grossMonthly, tax, deductions, net, weekly, hourly, annual },
   };
 }
 

@@ -25,7 +25,7 @@ const itemList = itemListJsonLd(hub.toolRefs.map((tool) => ({ name: tool.title, 
     <Breadcrumb crumbs={crumbs} />
     <div class="title-block">
       <h1>{hub.seoTitle}</h1>
-      <p class="hub-intro">{hub.intro}</p>
+      <p class="hub-intro" set:html={hub.intro}></p>
     </div>
 
     {
