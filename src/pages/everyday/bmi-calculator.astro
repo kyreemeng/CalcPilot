@@ -5,7 +5,7 @@ import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'BMI Calculator';
 const desc =
-  'Calculate body mass index from height and weight, see your WHO weight category, and understand the BMI formula instantly.';
+  'Free BMI calculator in kg: body mass index from height and weight, WHO category and formula — for adults, not a diagnosis.';
 const path = '/everyday/bmi-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -35,12 +35,16 @@ const faqs = [
     q: 'Can athletes have a high BMI and still be healthy?',
     a: 'Yes. Extra muscle can raise BMI without meaning excess body fat. Treat BMI as one planning signal, not a diagnosis.',
   },
+  {
+    q: 'Does this BMI calculator use kilograms?',
+    a: 'Yes. Enter weight in kilograms and height in centimeters. Convert pounds with the kg to lbs converter first if needed.',
+  },
 ];
 const related = ['bmr-calorie-calculator', 'kg-to-lbs-converter'];
 ---
 
 <Base
-  title={`${title} — Body Mass Index | CalcPilot`}
+  title={`${title} — BMI Formula (kg) | CalcPilot`}
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'HealthApplication', desc, { howToSteps: howTo.steps, faqs })}
 >

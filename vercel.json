@@ -12,11 +12,26 @@
       "has": [{ "type": "host", "value": "calcpilot-ten.vercel.app" }],
       "destination": "https://calcpilot.net/:path*",
       "permanent": true
+    },
+    {
+      "source": "/finance/car-payment-calculator",
+      "destination": "/finance/auto-loan-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/finance/compound-interest-calculator",
+      "destination": "/finance/compound-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/finance/amortization-calculator",
+      "destination": "/finance/mortgage-calculator",
+      "permanent": true
     }
   ],
   "headers": [
     {
-      "source": "/(og-image.png|logo-icon.png|favicon.svg)",
+      "source": "/(og-image.png|logo-icon.png|favicon.svg|llms.txt|llms-full.txt)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400" }
       ]

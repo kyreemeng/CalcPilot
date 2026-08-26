@@ -4,7 +4,7 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Percentage Change Calculator';
-const desc = 'Calculate percentage increase or decrease between two values, see the absolute change, and apply the percentage change formula instantly.';
+const desc = 'Free percentage change calculator: increase or decrease between two numbers. Formula for percent difference — instant, no sign-up.';
 const path = '/everyday/percentage-change-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -26,12 +26,13 @@ const faqs = [
   { q: 'What is the difference between percentage increase and decrease?', a: 'The formula is the same. A positive result means an increase, while a negative result means a decrease.' },
   { q: 'Why can’t percentage change start from zero?', a: 'Percentage change divides by the original value. Division by zero is undefined, so there is no finite percentage increase from zero.' },
   { q: 'Can percentage change be greater than 100%?', a: 'Yes. A value that more than doubles has increased by more than 100%.' },
+  { q: 'How do I find the percentage difference between two numbers?', a: 'Enter the original and new values. The result is ((new − original) ÷ |original|) × 100. A positive number is an increase; a negative number is a decrease.' },
 ];
 const related = ['percentage-calculator', 'discount-calculator', 'loan-calculator'];
 ---
 
 <Base
-  title="Percentage Change Calculator — Increase & Decrease | CalcPilot"
+  title="Percentage Change Calculator | CalcPilot"
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
 >

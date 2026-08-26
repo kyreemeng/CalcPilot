@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import '@fontsource-variable/geist/wght.css';
 import '@fontsource-variable/geist-mono/wght.css';
-import '@fontsource-variable/sora/wght.css';
 import Analytics from '@vercel/analytics/astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -64,6 +63,16 @@ const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': 
     {description && <meta name="twitter:description" content={description} />}
 
     {safeJsonLd && <script is:inline type="application/ld+json" set:html={safeJsonLd} />}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('calcpilot-theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <Analytics />
   </head>
   <body>
@@ -73,8 +82,35 @@ const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': 
       <slot />
     </main>
     <Footer />
+    <noscript>
+      <style>
+        .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
 
     <script>
+      // --- Theme toggle ---
+      const root = document.documentElement;
+      const themeBtn = document.getElementById('theme-toggle');
+      function currentTheme(): 'light' | 'dark' {
+        const attr = root.getAttribute('data-theme');
+        if (attr === 'light' || attr === 'dark') return attr;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      function setTheme(next: 'light' | 'dark') {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('calcpilot-theme', next); } catch (e) {}
+        if (themeBtn) {
+          themeBtn.setAttribute('aria-label', next === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+        }
+      }
+      themeBtn?.addEventListener('click', () => {
+        setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+      });
+      if (themeBtn) {
+        themeBtn.setAttribute('aria-label', currentTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+      }
+
       // --- Scroll reveal via IntersectionObserver ---
       const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
       if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -91,7 +127,6 @@ const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': 
         );
         revealEls.forEach((el) => io.observe(el));
       } else {
-        // Fallback: show everything immediately
         revealEls.forEach((el) => el.classList.add('is-visible'));
       }
 

@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import PairConversionTool from '../../components/PairConversionTool.astro';
+import { getPairConversion } from '../../data/pair-conversions';
+import { simpleJsonLd } from '../../lib/seo';
+
+const tool = getPairConversion('meters-to-feet')!;
+const path = `/converters/${tool.slug}`;
+const howToSteps = [
+  'Enter the meter value in the first field.',
+  'Read the equivalent number of feet instantly.',
+  'Edit the feet field to convert back to meters.',
+];
+---
+
+<Base
+  title={tool.seo.title}
+  description={tool.seo.description}
+  jsonLd={simpleJsonLd(tool.title, path, 'UtilitiesApplication', tool.seo.description, {
+    howToSteps,
+    faqs: tool.faqs,
+  })}
+>
+  <PairConversionTool tool={tool} />
+</Base>

@@ -25,26 +25,66 @@ const pathname = Astro.url.pathname;
       }
     </nav>
 
-    <div class="header-search">
-      <form action="/search" method="get" role="search">
-        <label class="search-box">
-          <Icon name="search" size={16} />
-          <input type="search" name="q" placeholder="Search calculators…" aria-label="Search calculators" />
-        </label>
-      </form>
-    </div>
+    <div class="header-actions">
+      <div class="header-search">
+        <form action="/search" method="get" role="search">
+          <label class="search-box">
+            <Icon name="search" size={16} />
+            <input type="search" name="q" placeholder="Search calculators…" aria-label="Search calculators" />
+          </label>
+        </form>
+      </div>
 
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
-      <Icon name="menu" size={22} />
-    </button>
+      <button
+        type="button"
+        class="icon-btn theme-toggle"
+        id="theme-toggle"
+        aria-label="Toggle color theme"
+      >
+        <span class="icon-sun" aria-hidden="true"><Icon name="sun" size={18} /></span>
+        <span class="icon-moon" aria-hidden="true"><Icon name="moon" size={18} /></span>
+      </button>
+
+      <button
+        class="icon-btn menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span class="menu-icon-open" aria-hidden="true"><Icon name="menu" size={20} /></span>
+        <span class="menu-icon-close" aria-hidden="true" hidden><Icon name="x" size={20} /></span>
+      </button>
+    </div>
   </div>
 </header>
 
 <script>
   const toggle = document.getElementById('menu-toggle');
   const navEl = document.getElementById('main-nav');
+  const openIcon = toggle?.querySelector('.menu-icon-open') as HTMLElement | null;
+  const closeIcon = toggle?.querySelector('.menu-icon-close') as HTMLElement | null;
+
+  function setMenu(open: boolean) {
+    navEl?.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (openIcon) openIcon.hidden = open;
+    if (closeIcon) closeIcon.hidden = !open;
+  }
+
   toggle?.addEventListener('click', () => {
-    const open = navEl?.classList.toggle('open') ?? false;
-    toggle.setAttribute('aria-expanded', String(open));
+    const open = !(navEl?.classList.contains('open') ?? false);
+    setMenu(open);
+  });
+
+  navEl?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
   });
 </script>

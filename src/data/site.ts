@@ -3,6 +3,7 @@
 
 import { financeTools } from './finance-tools';
 import { converterTools } from './converters';
+import { pairConversions } from './pair-conversions';
 
 export const brand = 'CalcPilot';
 export const siteUrl = (import.meta.env.PUBLIC_SITE_URL || 'https://calcpilot.net').replace(/\/$/, '');
@@ -34,7 +35,7 @@ export interface Category {
 
 export const categories: Category[] = [
   { id: 'finance', name: 'Finance', href: '/finance', blurb: 'Mortgage, auto loan, salary, savings and compound interest calculators.' },
-  { id: 'converters', name: 'Converters', href: '/converters', blurb: 'kg to lbs, currency, speed, area, volume and everyday unit converters.' },
+  { id: 'converters', name: 'Converters', href: '/converters', blurb: 'kg to lbs, cm to inches, Celsius to Fahrenheit, currency and everyday unit converters.' },
   { id: 'time-date', name: 'Time & Date', href: '/time-date', blurb: 'Age, date arithmetic, deadline and countdown tools.' },
   { id: 'everyday', name: 'Everyday', href: '/everyday', blurb: 'Percentages, tips, BMI, BMR and other everyday calculators.' },
 ];
@@ -55,13 +56,22 @@ export const financeToolRefs: ToolRef[] = financeTools.map((t) => ({
   href: `/finance/${t.slug}`,
 }));
 
-export const converterToolRefs: ToolRef[] = converterTools.map((t) => ({
-  slug: t.slug,
-  title: t.title,
-  shortDesc: t.shortDesc,
-  category: 'converters',
-  href: `/converters/${t.slug}`,
-}));
+export const converterToolRefs: ToolRef[] = [
+  ...converterTools.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    shortDesc: t.shortDesc,
+    category: 'converters' as const,
+    href: `/converters/${t.slug}`,
+  })),
+  ...pairConversions.map((t) => ({
+    slug: t.slug,
+    title: t.title,
+    shortDesc: t.shortDesc,
+    category: 'converters' as const,
+    href: `/converters/${t.slug}`,
+  })),
+];
 
 export const timeDateToolRefs: ToolRef[] = [
   { slug: 'age-calculator', title: 'Age Calculator', shortDesc: 'Find your exact age in years, months and days.', category: 'time-date', href: '/time-date/age-calculator' },
@@ -85,6 +95,9 @@ export const popularSlugs = [
   'kg-to-lbs-converter',
   'salary-calculator',
   'mortgage-calculator',
+  'data-converter',
+  'compound-calculator',
+  'volume-converter',
   'auto-loan-calculator',
   'currency-converter',
   'date-difference-calculator',
@@ -143,8 +156,8 @@ export const hubs: Hub[] = [
   {
     id: 'finance',
     title: 'Finance',
-    seoTitle: 'Finance Calculators: Salary, Mortgage & Loans',
-    seoDescription: 'Free USD salary calculator (hourly to monthly after tax), mortgage, auto loan, savings and compound interest tools. Instant, no sign-up.',
+    seoTitle: 'Finance: Mortgage, Car Payment & Salary',
+    seoDescription: 'Free mortgage, car payment, USD salary (hourly to monthly after tax), savings and compound interest calculators. Instant, no sign-up.',
     lead: 'Personal finance calculators',
     intro: "Planning a major purchase or trying to make sense of your money? CalcPilot's finance calculators turn rough numbers into clear, confident answers. The <a href=\"/finance/salary-calculator\">USD salary calculator</a> converts hourly wage to monthly take-home after tax. Our mortgage calculator shows your true monthly housing cost, while the auto loan calculator includes vehicle price, trade-in, tax and fees. The general loan calculator breaks fixed-rate borrowing into a payment schedule, and the savings tools project how regular contributions compound toward a goal. Every tool updates the moment you type, needs no account, and shows the formula behind each result so you can trust what you see. Use these estimators to budget, plan and negotiate with confidence, then confirm final details with a qualified professional before you commit. All figures are estimates for planning only.",
     toolRefs: financeToolRefs,
@@ -152,10 +165,10 @@ export const hubs: Hub[] = [
   {
     id: 'converters',
     title: 'Converters',
-    seoTitle: 'Free Unit Converters — kg to lbs, Length, °C & More',
-    seoDescription: 'Free kg to lbs converter plus currency, length, temperature, speed, area and volume tools. Bidirectional, instant results, no sign-up.',
+    seoTitle: 'Unit Converters — kg to lbs, cm to Inches, °C',
+    seoDescription: 'Free kg to lbs, cm to inches, Celsius to Fahrenheit, currency and more. Bidirectional converters — instant, no sign-up.',
     lead: 'Everyday unit converters',
-    intro: "Start with the popular <a href=\"/converters/kg-to-lbs-converter\">kg to lbs converter</a> (kilograms to pounds), then convert currency with public ECB reference rates, or switch among speed, area, volume, length, temperature, time and data units. Every converter is bidirectional and updates instantly with no page reloads. Below each tool you will find a quick-reference table, formula notes and answers to common questions. Currency rates are planning references, not bank quotes.",
+    intro: "Start with the popular <a href=\"/converters/kg-to-lbs-converter\">kg to lbs converter</a> (kilograms to pounds), convert <a href=\"/converters/length-converter\">cm to inches or meters to feet</a>, switch <a href=\"/converters/temperature-converter\">Celsius to Fahrenheit</a>, convert currency with public ECB reference rates, or use speed, area, volume, time and data units. Every converter is bidirectional and updates instantly with no page reloads. Below each tool you will find a quick-reference table, formula notes and answers to common questions. Currency rates are planning references, not bank quotes.",
     toolRefs: converterToolRefs,
   },
   {

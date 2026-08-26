@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { brand, footerColumns } from '../data/site';
 ---
 
@@ -6,11 +7,18 @@ import { brand, footerColumns } from '../data/site';
   <div class="container footer-inner">
     <div class="footer-grid">
       <div class="footer-brand-col">
-        <div class="footer-logo">
-          <img class="footer-img" src="/logo-icon.svg" alt="" width="32" height="32" />
+        <a class="footer-logo" href="/" aria-label="CalcPilot home">
+          <img class="footer-img" src="/logo-icon.svg" alt="CalcPilot" width="32" height="32" />
           <span class="footer-name">{brand}</span>
+        </a>
+        <p class="footer-tagline">
+          Free, private calculators for money, units, dates, and everyday math. Results update in your browser.
+        </p>
+        <div class="footer-trust">
+          <span><Icon name="shield" size={14} /> Private by design</span>
+          <span><Icon name="zap" size={14} /> Instant results</span>
+          <span><Icon name="check" size={14} /> Transparent formulas</span>
         </div>
-        <p class="footer-tagline">Free, fast calculators for everyday money and measurement questions.</p>
       </div>
 
       <div class="footer-cols">
@@ -31,6 +39,13 @@ import { brand, footerColumns } from '../data/site';
 
     <div class="footer-bottom">
       <p>© 2026 {brand}. All rights reserved.</p>
+      <p>
+        <a href="/methodology">Methodology</a>
+        {' · '}
+        <a href="/privacy">Privacy</a>
+        {' · '}
+        <a href="/disclaimer">Disclaimer</a>
+      </p>
     </div>
   </div>
 </footer>

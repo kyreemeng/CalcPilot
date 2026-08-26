@@ -133,28 +133,30 @@ const safeConfig = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
 
     {tool.hasAmortization && (
       <div class="table-card">
-        <table class="amort" id="amort-table">
-          <thead>
-            <tr>
-              <th scope="col">{tool.amortFirstCol ?? 'Year'}</th>
-              <th scope="col">Starting balance</th>
-              <th scope="col">Interest</th>
-              <th scope="col">Principal</th>
-              <th scope="col">Ending balance</th>
-            </tr>
-          </thead>
-          <tbody id="amort-body">
-            {amortPreview.map((r) => (
+        <div class="table-scroll">
+          <table class="amort" id="amort-table">
+            <thead>
               <tr>
-                <td>{r.n}</td>
-                <td class="num">{money(r.start, tool.currency)}</td>
-                <td class="num">{money(r.interest, tool.currency)}</td>
-                <td class="num">{money(r.principal, tool.currency)}</td>
-                <td class="num">{money(r.end, tool.currency)}</td>
+                <th scope="col">{tool.amortFirstCol ?? 'Year'}</th>
+                <th scope="col">Starting balance</th>
+                <th scope="col">Interest</th>
+                <th scope="col">Principal</th>
+                <th scope="col">Ending balance</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody id="amort-body">
+              {amortPreview.map((r) => (
+                <tr>
+                  <td>{r.n}</td>
+                  <td class="num">{money(r.start, tool.currency)}</td>
+                  <td class="num">{money(r.interest, tool.currency)}</td>
+                  <td class="num">{money(r.principal, tool.currency)}</td>
+                  <td class="num">{money(r.end, tool.currency)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <div class="table-more">
           <span id="amort-note">Showing first {Math.min(5, amortTotal)} of {amortTotal} {amortUnit}</span>
           {' · '}

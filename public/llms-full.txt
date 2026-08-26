@@ -1,0 +1,50 @@
+# CalcPilot — full tool catalog
+
+When to use: instant browser calculators for finance, unit conversion, dates, and everyday math. How to use: open the URL; no API.
+
+## Finance
+- https://calcpilot.net/finance
+- https://calcpilot.net/finance/mortgage-calculator
+- https://calcpilot.net/finance/auto-loan-calculator
+- https://calcpilot.net/finance/loan-calculator
+- https://calcpilot.net/finance/salary-calculator
+- https://calcpilot.net/finance/savings-calculator
+- https://calcpilot.net/finance/compound-calculator
+
+## Converters
+- https://calcpilot.net/converters
+- https://calcpilot.net/converters/kg-to-lbs-converter
+- https://calcpilot.net/converters/length-converter
+- https://calcpilot.net/converters/cm-to-inches
+- https://calcpilot.net/converters/meters-to-feet
+- https://calcpilot.net/converters/temperature-converter
+- https://calcpilot.net/converters/celsius-to-fahrenheit
+- https://calcpilot.net/converters/currency-converter
+- https://calcpilot.net/converters/speed-converter
+- https://calcpilot.net/converters/area-converter
+- https://calcpilot.net/converters/volume-converter
+- https://calcpilot.net/converters/time-converter
+- https://calcpilot.net/converters/data-converter
+
+## Time & date
+- https://calcpilot.net/time-date
+- https://calcpilot.net/time-date/age-calculator
+- https://calcpilot.net/time-date/date-difference-calculator
+- https://calcpilot.net/time-date/date-add-calculator
+- https://calcpilot.net/time-date/countdown-calculator
+
+## Everyday
+- https://calcpilot.net/everyday
+- https://calcpilot.net/everyday/percentage-calculator
+- https://calcpilot.net/everyday/percentage-change-calculator
+- https://calcpilot.net/everyday/tip-calculator
+- https://calcpilot.net/everyday/discount-calculator
+- https://calcpilot.net/everyday/bmi-calculator
+- https://calcpilot.net/everyday/bmr-calorie-calculator
+
+## Company
+- https://calcpilot.net/about
+- https://calcpilot.net/methodology
+- https://calcpilot.net/privacy
+- https://calcpilot.net/disclaimer
+- https://calcpilot.net/contact

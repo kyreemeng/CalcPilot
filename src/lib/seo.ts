@@ -62,6 +62,7 @@ export function webPageJsonLd(url: string, title: string, description: string): 
     name: title,
     description,
     inLanguage: 'en',
+    dateModified: '2026-08-26',
     isPartOf: { '@id': `${siteUrl}/#website` },
     about: { '@id': `${siteUrl}/#organization` },
   };
@@ -176,8 +177,12 @@ export function simpleJsonLd(
       url: `${siteUrl}${path}`,
       applicationCategory: category,
       operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript. Requires HTML5.',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       description,
+      featureList: ['Instant calculation', 'No sign-up required', 'Mobile friendly', 'Runs in the browser'],
+      audience: { '@type': 'Audience', audienceType: 'General public' },
+      isAccessibleForFree: true,
     },
   ];
   if (extras.howToSteps?.length) {

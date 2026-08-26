@@ -2,39 +2,100 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import CategoryCard from '../components/CategoryCard.astro';
-import ToolCard from '../components/ToolCard.astro';
 import { brand, categories, categoryIcons, getToolRef, toolIcon, popularSlugs } from '../data/site';
+
+const featured = popularSlugs
+  .map((slug) => getToolRef(slug))
+  .filter((t): t is NonNullable<typeof t> => Boolean(t))
+  .slice(0, 5);
 ---
 
 <Base
   title={`Free Online Calculators & Converters | ${brand}`}
-  description="Free kg to lbs converter, USD salary calculator (hourly to monthly after tax), mortgage tools and more. No sign-up — instant private results."
+  description="Free kg to lbs, cm to inches, Celsius to Fahrenheit, USD salary and mortgage calculators. No sign-up — instant private results."
 >
   <div class="container">
     <section class="hero">
-      <span class="hero-eyebrow">Free online calculators</span>
-      <h1>Free calculators: kg to lbs, salary, mortgage & more.</h1>
-      <p class="hero-sub">
-        Convert kg to lb, estimate USD monthly take-home from hourly pay, run mortgage and auto loan math,
-        and more — no sign-up, no downloads, instant answers.
-      </p>
-      <form class="hero-search-row" action="/search" method="get" role="search">
-        <label class="hero-search">
-          <Icon name="search" size={18} />
-          <input type="search" name="q" placeholder="Try 'kg to lbs' or 'salary calculator'" aria-label="Search calculators" />
-        </label>
-        <button class="btn btn-primary" type="submit">Calculate</button>
-      </form>
-      <div class="trust-badges">
-        <span class="badge"><Icon name="check" size={18} /> No sign-up required</span>
-        <span class="badge"><Icon name="check" size={18} /> Instant results (&lt;200ms)</span>
-        <span class="badge"><Icon name="check" size={18} /> Mobile friendly</span>
+      <div class="hero-copy">
+        <span class="hero-eyebrow">Free online calculators</span>
+        <h1>Free calculators: kg to lbs, salary, mortgage & more.</h1>
+        <p class="hero-sub">
+          Convert kg to lb, cm to inches, estimate USD monthly take-home from hourly pay, run mortgage and car payment math,
+          and more — no sign-up, no downloads, instant answers.
+        </p>
+        <form class="hero-search-row" action="/search" method="get" role="search">
+          <label class="hero-search">
+            <Icon name="search" size={18} />
+            <input type="search" name="q" placeholder="Try 'kg to lbs' or 'cm to inches'" aria-label="Search calculators" />
+          </label>
+          <button class="btn btn-primary" type="submit">Calculate</button>
+        </form>
+        <div class="trust-badges">
+          <span class="badge"><Icon name="check" size={16} /> No sign-up required</span>
+          <span class="badge"><Icon name="zap" size={16} /> Instant results (&lt;200ms)</span>
+          <span class="badge"><Icon name="shield" size={16} /> Runs in your browser</span>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="Popular tools">
+        <p class="hero-panel-label">Start with a tool</p>
+        <div class="hero-panel-list">
+          {featured.map((t) => (
+            <a class="hero-panel-link" href={t.href}>
+              <span>
+                <strong>{t.title}</strong>
+                <span>{t.shortDesc}</span>
+              </span>
+              <Icon name="arrow-right" size={16} />
+            </a>
+          ))}
+        </div>
+        <div class="hero-panel-meta">
+          <div>
+            <div class="num">25+</div>
+            <div class="lbl">tools</div>
+          </div>
+          <div>
+            <div class="num">0</div>
+            <div class="lbl">accounts</div>
+          </div>
+          <div>
+            <div class="num">&lt;200ms</div>
+            <div class="lbl">typical update</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="proof-strip reveal" aria-label="Why CalcPilot">
+      <h2 class="sr-only">Why use CalcPilot</h2>
+      <div class="proof-item">
+        <span class="proof-icon" aria-hidden="true"><Icon name="shield" size={20} /></span>
+        <div>
+          <h3>Private by design</h3>
+          <p>Inputs stay on your device. Calculators run locally in the browser.</p>
+        </div>
+      </div>
+      <div class="proof-item">
+        <span class="proof-icon" aria-hidden="true"><Icon name="info" size={20} /></span>
+        <div>
+          <h3>Transparent formulas</h3>
+          <p>See the method behind each result on our methodology page.</p>
+        </div>
+      </div>
+      <div class="proof-item">
+        <span class="proof-icon" aria-hidden="true"><Icon name="zap" size={20} /></span>
+        <div>
+          <h3>Built for speed</h3>
+          <p>Results update as you type with no page reloads or downloads.</p>
+        </div>
       </div>
     </section>
 
     <section class="section reveal">
       <h2 class="section-title">Categories</h2>
-      <div class="grid-4 reveal-stagger">
+      <p class="section-kicker">Browse finance, converters, dates, and everyday math tools.</p>
+      <div class="catalog-grid reveal-stagger">
         {categories.map((c) => (
           <CategoryCard name={c.name} href={c.href} blurb={c.blurb} icon={categoryIcons[c.id]} />
         ))}
@@ -43,18 +104,21 @@ import { brand, categories, categoryIcons, getToolRef, toolIcon, popularSlugs } 
 
     <section class="section reveal">
       <h2 class="section-title">Popular calculators</h2>
-      <div class="card-grid reveal-stagger">
+      <p class="section-kicker">High-demand tools for pay, housing, weight, dates, and percentages.</p>
+      <div class="tool-list reveal-stagger">
         {popularSlugs.map((slug) => {
           const t = getToolRef(slug);
           if (!t) return null;
+          const verb = t.category === 'converters' ? 'Open converter' : 'Open calculator';
           return (
-            <ToolCard
-              href={t.href}
-              title={t.title}
-              shortDesc={t.shortDesc}
-              icon={toolIcon(t.slug)}
-              verb={t.category === 'converters' ? 'Open converter' : 'Open calculator'}
-            />
+            <a class="tool-row" href={t.href}>
+              <span class="tool-icon"><Icon name={toolIcon(t.slug)} size={18} /></span>
+              <div>
+                <h3>{t.title}</h3>
+                <p>{t.shortDesc}</p>
+              </div>
+              <span class="row-cta">{verb}</span>
+            </a>
           );
         })}
       </div>

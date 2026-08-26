@@ -1,20 +1,44 @@
 ---
 import Base from '../layouts/Base.astro';
 import TrustLayout from '../components/TrustLayout.astro';
-import { repositoryUrl } from '../data/site';
+import { repositoryUrl, siteUrl } from '../data/site';
 
 const crumbs = [{ label: 'Home', href: '/' }, { label: 'Methodology' }];
+const methodologyJsonLd = {
+  '@type': 'TechArticle',
+  headline: 'CalcPilot Calculation Methodology and Accuracy',
+  description: 'The formulas, assumptions, rounding rules, reference standards, and verification process used by CalcPilot calculators.',
+  dateModified: '2026-08-26',
+  inLanguage: 'en',
+  mainEntityOfPage: `${siteUrl}/methodology`,
+  author: { '@id': `${siteUrl}/#organization` },
+  publisher: { '@id': `${siteUrl}/#organization` },
+  about: ['financial calculations', 'unit conversion', 'calculation methodology'],
+  citation: [
+    'https://www.nist.gov/pml/owm/si-units',
+    'https://www.consumerfinance.gov/consumer-tools/mortgages/',
+    'https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html',
+    'https://pubmed.ncbi.nlm.nih.gov/2305711/',
+  ],
+};
 ---
 
 <Base
   title="Calculation Methodology & Accuracy | CalcPilot"
   description="See the formulas, assumptions, rounding rules, and verification process behind CalcPilot's finance calculators and unit converters."
+  jsonLd={methodologyJsonLd}
 >
   <TrustLayout
     title="Calculation Methodology"
     lead="The formulas, assumptions, and checks behind every CalcPilot result."
     crumbs={crumbs}
   >
+    <p>
+      <strong>Calculation methodology</strong> is the documented process used to turn inputs into reproducible
+      results. CalcPilot publishes the applicable formulas, unit definitions, assumptions, rounding rules, and
+      limitations below so each estimate can be independently checked.
+    </p>
+
     <h2>How calculations are produced</h2>
     <p>
       Every calculator runs locally in your browser. Inputs are passed to deterministic TypeScript functions, so the
@@ -59,6 +83,26 @@ const crumbs = [{ label: 'Home', href: '/' }, { label: 'Methodology' }];
       Frankfurter (with an open CDN fallback) and still lets you override the rate manually.
     </p>
 
+    <h2>Health estimates</h2>
+    <p>
+      BMI uses weight divided by height squared and reports the adult screening categories published by the{' '}
+      <a href="https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html" rel="external">US Centers for Disease Control and Prevention</a>.
+      BMR uses the Mifflin–St Jeor equations described in the{' '}
+      <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" rel="external">original peer-reviewed study</a>, then applies
+      a user-selected activity multiplier to estimate daily energy needs. These are screening and planning estimates,
+      not diagnoses or individualized medical advice.
+    </p>
+
+    <h2>Reference standards</h2>
+    <p>
+      Unit definitions are checked against the{' '}
+      <a href="https://www.nist.gov/pml/owm/si-units" rel="external">National Institute of Standards and Technology SI guidance</a>.
+      Mortgage terminology and consumer-facing assumptions are cross-checked against the{' '}
+      <a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" rel="external">Consumer Financial Protection Bureau</a>.
+      Currency pages identify the timestamp and source of each reference rate; a displayed rate is informational and
+      may differ from a bank, card network, or money-transfer quote.
+    </p>
+
     <h2>Verification and corrections</h2>
     <p>
       Worked examples, boundary cases, and inverse conversions are checked during development. The source code is
@@ -68,7 +112,7 @@ const crumbs = [{ label: 'Home', href: '/' }, { label: 'Methodology' }];
     </p>
 
     <p>
-      <strong>Last reviewed:</strong> August 14, 2026. Results are estimates for planning and educational use only.
+      <strong>Last reviewed:</strong> August 26, 2026. Results are estimates for planning and educational use only.
       See the <a href="/disclaimer">Disclaimer</a> before making financial, legal, tax, health, or other consequential
       decisions.
     </p>

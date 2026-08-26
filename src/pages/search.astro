@@ -22,7 +22,11 @@ const matches = term
 const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
 ---
 
-<Base title={`Search | ${brand}`} description="Search CalcPilot calculators and converters." noindex>
+<Base
+  title={`Search | ${brand}`}
+  description="Search free CalcPilot finance calculators, everyday math tools, date calculators, and unit converters."
+  noindex
+>
   <div class="container">
     <div class="title-block">
       <h1>Search</h1>
@@ -45,6 +49,7 @@ const toolsJson = JSON.stringify(tools).replace(/</g, '\\u003c');
     </form>
 
     <section class="section section--tight reveal">
+      <h2 class="sr-only">Calculator and converter results</h2>
       <div class="card-grid" id="results">
         {
           matches.map((t) => (

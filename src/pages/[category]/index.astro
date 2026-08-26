@@ -31,6 +31,7 @@ const itemList = itemListJsonLd(hub.toolRefs.map((tool) => ({ name: tool.title, 
     {
       hub.toolRefs.length > 0 ? (
         <section class="section section--tight reveal">
+          <h2 class="sr-only">{hub.title} tools</h2>
           <div class="card-grid reveal-stagger">
             {hub.toolRefs.map((t) => (
               <ToolCard href={t.href} title={t.title} shortDesc={t.shortDesc} icon={toolIcon(t.slug)} verb={verb} />
@@ -49,7 +50,7 @@ const itemList = itemListJsonLd(hub.toolRefs.map((tool) => ({ name: tool.title, 
 
     <section class="section reveal">
       <h2 class="section-title">More calculators</h2>
-      <div class="card-grid reveal-stagger">
+      <div class="catalog-grid reveal-stagger">
         {otherCategories.map((c) => (
           <CategoryCard name={c.name} href={c.href} blurb={c.blurb} icon={categoryIcons[c.id]} />
         ))}

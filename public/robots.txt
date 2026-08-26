@@ -2,4 +2,11 @@ User-agent: *
 Allow: /
 Disallow: /search
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://calcpilot.net/sitemap-index.xml
+# Agent index: https://calcpilot.net/llms.txt

@@ -151,22 +151,24 @@ const safeConfig = JSON.stringify(clientConfig).replace(/[<>&\u2028\u2029]/g, (c
   <section class="section reveal">
     <h2 class="section-title">Common conversions</h2>
     <div class="common-table">
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">{tool.commonTable.header[0]}</th>
-            <th scope="col">{tool.commonTable.header[1]}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tool.commonTable.rows.map((r) => (
+      <div class="table-scroll">
+        <table>
+          <thead>
             <tr>
-              <td>{r[0]}</td>
-              <td>{r[1]}</td>
+              <th scope="col">{tool.commonTable.header[0]}</th>
+              <th scope="col">{tool.commonTable.header[1]}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {tool.commonTable.rows.map((r) => (
+              <tr>
+                <td>{r[0]}</td>
+                <td>{r[1]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
 

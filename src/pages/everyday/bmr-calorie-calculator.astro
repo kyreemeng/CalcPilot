@@ -4,7 +4,7 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'BMR & Calorie Calculator';
-const desc = 'Estimate basal metabolic rate (BMR) and daily calorie needs (TDEE) with the Mifflin–St Jeor equation using age, sex, height, weight and activity.';
+const desc = 'Free BMR calculator for men and women: Mifflin–St Jeor formula plus TDEE calorie needs. Planning estimate, not medical advice.';
 const path = '/everyday/bmr-calorie-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -26,12 +26,13 @@ const faqs = [
   { q: 'Which BMR formula does this calculator use?', a: 'It uses the Mifflin–St Jeor equation, a widely used population estimate based on weight, height, age and a sex-specific constant.' },
   { q: 'How accurate is a calorie-needs estimate?', a: 'It is a starting estimate, not a precise measurement. Actual needs vary with body composition, health, activity, sleep and other factors.' },
   { q: 'Should I eat exactly my TDEE result?', a: 'Not necessarily. Track trends and consult a registered dietitian or clinician before making significant dietary changes, especially if you have a medical condition.' },
+  { q: 'Is the BMR formula different for men and women?', a: 'The Mifflin–St Jeor equation uses the same weight, height and age terms, then adds +5 for men or −161 for women. Choose the matching option above.' },
 ];
 const related = ['bmi-calculator', 'percentage-calculator', 'kg-to-lbs-converter'];
 ---
 
 <Base
-  title="BMR & Calorie Calculator — Daily Energy Needs | CalcPilot"
+  title="BMR Calculator — Men, Women & Calorie Needs | CalcPilot"
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'HealthApplication', desc, { howToSteps: howTo.steps, faqs })}
 >

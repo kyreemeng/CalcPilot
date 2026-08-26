@@ -5,7 +5,7 @@ import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Percentage Calculator';
 const desc =
-  'Find what percent of any number is instantly. Use X% of Y for discounts, tips, tax estimates, and everyday percentage math.';
+  'Free percentage calculator: find X% of Y instantly. Formula, discounts, tips and everyday percent math — no sign-up.';
 const path = '/everyday/percentage-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -35,12 +35,16 @@ const faqs = [
     q: 'How is this different from a tip or discount calculator?',
     a: 'This tool solves the plain math question “what is X% of Y?” Tip and discount calculators add bill totals, split shares, and savings context on top of that formula.',
   },
+  {
+    q: 'How do I calculate percentage increase or the difference between two numbers?',
+    a: 'Use the Percentage Change Calculator for increase, decrease, and the difference between two values. This page answers “what is X% of Y?”',
+  },
 ];
-const related = ['tip-calculator', 'loan-calculator', 'savings-calculator'];
+const related = ['percentage-change-calculator', 'tip-calculator', 'discount-calculator'];
 ---
 
 <Base
-  title={`${title} — What is X% of Y | CalcPilot`}
+  title={`${title} — X% of Y Formula | CalcPilot`}
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
 >

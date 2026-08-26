@@ -1,0 +1,175 @@
+---
+import Breadcrumb from './Breadcrumb.astro';
+import FAQ from './FAQ.astro';
+import RelatedCards from './RelatedCards.astro';
+import DisclaimerSnippet from './DisclaimerSnippet.astro';
+import type { PairConversionConfig } from '../data/pair-conversions';
+
+interface Props {
+  tool: PairConversionConfig;
+}
+
+const { tool } = Astro.props;
+const safeConfig = JSON.stringify({
+  factor: tool.factor,
+  offset: tool.offset ?? 0,
+  precision: tool.precision,
+  fromUnit: tool.from.unit,
+  toUnit: tool.to.unit,
+}).replace(/</g, '\\u003c');
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converters', href: '/converters' },
+  { label: tool.title },
+];
+---
+
+<div class="container" id="calc">
+  <Breadcrumb crumbs={crumbs} />
+
+  <div class="title-block">
+    <h1>{tool.h1}</h1>
+    <p class="lead">{tool.lead}</p>
+  </div>
+
+  <div class="calc-block">
+    <div class="form-card">
+      <h2 class="form-title">Convert {tool.from.unit} to {tool.to.unit}</h2>
+      <div class="field">
+        <label for="pair-from">{tool.from.label} ({tool.from.unit})</label>
+        <div class="input-wrap">
+          <input
+            id="pair-from"
+            type="number"
+            inputmode="decimal"
+            step="any"
+            value={tool.from.defaultValue}
+          />
+          <span class="suffix">{tool.from.unit}</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pair-to">{tool.to.label} ({tool.to.unit})</label>
+        <div class="input-wrap">
+          <input
+            id="pair-to"
+            type="number"
+            inputmode="decimal"
+            step="any"
+            value={tool.to.defaultValue}
+          />
+          <span class="suffix">{tool.to.unit}</span>
+        </div>
+      </div>
+      <p class="field-hint">Edit either value. The other field updates instantly.</p>
+    </div>
+
+    <div class="result-card" role="status" aria-live="polite" aria-atomic="false">
+      <p class="result-label">Conversion result</p>
+      <div>
+        <span class="conv-result-value" id="pair-result">{tool.to.defaultValue}</span>
+        <span class="conv-result-unit">{tool.to.unit}</span>
+      </div>
+      <p class="conv-formula" id="pair-formula">{tool.from.defaultValue} {tool.from.unit} = {tool.to.defaultValue} {tool.to.unit}</p>
+      <p class="conv-note">{tool.formula}</p>
+    </div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">{tool.from.unit} to {tool.to.unit} formula</h2>
+    <div class="formula-panel">
+      <p class="formula-primary">{tool.formula}</p>
+      <p class="formula-secondary">Reverse: {tool.reverseFormula}</p>
+    </div>
+    <p class="understanding-desc">{tool.explanation}</p>
+    <p class="source-note">
+      Definition source:
+      <a href={tool.source.url} rel="external">{tool.source.label}</a>.
+    </p>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Worked examples</h2>
+    <div class="example-cards reveal-stagger">
+      {tool.examples.map((example) => (
+        <article class="example-card">
+          <h3 class="ex-title">{example.label}</h3>
+          <p class="ex-input">{example.calculation}</p>
+          <p class="ex-result">{example.result}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">{tool.from.label} to {tool.to.label} chart</h2>
+    <div class="common-table">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{tool.from.label} ({tool.from.unit})</th>
+              <th scope="col">{tool.to.label} ({tool.to.unit})</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tool.table.map((row) => (
+              <tr>
+                <td>{row.from}</td>
+                <td>{row.to}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <FAQ faqs={tool.faqs} />
+  <RelatedCards slugs={tool.related} title="Related conversion tools" verb="Open converter" />
+  <DisclaimerSnippet text="Conversion results use published unit definitions and are rounded for display. Verify critical engineering, medical, legal, or trade measurements with the relevant authority." />
+</div>
+
+<script is:inline type="application/json" id="pair-config" set:html={safeConfig}></script>
+
+<script>
+  const cfg = JSON.parse(document.getElementById('pair-config')!.textContent!);
+  const fromInput = document.getElementById('pair-from') as HTMLInputElement;
+  const toInput = document.getElementById('pair-to') as HTMLInputElement;
+  const result = document.getElementById('pair-result')!;
+  const formula = document.getElementById('pair-formula')!;
+
+  const format = (value: number) =>
+    value.toLocaleString('en-US', {
+      maximumFractionDigits: cfg.precision,
+      useGrouping: true,
+    });
+
+  function read(input: HTMLInputElement): number {
+    const value = Number.parseFloat(input.value);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function updateResult(value: number, fromValue: number) {
+    const formatted = format(value);
+    result.textContent = formatted;
+    formula.textContent = `${format(fromValue)} ${cfg.fromUnit} = ${formatted} ${cfg.toUnit}`;
+    result.classList.remove('updating');
+    void result.offsetWidth;
+    result.classList.add('updating');
+  }
+
+  fromInput.addEventListener('input', () => {
+    const fromValue = read(fromInput);
+    const converted = fromValue * cfg.factor + cfg.offset;
+    toInput.value = format(converted).replaceAll(',', '');
+    updateResult(converted, fromValue);
+  });
+
+  toInput.addEventListener('input', () => {
+    const toValue = read(toInput);
+    const converted = (toValue - cfg.offset) / cfg.factor;
+    fromInput.value = format(converted).replaceAll(',', '');
+    updateResult(toValue, converted);
+  });
+</script>

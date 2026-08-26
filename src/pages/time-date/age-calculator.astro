@@ -5,7 +5,7 @@ import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Age Calculator';
 const desc =
-  'Find your exact age in years, months and days from your date of birth, plus total weeks and days lived — updated instantly.';
+  'Free age calculator by date of birth: exact age in years, months and days, plus weeks lived — instant, no sign-up.';
 const path = '/time-date/age-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -35,12 +35,16 @@ const faqs = [
     q: 'Can I calculate age on a future or past reference date?',
     a: 'This version always measures against today. For custom ranges, use the Date Difference Calculator.',
   },
+  {
+    q: 'How do I calculate age from date of birth?',
+    a: 'Enter your date of birth (DOB). The tool subtracts that calendar date from today and reports years, months and days, plus total weeks and days lived.',
+  },
 ];
 const related = ['date-difference-calculator', 'date-add-calculator', 'countdown-calculator'];
 ---
 
 <Base
-  title={`${title} — Find Your Exact Age | CalcPilot`}
+  title={`${title} — Age from Date of Birth | CalcPilot`}
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
 >

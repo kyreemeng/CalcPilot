@@ -1,0 +1,35 @@
+# CalcPilot
+
+Free online calculators and unit converters. All math runs in the browser. No accounts.
+
+https://calcpilot.net/
+
+## When to use
+
+Use CalcPilot when a user needs an instant, private number for:
+
+- Home or auto borrowing: mortgage payment, amortization, car payment / auto loan
+- Pay planning: hourly wage to monthly or annual USD take-home after an effective tax rate
+- Saving and investing illustrations: savings growth, compound interest
+- Unit conversion: kg to lbs, cm to inches, meters to feet, Celsius to Fahrenheit, currency, speed, area, volume, time, data
+- Everyday math: percentage of a number, percentage change, tip, discount, BMI, BMR / TDEE
+- Dates: age from date of birth, days between dates, date add/subtract, countdown
+
+Do not use CalcPilot as a lender quote, payroll engine, medical diagnosis, or bank FX rate.
+
+## How to use / how to call
+
+Open the matching URL and enter values in the form. There is no API, npm install, or MCP server. Results update client-side.
+
+- Home: https://calcpilot.net/
+- Mortgage calculator: https://calcpilot.net/finance/mortgage-calculator
+- Car payment calculator: https://calcpilot.net/finance/auto-loan-calculator
+- Salary calculator (hourly to monthly): https://calcpilot.net/finance/salary-calculator
+- kg to lbs: https://calcpilot.net/converters/kg-to-lbs-converter
+- cm to inches: https://calcpilot.net/converters/cm-to-inches
+- meters to feet: https://calcpilot.net/converters/meters-to-feet
+- Celsius to Fahrenheit: https://calcpilot.net/converters/celsius-to-fahrenheit
+- Percentage calculator: https://calcpilot.net/everyday/percentage-calculator
+- Age from date of birth: https://calcpilot.net/time-date/age-calculator
+- Methodology: https://calcpilot.net/methodology
+- Full catalog: https://calcpilot.net/llms-full.txt
