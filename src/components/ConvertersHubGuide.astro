@@ -1,0 +1,113 @@
+---
+// Long-form body for the /converters hub.
+//
+// The hub was previously a bare navigation list even though it is the single
+// most-impressed page on the site. This adds the explanatory text that a
+// category page needs to rank, plus a curated entry point into each family so
+// the hub also works as the weight-distribution layer between the homepage and
+// the individual converter pages.
+
+interface FamilyLink {
+  anchor: string;
+  href: string;
+  note: string;
+}
+
+interface Family {
+  id: string;
+  heading: string;
+  body: string;
+  links: FamilyLink[];
+}
+
+const families: Family[] = [
+  {
+    id: 'weight',
+    heading: 'Weight and mass converters',
+    body: 'Weight conversion is the busiest family on CalcPilot. A kilogram equals 2.2046226218 pounds, a pound equals exactly 0.45359237 kilograms, and a stone equals 6.35029318 kilograms or 14 pounds. People land here with three different habits: metric users converting body weight or a shipping carton into pounds, US users reading a label in kilograms, and UK users who still think in stones. The kg to lbs converter handles every one of those directions and shows both readings from a single value.',
+    links: [
+      { anchor: 'kg to lbs converter', href: '/converters/kg-to-lbs-converter', note: 'full 1 to 100 kg chart' },
+      { anchor: 'kilos to pounds converter', href: '/converters/kilos-to-pounds-converter', note: 'everyday “kilos” wording' },
+      { anchor: 'lbs to kg converter', href: '/converters/lbs-to-kg-converter', note: 'pounds into kilograms' },
+      { anchor: 'kg to stone converter', href: '/converters/kg-to-stone-converter', note: 'UK body weight in stones and pounds' },
+    ],
+  },
+  {
+    id: 'length',
+    heading: 'Length and distance converters',
+    body: 'Length conversions rest on exact definitions: one inch is 2.54 centimetres, one international foot is 0.3048 metres, and one mile is 1.609344 kilometres. Because those numbers are fixed, results never drift. The length converter covers millimetres, centimetres, metres, kilometres, inches, feet, yards and miles in one bidirectional tool, which is usually faster than hunting for a single-pair page. Area follows the same definitions squared — one square foot is 0.09290304 square metres — so land measurements use their own converter.',
+    links: [
+      { anchor: 'length converter', href: '/converters/length-converter', note: 'mm, cm, m, km, in, ft, yd, mi' },
+      { anchor: 'cm to inches converter', href: '/converters/cm-to-inches', note: 'screen, clothing and paper sizes' },
+      { anchor: 'meters to feet converter', href: '/converters/meters-to-feet', note: 'height and room dimensions' },
+      { anchor: 'area converter', href: '/converters/area-converter', note: 'square metres, acres and hectares' },
+    ],
+  },
+  {
+    id: 'volume',
+    heading: 'Volume and capacity converters',
+    body: 'Volume is where US and UK customary units diverge most, and picking the wrong one produces a real error. A US liquid gallon is 3.785411784 litres, while an imperial gallon is about 4.546 litres — roughly 20% larger. The volume converter uses US customary units throughout, covers litres, millilitres, cubic metres, US gallons, quarts, cups, fluid ounces and cubic feet, and states that convention on the page so recipe and fuel calculations stay honest.',
+    links: [
+      { anchor: 'liter and volume converter', href: '/converters/volume-converter', note: 'L, mL, m³, US gal, qt, cup, fl oz, ft³' },
+      { anchor: 'speed converter', href: '/converters/speed-converter', note: 'm/s, km/h, mph, knots, ft/s' },
+    ],
+  },
+  {
+    id: 'temperature',
+    heading: 'Temperature converters',
+    body: 'Temperature is the one everyday conversion that is not a simple multiplication, because Celsius and Fahrenheit have different zero points as well as different degree sizes. The formula is °F = °C × 9/5 + 32, and the reverse is °C = (°F − 32) × 5/9. Water freezes at 0 °C / 32 °F and boils at 100 °C / 212 °F; the two scales only agree at −40. Weather forecasts, oven settings and body temperature are the three cases where people need this most, and all three reference points are listed on the page.',
+    links: [
+      { anchor: 'Celsius to Fahrenheit converter', href: '/converters/celsius-to-fahrenheit', note: 'formula, chart and worked examples' },
+      { anchor: 'temperature converter', href: '/converters/temperature-converter', note: 'bidirectional °C and °F tool' },
+    ],
+  },
+  {
+    id: 'data',
+    heading: 'Data storage converters',
+    body: 'Storage sizes have two competing conventions. Operating systems use binary multiples, where 1 GB equals 1,024 MB, while drive manufacturers and network specs use decimal multiples, where 1 GB equals 1,000 MB. That gap is the whole explanation for a “500 GB” drive reporting about 465 GB of usable space. The converters below use binary units and say so explicitly, and each page also explains the decimal alternative. The full chain divides by 1,024 at every step: 1,024 KB to a MB, 1,024 MB to a GB, 1,024 GB to a TB.',
+    links: [
+      { anchor: 'GB to MB converter', href: '/converters/gb-to-mb-converter', note: 'gigabytes to megabytes, binary units' },
+      { anchor: 'MB to GB converter', href: '/converters/data-converter', note: 'megabytes to gigabytes, plus KB and TB' },
+    ],
+  },
+  {
+    id: 'time',
+    heading: 'Time and duration converters',
+    body: 'Time runs on a base-60 system inherited from Babylonian mathematics: 60 seconds to a minute, 60 minutes to an hour, 24 hours to a day. The time converter moves between hours, minutes, seconds and days instantly, which is the fastest way to answer questions like how many minutes are in a working week or how many seconds are in a day. For calendar arithmetic rather than durations — days between two dates, or your exact age — the date tools handle the leap years for you.',
+    links: [
+      { anchor: 'time converter', href: '/converters/time-converter', note: 'hours, minutes, seconds and days' },
+      { anchor: 'date difference calculator', href: '/time-date/date-difference-calculator', note: 'exact days between two dates' },
+      { anchor: 'age calculator', href: '/time-date/age-calculator', note: 'your age in years, months and days' },
+    ],
+  },
+];
+---
+
+<section class="section reveal">
+  <h2 class="section-title">Free online unit converter — every category explained</h2>
+  <p class="hub-guide-intro">
+    A unit converter turns one measurement into another using a fixed published definition. Every tool below runs
+    entirely in your browser: type a value and the answer appears immediately, with no account, no download and no
+    page reload. Each page also shows the formula behind the result, a quick-reference chart and answers to the
+    questions people ask most, so you can check the number rather than just trust it.
+  </p>
+
+  <div class="hub-guide">
+    {
+      families.map((family) => (
+        <article class="hub-guide-item" id={family.id}>
+          <h3>{family.heading}</h3>
+          <p>{family.body}</p>
+          <ul class="hub-guide-links">
+            {family.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.anchor}</a>
+                <span class="il-note">— {link.note}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>

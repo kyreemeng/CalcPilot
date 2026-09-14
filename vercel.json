@@ -2,6 +2,16 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "permanent": true
+    },
+    {
+      "source": "/sitemap_index.xml",
+      "destination": "/sitemap-index.xml",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.calcpilot.net" }],
       "destination": "https://calcpilot.net/:path*",
@@ -34,6 +44,13 @@
       "source": "/(og-image.png|logo-icon.png|favicon.svg|llms.txt|llms-full.txt)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/(sitemap-index.xml|sitemap-0.xml)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400" },
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
       ]
     },
     {

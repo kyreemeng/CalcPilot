@@ -1,0 +1,957 @@
+{
+  "seed_keyword": "kg to lbs",
+  "icp": "people converting body weight and shipping mass",
+  "language": "en",
+  "total_subqueries": 55,
+  "gold_mine_count": 23,
+  "live_suggestions_found": 41,
+  "dimensions": {
+    "icp": "ICP / Persona",
+    "scenario": "Use Case / Scenario",
+    "pricing": "Pricing / Cost",
+    "features": "Features / Capabilities",
+    "competitors": "Competitors / Alternatives",
+    "objection": "Objections / Concerns",
+    "education": "Educational / Awareness"
+  },
+  "sub_queries": [
+    {
+      "query": "kg to lbs free alternative",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 7
+    },
+    {
+      "query": "kg to lbs vs free",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 7
+    },
+    {
+      "query": "kg to lbs vs competitors",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 7
+    },
+    {
+      "query": "kg to lbs pricing",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs cost",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs free",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "cheapest kg to lbs",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs discount",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs roi",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs alternatives",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "best kg to lbs",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "top kg to lbs",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs review",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs compared",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs showdown",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs for people converting body weight and shipping mass",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 11,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for small business",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for enterprise",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for startups",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for healthcare",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for ecommerce",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for agencies",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for developers",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "how to use kg to lbs for people converting body weight and shipping mass",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 14,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs for social media",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs for content marketing",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs for lead generation",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs pros and cons",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs use cases",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs in action",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs ai powered",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs open source",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs no code",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs worth it",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "is kg to lbs legit",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 3
+    },
+    {
+      "query": "kg to lbs workflow",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs examples",
+      "dimension": "scenario",
+      "dimension_label": "Use Case / Scenario",
+      "description": "What are they trying to do? Specific workflow or goal",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs features",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs comparison",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs integrations",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs api",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs automation",
+      "dimension": "features",
+      "dimension_label": "Features / Capabilities",
+      "description": "Functional requirements — comparing what each tool does",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs safe",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs limitations",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs problems",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs scam",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "kg to lbs reliable",
+      "dimension": "objection",
+      "dimension_label": "Objections / Concerns",
+      "description": "What's stopping them? Risk and trust signals",
+      "commercial_intent": "medium",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 2
+    },
+    {
+      "query": "how does kg to lbs work",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 1
+    },
+    {
+      "query": "what is kg to lbs",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 1
+    },
+    {
+      "query": "kg to lbs vs alternatives",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 1
+    },
+    {
+      "query": "kg to lbs explained",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 0
+    },
+    {
+      "query": "kg to lbs guide",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 0
+    },
+    {
+      "query": "kg to lbs tutorial",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 0
+    },
+    {
+      "query": "kg to lbs meaning",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 0
+    },
+    {
+      "query": "kg to lbs basics",
+      "dimension": "education",
+      "dimension_label": "Educational / Awareness",
+      "description": "Top-of-funnel — learning what this thing is",
+      "commercial_intent": "low",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 0
+    }
+  ],
+  "gold_mines": [
+    {
+      "query": "kg to lbs free alternative",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 7
+    },
+    {
+      "query": "kg to lbs vs free",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 7
+    },
+    {
+      "query": "kg to lbs vs competitors",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 7
+    },
+    {
+      "query": "kg to lbs pricing",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs cost",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs free",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "cheapest kg to lbs",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs discount",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs roi",
+      "dimension": "pricing",
+      "dimension_label": "Pricing / Cost",
+      "description": "Buying decision — these users have wallet out",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs alternatives",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "best kg to lbs",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "top kg to lbs",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs review",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs compared",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs showdown",
+      "dimension": "competitors",
+      "dimension_label": "Competitors / Alternatives",
+      "description": "Direct comparison — strongest commercial intent",
+      "commercial_intent": "very_high",
+      "competition_estimate": "medium",
+      "live_demand": true,
+      "word_count": 4,
+      "gold_score": 6
+    },
+    {
+      "query": "kg to lbs for people converting body weight and shipping mass",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 11,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for small business",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 6,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for enterprise",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for startups",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for healthcare",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for ecommerce",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for agencies",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    },
+    {
+      "query": "kg to lbs for developers",
+      "dimension": "icp",
+      "dimension_label": "ICP / Persona",
+      "description": "Who is searching? Role, industry, company size",
+      "commercial_intent": "high",
+      "competition_estimate": "low",
+      "live_demand": true,
+      "word_count": 5,
+      "gold_score": 5
+    }
+  ],
+  "pillar_cluster_plan": {
+    "pillar_keyword": "kg to lbs",
+    "recommended_pillar_article": "The Ultimate Guide to Kg To Lbs",
+    "cluster_articles": [
+      {
+        "title": "kg to lbs free alternative",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, low competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs vs free",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, low competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs vs competitors",
+        "dimension": "Competitors / Alternatives",
+        "why": "very_high commercial intent, low competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs pricing",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs cost",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs free",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      },
+      {
+        "title": "cheapest kg to lbs",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs discount",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs roi",
+        "dimension": "Pricing / Cost",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      },
+      {
+        "title": "kg to lbs alternatives",
+        "dimension": "Competitors / Alternatives",
+        "why": "very_high commercial intent, medium competition, validated by live search demand"
+      }
+    ]
+  },
+  "uncovered_live_suggestions": [
+    "best way to convert kg to lbs",
+    "change kg to lbs",
+    "conversion for kg to lbs",
+    "convert kg to lbs and oz calculator free",
+    "free weight converter kg to lbs",
+    "how much is kg to lbs",
+    "how to kg to lbs",
+    "kg to lbs",
+    "kg to lbs and oz",
+    "kg to lbs app",
+    "kg to lbs calculator",
+    "kg to lbs chart",
+    "kg to lbs chart pdf free",
+    "kg to lbs chart printable free",
+    "kg to lbs conversion",
+    "kg to lbs converter",
+    "kg to lbs for babies",
+    "kg to lbs for weight",
+    "kg to lbs force",
+    "kg to lbs formula"
+  ]
+}

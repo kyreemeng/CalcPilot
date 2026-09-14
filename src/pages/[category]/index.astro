@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CategoryCard from '../../components/CategoryCard.astro';
 import ToolCard from '../../components/ToolCard.astro';
+import ConvertersHubGuide from '../../components/ConvertersHubGuide.astro';
 import { hubs, categories, categoryIcons, getHub, toolIcon, brand } from '../../data/site';
 import { itemListJsonLd } from '../../lib/seo';
 
@@ -47,6 +48,8 @@ const itemList = itemListJsonLd(hub.toolRefs.map((tool) => ({ name: tool.title, 
         </section>
       )
     }
+
+    {hub.id === 'converters' && <ConvertersHubGuide />}
 
     <section class="section reveal">
       <h2 class="section-title">More calculators</h2>

@@ -149,7 +149,7 @@ const safeConfig = JSON.stringify(clientConfig).replace(/[<>&\u2028\u2029]/g, (c
   </section>
 
   <section class="section reveal">
-    <h2 class="section-title">Common conversions</h2>
+    <h2 class="section-title">{tool.tableTitle ?? 'Common conversions'}</h2>
     <div class="common-table">
       <div class="table-scroll">
         <table>
@@ -172,7 +172,79 @@ const safeConfig = JSON.stringify(clientConfig).replace(/[<>&\u2028\u2029]/g, (c
     </div>
   </section>
 
+  {
+    tool.valueBlocks && (
+      <section class="section reveal">
+        <h2 class="section-title">{tool.valueBlocks.title}</h2>
+        <div class="value-blocks">
+          {tool.valueBlocks.blocks.map((block) => (
+            <div class="value-block">
+              <h3>{block.heading}</h3>
+              <p>{block.answer}</p>
+              {block.href && (
+                <a class="link-arrow" href={block.href}>
+                  {block.linkLabel ?? 'Open page'} <Icon name="arrow-right" size={16} />
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    tool.fullTable && (
+      <section class="section reveal">
+        <h2 class="section-title">{tool.fullTable.caption}</h2>
+        <div class="common-table">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">{tool.fullTable.header[0]}</th>
+                  <th scope="col">{tool.fullTable.header[1]}</th>
+                  <th scope="col">{tool.fullTable.header[2]}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tool.fullTable.rows.map((row) => (
+                  <tr>
+                    <td>{row.from}</td>
+                    <td>{row.to}</td>
+                    <td>{row.reverse}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   <FAQ faqs={tool.faqs} />
+
+  {
+    tool.internalLinks && (
+      <section class="section reveal">
+        <h2 class="section-title">{tool.internalLinks.title}</h2>
+        <ul class="internal-links">
+          {tool.internalLinks.links.map((link) => (
+            <li>
+              <a href={link.href}>{link.anchor}</a>
+              <span class="il-note">— {link.note}</span>
+            </li>
+          ))}
+          <li>
+            <a href="/">All CalcPilot calculators</a>
+            <span class="il-note">— the full catalog of free converters and calculators</span>
+          </li>
+        </ul>
+      </section>
+    )
+  }
+
   <RelatedCards slugs={tool.related} title="Related tools" verb="Open tool" />
   <DisclaimerSnippet text={tool.currency
     ? "Currency results use public reference rates (Frankfurter/ECB, with a CDN fallback) or a rate you enter. They are planning estimates, not bank quotes, and exclude fees, spreads, and card FX markups."

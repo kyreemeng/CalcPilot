@@ -1,0 +1,194 @@
+---
+// Bidirectional two-field conversion widget.
+//
+// Shared by the SEO landing pages. The binding script is hoisted into the page
+// bundle and iterates over every `[data-pair-widget]` on the page, so a page can
+// carry more than one widget without the listeners being bound only once.
+//
+// Note: components/PairConversionTool.astro is the older, fixed-direction
+// renderer used by the original cm-to-inches / meters-to-feet /
+// celsius-to-fahrenheit pages. New pages use this component.
+
+interface Props {
+  fromLabel: string;
+  toLabel: string;
+  fromUnit: string;
+  toUnit: string;
+  factor: number;
+  precision?: number;
+  fromDefault: number | string;
+  toDefault: number | string;
+  formula?: string;
+  note?: string;
+  /** Show the swap-units button (default true). */
+  swap?: boolean;
+}
+
+const {
+  fromLabel,
+  toLabel,
+  fromUnit,
+  toUnit,
+  factor,
+  precision = 4,
+  fromDefault,
+  toDefault,
+  formula = '',
+  note = '',
+  swap = true,
+} = Astro.props;
+
+const config = JSON.stringify({ factor, precision, fromUnit, toUnit, fromLabel, toLabel });
+const safeConfig = config.replace(/[<>&\u2028\u2029]/g, (char) => {
+  const escapes: Record<string, string> = {
+    '<': '\\u003c',
+    '>': '\\u003e',
+    '&': '\\u0026',
+    '\u2028': '\\u2028',
+    '\u2029': '\\u2029',
+  };
+  return escapes[char];
+});
+const uid = Math.random().toString(36).slice(2, 8);
+const safeId = (name: string) => `pw-${name}-${uid}`;
+---
+
+<div class="calc-block" data-pair-widget>
+  <script is:inline type="application/json" data-pair-config set:html={safeConfig}></script>
+
+  <div class="form-card">
+    <div class="field">
+      <label for={safeId('from')} data-pair-from-label>{fromLabel}</label>
+      <div class="input-wrap">
+        <input id={safeId('from')} data-pair-from type="number" inputmode="decimal" step="any" value={fromDefault} />
+        <span class="suffix" data-pair-from-unit>{fromUnit}</span>
+      </div>
+    </div>
+
+    {
+      swap && (
+        <button class="swap-btn" data-pair-swap type="button">
+          <span aria-hidden="true">⇅</span> Swap units
+        </button>
+      )
+    }
+
+    <div class="field">
+      <label for={safeId('to')} data-pair-to-label>{toLabel}</label>
+      <div class="input-wrap">
+        <input id={safeId('to')} data-pair-to type="number" inputmode="decimal" step="any" value={toDefault} />
+        <span class="suffix" data-pair-to-unit>{toUnit}</span>
+      </div>
+    </div>
+    <p class="field-hint">Edit either value — the other field updates instantly.</p>
+  </div>
+
+  <div class="result-card" role="status" aria-live="polite" aria-atomic="false">
+    <p class="result-label">Result</p>
+    <div>
+      <span class="conv-result-value" data-pair-result>{toDefault}</span>
+      <span class="conv-result-unit" data-pair-result-unit>{toUnit}</span>
+    </div>
+    {formula && <p class="conv-formula" data-pair-formula>{formula}</p>}
+    {note && <p class="conv-note">{note}</p>}
+  </div>
+</div>
+
+<script>
+  interface PairConfig {
+    factor: number;
+    precision: number;
+    fromUnit: string;
+    toUnit: string;
+    fromLabel: string;
+    toLabel: string;
+  }
+
+  const format = (value: number, precision: number) =>
+    value.toLocaleString('en-US', { maximumFractionDigits: precision, useGrouping: true });
+
+  const read = (input: HTMLInputElement): number => {
+    const value = Number.parseFloat(input.value);
+    return Number.isFinite(value) ? value : 0;
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-pair-widget]').forEach((widget) => {
+    const cfgScript = widget.querySelector<HTMLScriptElement>('[data-pair-config]');
+    if (!cfgScript?.textContent) return;
+
+    let cfg: PairConfig;
+    try {
+      cfg = JSON.parse(cfgScript.textContent);
+    } catch {
+      return;
+    }
+
+    const fromInput = widget.querySelector<HTMLInputElement>('[data-pair-from]');
+    const toInput = widget.querySelector<HTMLInputElement>('[data-pair-to]');
+    const result = widget.querySelector<HTMLElement>('[data-pair-result]');
+    const fromUnitEl = widget.querySelector<HTMLElement>('[data-pair-from-unit]');
+    const toUnitEl = widget.querySelector<HTMLElement>('[data-pair-to-unit]');
+    const resultUnitEl = widget.querySelector<HTMLElement>('[data-pair-result-unit]');
+    const fromLabelEl = widget.querySelector<HTMLElement>('[data-pair-from-label]');
+    const toLabelEl = widget.querySelector<HTMLElement>('[data-pair-to-label]');
+    const formulaEl = widget.querySelector<HTMLElement>('[data-pair-formula]');
+    const swapBtn = widget.querySelector<HTMLButtonElement>('[data-pair-swap]');
+    if (!fromInput || !toInput || !result) return;
+
+    let swapped = false;
+
+    // Server-rendered labels and formula stay untouched until the first
+    // interaction, so crawlers always see the authored copy.
+    const syncUnits = () => {
+      const from = swapped ? cfg.toUnit : cfg.fromUnit;
+      const to = swapped ? cfg.fromUnit : cfg.toUnit;
+      if (fromUnitEl) fromUnitEl.textContent = from;
+      if (toUnitEl) toUnitEl.textContent = to;
+      if (resultUnitEl) resultUnitEl.textContent = to;
+      if (fromLabelEl) fromLabelEl.textContent = swapped ? cfg.toLabel : cfg.fromLabel;
+      if (toLabelEl) toLabelEl.textContent = swapped ? cfg.fromLabel : cfg.toLabel;
+    };
+
+    const paint = (value: number, sourceValue: number) => {
+      const text = format(value, cfg.precision);
+      const source = format(sourceValue, cfg.precision);
+      const from = swapped ? cfg.toUnit : cfg.fromUnit;
+      const to = swapped ? cfg.fromUnit : cfg.toUnit;
+      result.textContent = text;
+      if (formulaEl) formulaEl.textContent = `${source} ${from} = ${text} ${to}`;
+      result.classList.remove('updating');
+      void result.offsetWidth;
+      result.classList.add('updating');
+    };
+
+    const forward = () => {
+      const value = read(fromInput);
+      const converted = value * cfg.factor;
+      toInput.value = String(Number(converted.toFixed(cfg.precision + 2)));
+      paint(converted, value);
+    };
+
+    const backward = () => {
+      const value = read(toInput);
+      const converted = value / cfg.factor;
+      fromInput.value = String(Number(converted.toFixed(cfg.precision + 2)));
+      paint(value, converted);
+    };
+
+    fromInput.addEventListener('input', forward);
+    toInput.addEventListener('input', backward);
+
+    swapBtn?.addEventListener('click', () => {
+      swapBtn.classList.add('swapping');
+      setTimeout(() => swapBtn.classList.remove('swapping'), 300);
+      swapped = !swapped;
+      const previousFrom = fromInput.value;
+      fromInput.value = toInput.value;
+      toInput.value = previousFrom;
+      syncUnits();
+      forward();
+    });
+
+    syncUnits();
+  });
+</script>

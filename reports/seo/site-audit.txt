@@ -1,0 +1,376 @@
+============================================================
+Site Audit Report
+============================================================
+Sitemap URLs: 35
+HTML files scanned: 37
+
+============================================================
+ORPHAN PAGES: 1 unique
+============================================================
+  /
+    → In sitemap but no internal links found
+
+============================================================
+MISSING TRAILING SLASHES: 34 unique (476 total)
+============================================================
+  /about  (in index.html)
+    → May cause 301 redirect
+  /contact  (in index.html)
+    → May cause 301 redirect
+  /converters  (in index.html)
+    → May cause 301 redirect
+  /converters/area-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /converters/currency-converter  (in index.html)
+    → May cause 301 redirect
+  /converters/data-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /converters/kg-to-lbs-converter  (in index.html)
+    → May cause 301 redirect
+  /converters/length-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /converters/speed-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /converters/temperature-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /converters/time-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /converters/volume-converter  (in converters/index.html)
+    → May cause 301 redirect
+  /disclaimer  (in index.html)
+    → May cause 301 redirect
+  /everyday  (in index.html)
+    → May cause 301 redirect
+  /everyday/bmi-calculator  (in search/index.html)
+    → May cause 301 redirect
+  /everyday/bmr-calorie-calculator  (in index.html)
+    → May cause 301 redirect
+  /everyday/discount-calculator  (in search/index.html)
+    → May cause 301 redirect
+  /everyday/percentage-calculator  (in index.html)
+    → May cause 301 redirect
+  /everyday/percentage-change-calculator  (in search/index.html)
+    → May cause 301 redirect
+  /everyday/tip-calculator  (in search/index.html)
+    → May cause 301 redirect
+  /finance  (in index.html)
+    → May cause 301 redirect
+  /finance/auto-loan-calculator  (in index.html)
+    → May cause 301 redirect
+  /finance/compound-calculator  (in methodology/index.html)
+    → May cause 301 redirect
+  /finance/loan-calculator  (in methodology/index.html)
+    → May cause 301 redirect
+  /finance/mortgage-calculator  (in index.html)
+    → May cause 301 redirect
+  /finance/salary-calculator  (in index.html)
+    → May cause 301 redirect
+  /finance/savings-calculator  (in methodology/index.html)
+    → May cause 301 redirect
+  /methodology  (in index.html)
+    → May cause 301 redirect
+  /privacy  (in index.html)
+    → May cause 301 redirect
+  /time-date  (in index.html)
+    → May cause 301 redirect
+  /time-date/age-calculator  (in time-date/index.html)
+    → May cause 301 redirect
+  /time-date/countdown-calculator  (in time-date/index.html)
+    → May cause 301 redirect
+  /time-date/date-add-calculator  (in time-date/index.html)
+    → May cause 301 redirect
+  /time-date/date-difference-calculator  (in index.html)
+    → May cause 301 redirect
+
+============================================================
+BROKEN LINKS (potential 404): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING CANONICAL TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+CONFLICTING CANONICAL TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+DUPLICATE CANONICAL TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING META DESCRIPTIONS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SHORT META DESCRIPTIONS (<50 chars): 1 unique
+============================================================
+  search/index.html
+    → 44 chars — too short (aim for 70-160)
+
+============================================================
+LONG META DESCRIPTIONS (>200 chars): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+DUPLICATE META DESCRIPTIONS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING TITLE TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SHORT TITLE TAGS (<10 chars): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+LONG TITLE TAGS (>65 chars): 1 unique
+============================================================
+  everyday/percentage-change-calculator/index.html
+    → "Percentage Change Calculator — Increase ..." 66 chars — may get truncated in SERP
+
+============================================================
+DUPLICATE TITLE TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING H1 TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MULTIPLE H1 TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SHORT H1 TEXT (<3 chars): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+HEADING HIERARCHY SKIPS: 5 unique
+============================================================
+  converters/index.html
+    → Heading skip: H1 → H3
+  everyday/index.html
+    → Heading skip: H1 → H3
+  finance/index.html
+    → Heading skip: H1 → H3
+  search/index.html
+    → Heading skip: H1 → H3
+  time-date/index.html
+    → Heading skip: H1 → H3
+
+============================================================
+OVERSIZED IMAGES: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING ALT TEXT: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING IMAGE DIMENSIONS (CLS risk): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING ROBOTS.TXT: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+EMPTY ROBOTS.TXT: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+ROBOTS.TXT MISSING SITEMAP DECLARATION: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING OPEN GRAPH TAGS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING JSON-LD STRUCTURED DATA: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+COMMERCIAL PAGE WITHOUT PRODUCT/SERVICE SCHEMA: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING VIEWPORT META: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+BAD VIEWPORT META: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING HTML LANG ATTRIBUTE: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+THIN CONTENT (<100 words): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING FAVICON: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING llms.txt (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+THIN llms.txt (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING llms-full.txt (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING AGENT WHEN-TO-USE SECTION (agent readiness): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING AGENT HOW-TO-CALL LINE (agent readiness): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING FAQ/HOWTO SCHEMA (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING AI-INPUT SIGNAL (GEO): 1 unique
+============================================================
+  robots.txt
+    → No ai-input signal — AI search engines may not index you
+
+============================================================
+MISSING SEARCH SIGNAL (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+NO H2 HEADINGS ON CONTENT (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+NO LISTS/TABLES ON CONTENT (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING BLUF/SUMMARY (GEO): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+NOINDEX ON CONTENT PAGE: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+BLOCKS ALL CRAWLING: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+MISSING HREFLANG (i18n): 1 unique
+============================================================
+  index.html
+    → No hreflang tags (only needed for multi-language sites)
+
+============================================================
+MISSING X-DEFAULT HREFLANG: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+LARGE HTML PAGES (crawl budget): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SITEMAP URL INVENTORY: 1 unique
+============================================================
+  dist/sitemap-index.xml
+    → Sitemap URL inventory (35 URLs across 14 directories):
+  /converters/: 9 URLs (e.g. /converters/area-converter)
+  /everyday/: 6 URLs (e.g. /everyday/bmi-calculator)
+  /finance/: 6 URLs (e.g. /finance/auto-loan-calculator)
+  /time-date/: 4 URLs (e.g. /time-date/age-calculator)
+  / (root): 1 URLs (e.g. /)
+  /about: 1 URLs (e.g. /about)
+  /contact: 1 URLs (e.g. /contact)
+  /converters: 1 URLs (e.g. /converters)
+  /disclaimer: 1 URLs (e.g. /disclaimer)
+  /everyday: 1 URLs (e.g. /everyday)
+  /finance: 1 URLs (e.g. /finance)
+  /methodology: 1 URLs (e.g. /methodology)
+  /privacy: 1 URLs (e.g. /privacy)
+  /time-date: 1 URLs (e.g. /time-date)
+
+============================================================
+STAGING SUBDOMAIN LEAK (critical): 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SCHEMA MISSING REQUIRED FIELDS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SCHEMA MISSING RECOMMENDED FIELDS: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SCHEMA NESTED FIELD ISSUES: 0 unique
+============================================================
+  None — all good.
+
+============================================================
+SUMMARY
+============================================================
+  Errors:   0
+  Warnings: 2
+  Info:     485
+  Total:    487
+============================================================
+

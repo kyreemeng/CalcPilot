@@ -1,11 +1,26 @@
 // Converter registry — single source of truth for unit converters.
 // All converters are bidirectional and compute client-side (<200ms).
 
+import { LB_PER_KG, makeFactorRows, range, type ConversionRow } from '../lib/convert-tables';
+
 export interface ConverterUnit {
   label: string;
   unit: string;
   /** Multiply a value by this factor to convert it to the converter's base unit. */
   factor: number;
+}
+
+export interface ValueBlock {
+  heading: string;
+  answer: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+export interface InternalLink {
+  anchor: string;
+  href: string;
+  note: string;
 }
 
 export interface ConverterConfig {
@@ -33,6 +48,20 @@ export interface ConverterConfig {
   commonTable: { header: [string, string]; rows: [string, string][] };
   faqs: { q: string; a: string }[];
   related: string[];
+  /** Optional heading override for the commonTable section. */
+  tableTitle?: string;
+  /**
+   * Optional full-scale table. Rendered at build time with every row in the
+   * HTML — never paginated behind an "expand" control, because JS-injected
+   * rows are not reliably indexed.
+   */
+  fullTable?: { caption: string; header: [string, string, string]; rows: ConversionRow[] };
+  /** Optional snippet-targeted answer blocks, one H3 per searched magnitude. */
+  valueBlocks?: { title: string; blocks: ValueBlock[] };
+  /** Optional internal-link cluster rendered near the foot of the page. */
+  internalLinks?: { title: string; links: InternalLink[] };
+  /** Target keywords this page is built around (reporting + QA). */
+  keywords?: string[];
   /** Optional multi-unit mode. Fixed A/B converters omit this for backward compatibility. */
   units?: ConverterUnit[];
   defaultFromUnit?: string;
@@ -50,22 +79,36 @@ export const converterTools: ConverterConfig[] = [
   {
     id: 'weight',
     slug: 'kg-to-lbs-converter',
-    title: 'kg to lbs Converter',
-    shortDesc: 'Convert kilograms to pounds (kg to lb) instantly.',
-    h1: 'kg to lbs Converter',
-    intro: 'Convert kg to lb (kilograms to pounds) instantly — also written kg to lbs. Type in either box to transfer kg to lb or lb to kg in real time, with a precise factor of 1 kg = 2.2046226218 lb.',
+    title: 'KG to LBS Converter',
+    shortDesc: 'Convert kilograms to pounds (kg to lbs) instantly, with a full chart.',
+    h1: 'KG to LBS Converter',
+    intro: 'Convert kilograms (kg) to pounds (lbs) instantly — free weight converter with a full kg-to-lbs conversion chart and the exact formula. 1 kilogram equals 2.2046226218 pounds.',
     seo: {
-      title: 'kg to lbs Converter — Free kg to lb Calculator | CalcPilot',
-      description: 'Free kg to lbs converter: transfer kilograms to pounds instantly (1 kg = 2.2046 lb). Includes 24,000 kg to lbs and common weights — bidirectional, no sign-up.',
+      title: 'KG to LBS Converter — Kilograms to Pounds (Free)',
+      description: 'Convert kilograms to pounds instantly. 1 kg = 2.20462 lbs. Free kilogram to pound converter with a full 1 to 100 kg chart and the exact formula.',
     },
     breadcrumb: ['Home', 'Converters', 'Weight'],
     a: { label: 'Kilograms (kg)', unit: 'kg', placeholder: '0', defaultValue: '1' },
     b: { label: 'Pounds (lb)', unit: 'lb', placeholder: '0', defaultValue: '2.2046' },
-    factor: 2.2046226218,
+    factor: LB_PER_KG,
     formula: '1 kg = 2.2046 lb',
     resultUnit: 'lb',
     precision: 4,
     note: 'Precise to 4 decimal places. Values sync as you type.',
+    keywords: [
+      'kg to lbs',
+      'kg to lb',
+      'kilograms to pounds',
+      '24000 kg to lbs',
+      '22000 kg to lbs',
+      '17000 kg to lbs',
+      '11793 kg to lbs',
+      '11.79 kg to lbs',
+      '2.415 kg to lbs',
+      '2.47 kg to lbs',
+      '60 kg to lbs',
+      '100 kg to lbs',
+    ],
     howTo: {
       title: 'How to use this converter',
       steps: [
@@ -78,35 +121,163 @@ export const converterTools: ConverterConfig[] = [
       title: 'Understanding kilograms and pounds',
       desc: 'The <strong>kilogram (kg)</strong> is the base unit of mass in the <strong>metric system</strong>, used in nearly every country. The <strong>pound (lb / lbs)</strong> is a unit of weight used mainly in the <strong>United States</strong> and United Kingdom — people often search “kilo vs pounds” when comparing body weight or shipping mass. One kilogram equals <strong>2.2046226218 pounds</strong>, so to convert kg to lb you multiply by that factor; to go the other way you divide. “lb” and “lbs” mean the same unit (pound / pounds). For length or temperature, try the <a href="/converters/length-converter">length converter</a> or the <a href="/converters/temperature-converter">temperature converter</a>.',
     },
+    tableTitle: 'Most-searched kg to lbs values',
     commonTable: {
       header: ['Kilograms (kg)', 'Pounds (lb)'],
       rows: [
         ['1 kg', '2.2046 lb'],
-        ['5 kg', '11.0231 lb'],
-        ['10 kg', '22.0462 lb'],
-        ['11.79 kg', '25.9926 lb'],
-        ['20 kg', '44.0925 lb'],
-        ['50 kg', '110.2311 lb'],
-        ['70 kg', '154.3236 lb'],
+        ['2.415 kg', '5.3242 lb'],
+        ['2.47 kg', '5.4454 lb'],
+        ['11.79 kg', '25.9925 lb'],
+        ['60 kg', '132.2774 lb'],
         ['100 kg', '220.4623 lb'],
-        ['22,000 kg', '48,501.698 lb'],
-        ['24,000 kg', '52,910.943 lb'],
+        ['11,793 kg', '25,999.1146 lb'],
+        ['17,000 kg', '37,478.5846 lb'],
+        ['22,000 kg', '48,501.6977 lb'],
+        ['24,000 kg', '52,910.9429 lb'],
       ],
     },
+    valueBlocks: {
+      title: 'Common kg to lbs conversions',
+      blocks: [
+        {
+          heading: '1 kg to lbs',
+          answer: '1 kilogram equals 2.2046 pounds.',
+          href: '/converters/1-kg-to-lbs',
+          linkLabel: 'Open the 1 kg to lbs page',
+        },
+        {
+          heading: '2 kg to lbs',
+          answer: '2 kilograms equals 4.4092 pounds (2 × 2.2046226218).',
+        },
+        {
+          heading: '5 kg to lbs',
+          answer: '5 kilograms equals 11.0231 pounds (5 × 2.2046226218).',
+        },
+        {
+          heading: '2.415 kg to lbs',
+          answer: '2.415 kilograms equals 5.3242 pounds (2.415 × 2.2046226218).',
+        },
+        {
+          heading: '2.47 kg to lbs',
+          answer: '2.47 kilograms equals 5.4454 pounds (2.47 × 2.2046226218).',
+        },
+        {
+          heading: '10 kg to lbs',
+          answer: '10 kilograms equals 22.0462 pounds.',
+          href: '/converters/10-kg-to-lbs',
+          linkLabel: 'Open the 10 kg to lbs page',
+        },
+        {
+          heading: '11.79 kg to lbs',
+          answer: '11.79 kilograms equals 25.9925 pounds (11.79 × 2.2046226218).',
+        },
+        {
+          heading: '50 kg to lbs',
+          answer: '50 kilograms equals 110.2311 pounds.',
+          href: '/converters/50-kg-to-lbs',
+          linkLabel: 'Open the 50 kg to lbs page',
+        },
+        {
+          heading: '60 kg to lbs',
+          answer: '60 kilograms equals 132.2774 pounds.',
+          href: '/converters/60-kg-to-lbs',
+          linkLabel: 'Open the 60 kg to lbs page',
+        },
+        {
+          heading: '100 kg to lbs',
+          answer: '100 kilograms equals 220.4623 pounds.',
+          href: '/converters/100-kg-to-lbs',
+          linkLabel: 'Open the 100 kg to lbs page',
+        },
+        {
+          heading: '11,793 kg to lbs',
+          answer: '11,793 kilograms equals 25,999.1146 pounds (11,793 × 2.2046226218).',
+        },
+        {
+          heading: '17,000 kg to lbs',
+          answer: '17,000 kilograms equals 37,478.5846 pounds (17,000 × 2.2046226218).',
+        },
+        {
+          heading: '22,000 kg to lbs',
+          answer: '22,000 kilograms equals 48,501.6977 pounds (22,000 × 2.2046226218).',
+        },
+        {
+          heading: '24,000 kg to lbs',
+          answer: '24,000 kilograms equals 52,910.9429 pounds (24,000 × 2.2046226218).',
+        },
+      ],
+    },
+    fullTable: {
+      caption: 'Full kg to lbs conversion chart (1 to 100 kg)',
+      header: ['Kilograms (kg)', 'Pounds (lb)', 'Pounds back to kilograms'],
+      rows: makeFactorRows({ values: range(1, 100), factor: LB_PER_KG, fromUnit: 'kg', toUnit: 'lb' }),
+    },
     faqs: [
-      { q: 'How many pounds are in one kilogram?', a: 'One kilogram equals approximately 2.2046 pounds. Multiply kilograms by 2.2046226218 for a more precise result.' },
-      { q: 'How do I convert pounds back to kilograms?', a: 'Divide the number of pounds by 2.2046226218. For example, 10 lb is approximately 4.5359 kg.' },
-      { q: 'What is 24000 kg in lbs?', a: '24,000 kilograms × 2.2046226218 ≈ 52,910.94 pounds. Type 24000 in the kilograms box above to see the exact live result.' },
-      { q: 'What is 22000 kg in lbs?', a: '22,000 kilograms × 2.2046226218 ≈ 48,501.70 pounds.' },
-      { q: 'What is 11.79 kg in lbs?', a: '11.79 kilograms is approximately 25.9926 pounds.' },
-      { q: 'Is kg to lb the same as kg to lbs?', a: 'Yes. “lb” is the singular abbreviation and “lbs” is the plural form of pounds. The conversion factor is identical.' },
-      { q: 'Kilo vs pounds — which is heavier?', a: 'One kilogram is heavier than one pound: 1 kg ≈ 2.2046 lb, so a kilo is a little more than twice a pound.' },
-      { q: 'What is the kg to lbs formula?', a: 'Multiply kilograms by 2.2046226218 to get pounds. Divide pounds by the same factor to get kilograms. Example: 70 kg × 2.2046226218 ≈ 154.32 lb.' },
-      { q: 'What is 70 kg in lbs?', a: '70 kilograms is about 154.32 pounds. Type 70 in the kilograms box above, or use the conversion chart on this page.' },
-      { q: 'How do I convert kg to stone and lbs?', a: 'Convert kilograms to pounds first, then divide pounds by 14 (one stone = 14 lb). Example: 70 kg ≈ 154.32 lb ≈ 11 stone 0.3 lb. This tool outputs pounds; stone is a UK body-weight convention.' },
-      { q: 'Are kilograms a measure of mass or weight?', a: 'A kilogram is formally a unit of mass. In everyday use, people often say weight when referring to a mass measured in kilograms.' },
+      {
+        q: 'How many pounds is 1 kg?',
+        a: '1 kilogram equals exactly 2.2046226218 pounds, usually written as 2.2046 lb. Type 1 in the kilograms box above to see the precise live result.',
+      },
+      {
+        q: 'What is 60 kg in lbs?',
+        a: '60 kilograms equals 132.2774 pounds (60 × 2.2046226218 = 132.277357308). There is a dedicated 60 kg to lbs page with a nearby-value chart.',
+      },
+      {
+        q: 'What is the kg to lbs formula?',
+        a: 'Multiply kilograms by 2.2046226218 to get pounds. Divide pounds by the same factor to get kilograms. Example: 70 kg × 2.2046226218 = 154.3236 lb.',
+      },
+      {
+        q: 'How many pounds is 100 kg?',
+        a: '100 kilograms equals 220.4623 pounds (100 × 2.2046226218). For the full breakdown in stones, use the kg to stone converter.',
+      },
+      {
+        q: 'What is 24000 kg in lbs?',
+        a: '24,000 kilograms × 2.2046226218 = 52,910.9429 pounds. Type 24000 in the kilograms box above to see the exact live result.',
+      },
+      {
+        q: 'What is 22000 kg in lbs?',
+        a: '22,000 kilograms × 2.2046226218 = 48,501.6977 pounds.',
+      },
+      {
+        q: 'What is 11.79 kg in lbs?',
+        a: '11.79 kilograms × 2.2046226218 = 25.9925 pounds.',
+      },
+      {
+        q: 'How do I convert pounds back to kilograms?',
+        a: 'Divide the number of pounds by 2.2046226218. For example, 10 lb ÷ 2.2046226218 = 4.5359 kg. The lbs to kg converter does this directly.',
+      },
+      {
+        q: 'Is kg to lb the same as kg to lbs?',
+        a: 'Yes. “lb” is the singular abbreviation and “lbs” is the plural form of pounds. The conversion factor is identical.',
+      },
+      {
+        q: 'Kilo vs pounds — which is heavier?',
+        a: 'One kilogram is heavier than one pound: 1 kg ≈ 2.2046 lb, so a kilo is a little more than twice a pound.',
+      },
+      {
+        q: 'What is 70 kg in lbs?',
+        a: '70 kilograms is about 154.32 pounds. Type 70 in the kilograms box above, or use the conversion chart on this page.',
+      },
+      {
+        q: 'How do I convert kg to stone and lbs?',
+        a: 'Convert kilograms to pounds first, then divide pounds by 14 (one stone = 14 lb). Example: 70 kg ≈ 154.32 lb ≈ 11 stone 0.3 lb. The kg to stone converter does this directly.',
+      },
+      {
+        q: 'Are kilograms a measure of mass or weight?',
+        a: 'A kilogram is formally a unit of mass. In everyday use, people often say weight when referring to a mass measured in kilograms.',
+      },
     ],
-    related: ['length-converter', 'temperature-converter', 'volume-converter'],
+    internalLinks: {
+      title: 'More weight converters',
+      links: [
+        { anchor: 'lbs to kg converter', href: '/converters/lbs-to-kg-converter', note: 'reverse direction, pounds to kilograms' },
+        { anchor: 'kilos to pounds converter', href: '/converters/kilos-to-pounds-converter', note: 'the everyday “kilos” wording' },
+        { anchor: 'kilograms to pounds converter', href: '/converters/kilograms-to-pounds-converter', note: 'full unit names, for shipping and freight weights' },
+        { anchor: 'kg to stone converter', href: '/converters/kg-to-stone-converter', note: 'UK body weight in stones and pounds' },
+        { anchor: 'all weight converters', href: '/converters', note: 'every unit converter on CalcPilot' },
+      ],
+    },
+    related: ['lbs-to-kg-converter', 'kilos-to-pounds-converter', 'kilograms-to-pounds-converter'],
   },
 
   {

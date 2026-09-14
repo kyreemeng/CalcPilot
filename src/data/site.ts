@@ -4,6 +4,7 @@
 import { financeTools } from './finance-tools';
 import { converterTools } from './converters';
 import { pairConversions } from './pair-conversions';
+import { seoConversionPages, seoValuePages } from './seo-pages';
 
 export const brand = 'CalcPilot';
 export const siteUrl = (import.meta.env.PUBLIC_SITE_URL || 'https://calcpilot.net').replace(/\/$/, '');
@@ -70,6 +71,20 @@ export const converterToolRefs: ToolRef[] = [
     shortDesc: t.shortDesc,
     category: 'converters' as const,
     href: `/converters/${t.slug}`,
+  })),
+  ...seoConversionPages.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    shortDesc: `Convert ${p.primaryKeyword} instantly with a full conversion chart and the exact formula.`,
+    category: 'converters' as const,
+    href: `/converters/${p.slug}`,
+  })),
+  ...seoValuePages.map((p) => ({
+    slug: p.slug,
+    title: `${p.title} — quick answer`,
+    shortDesc: p.answer,
+    category: 'converters' as const,
+    href: `/converters/${p.slug}`,
   })),
 ];
 
@@ -168,7 +183,7 @@ export const hubs: Hub[] = [
     seoTitle: 'Unit Converters — kg to lbs, cm to Inches, °C',
     seoDescription: 'Free kg to lbs, cm to inches, Celsius to Fahrenheit, currency and more. Bidirectional converters — instant, no sign-up.',
     lead: 'Everyday unit converters',
-    intro: "Start with the popular <a href=\"/converters/kg-to-lbs-converter\">kg to lbs converter</a> (kilograms to pounds), convert <a href=\"/converters/length-converter\">cm to inches or meters to feet</a>, switch <a href=\"/converters/temperature-converter\">Celsius to Fahrenheit</a>, convert currency with public ECB reference rates, or use speed, area, volume, time and data units. Every converter is bidirectional and updates instantly with no page reloads. Below each tool you will find a quick-reference table, formula notes and answers to common questions. Currency rates are planning references, not bank quotes.",
+    intro: "This is a free online unit converter for weight, length, volume, temperature, data storage and time. Start with the popular <a href=\"/converters/kg-to-lbs-converter\">kg to lbs converter</a> (kilograms to pounds), convert <a href=\"/converters/length-converter\">cm to inches or meters to feet</a>, switch <a href=\"/converters/temperature-converter\">Celsius to Fahrenheit</a>, convert currency with public ECB reference rates, or use speed, area, volume, time and data units. Every converter is bidirectional and updates instantly with no page reloads. Below each tool you will find a quick-reference table, formula notes and answers to common questions. Currency rates are planning references, not bank quotes.",
     toolRefs: converterToolRefs,
   },
   {
@@ -212,6 +227,21 @@ export const toolIcons: Record<string, string> = {
   'speed-converter': 'activity',
   'area-converter': 'ruler',
   'volume-converter': 'box',
+  'cm-to-inches': 'ruler',
+  'meters-to-feet': 'ruler',
+  'celsius-to-fahrenheit': 'thermometer',
+  'kilos-to-pounds-converter': 'box',
+  'lbs-to-kg-converter': 'box',
+  'kilograms-to-pounds-converter': 'box',
+  'pounds-to-kg-converter': 'box',
+  'pounds-to-kilograms-converter': 'box',
+  'kg-to-stone-converter': 'box',
+  'gb-to-mb-converter': 'database',
+  '1-kg-to-lbs': 'box',
+  '10-kg-to-lbs': 'box',
+  '50-kg-to-lbs': 'box',
+  '60-kg-to-lbs': 'box',
+  '100-kg-to-lbs': 'box',
   'age-calculator': 'calendar',
   'date-difference-calculator': 'calendar',
   'date-add-calculator': 'calendar',

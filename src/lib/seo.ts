@@ -15,6 +15,11 @@ function faqEntities(faqs: { q: string; a: string }[]) {
   }));
 }
 
+/** ISO build date (YYYY-MM-DD), evaluated once per build. */
+function buildDate(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
 /** Site-wide Organization entity (knowledge panel / brand signals). */
 export function organizationJsonLd(): Record<string, unknown> {
   return {
@@ -62,7 +67,9 @@ export function webPageJsonLd(url: string, title: string, description: string): 
     name: title,
     description,
     inLanguage: 'en',
-    dateModified: '2026-08-26',
+    // Build date — kept in step with the sitemap's <lastmod> so the freshness
+    // signal is consistent between structured data and the XML sitemap.
+    dateModified: buildDate(),
     isPartOf: { '@id': `${siteUrl}/#website` },
     about: { '@id': `${siteUrl}/#organization` },
   };

@@ -11,7 +11,7 @@ Use CalcPilot when a user needs an instant, private number for:
 - Home or auto borrowing: mortgage payment, amortization, car payment / auto loan
 - Pay planning: hourly wage to monthly or annual USD take-home after an effective tax rate
 - Saving and investing illustrations: savings growth, compound interest
-- Unit conversion: kg to lbs, cm to inches, meters to feet, Celsius to Fahrenheit, currency, speed, area, volume, time, data
+- Unit conversion: kg to lbs, kilos to pounds, lbs to kg, kg to stone, cm to inches, meters to feet, Celsius to Fahrenheit, currency, speed, area, volume, time, GB to MB, data
 - Everyday math: percentage of a number, percentage change, tip, discount, BMI, BMR / TDEE
 - Dates: age from date of birth, days between dates, date add/subtract, countdown
 
@@ -26,6 +26,11 @@ Open the matching URL and enter values in the form. There is no API, npm install
 - Car payment calculator: https://calcpilot.net/finance/auto-loan-calculator
 - Salary calculator (hourly to monthly): https://calcpilot.net/finance/salary-calculator
 - kg to lbs: https://calcpilot.net/converters/kg-to-lbs-converter
+- kilos to pounds: https://calcpilot.net/converters/kilos-to-pounds-converter
+- lbs to kg: https://calcpilot.net/converters/lbs-to-kg-converter
+- kilograms to pounds: https://calcpilot.net/converters/kilograms-to-pounds-converter
+- kg to stone: https://calcpilot.net/converters/kg-to-stone-converter
+- GB to MB: https://calcpilot.net/converters/gb-to-mb-converter
 - cm to inches: https://calcpilot.net/converters/cm-to-inches
 - meters to feet: https://calcpilot.net/converters/meters-to-feet
 - Celsius to Fahrenheit: https://calcpilot.net/converters/celsius-to-fahrenheit

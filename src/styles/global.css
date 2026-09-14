@@ -1542,6 +1542,118 @@ summary.faq-q::-webkit-details-marker { display: none; }
   box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
+/* ============================================================
+   SEO landing pages — value blocks, internal links, hub guide
+   ============================================================ */
+
+/* Direct-answer lead on single-value pages (BLUF). */
+.answer-lead {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+.title-block .lead + .answer-lead { margin-bottom: var(--space-2); }
+
+/* H3 answer blocks: one heading per searched magnitude, each one indexable. */
+.value-blocks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.value-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-xs);
+}
+.value-block h3 {
+  font-size: 1rem;
+  font-family: var(--font-mono);
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+}
+.value-block p {
+  font-size: var(--fs-small);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: var(--space-2);
+}
+.value-block p:last-child { margin-bottom: 0; }
+
+/* Internal-link cluster. */
+.internal-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 820px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.internal-links li {
+  padding: 12px var(--space-5);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+.internal-links li:last-child { border-bottom: none; }
+.internal-links a { font-weight: 600; }
+.internal-links a:hover { text-decoration: underline; }
+.il-note { color: var(--text-tertiary); }
+
+/* Tables that carry a third, reverse-direction column. */
+.common-table .cell-reverse { color: var(--text-tertiary); white-space: nowrap; }
+.table-footnote {
+  margin-top: var(--space-3);
+  font-size: var(--fs-small);
+  color: var(--text-tertiary);
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+/* Category hub long-form body. */
+.hub-guide-intro {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  max-width: 800px;
+  line-height: 1.75;
+  margin-bottom: var(--space-6);
+}
+.hub-guide {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 860px;
+}
+.hub-guide-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-xs);
+}
+.hub-guide-item h3 { font-size: 1.0625rem; margin-bottom: var(--space-2); }
+.hub-guide-item p {
+  font-size: var(--fs-small);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: var(--space-3);
+}
+.hub-guide-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+.hub-guide-links a { font-weight: 600; }
+.hub-guide-links a:hover { text-decoration: underline; }
+
 .search-empty { text-align: center; padding: var(--space-8); color: var(--text-secondary); }
 .form-status { font-size: var(--fs-small); color: var(--accent); margin-top: var(--space-3); }
 .planned-note {
@@ -1647,7 +1759,8 @@ summary.faq-q::-webkit-details-marker { display: none; }
   .how-steps,
   .factor-cards,
   .related-cards,
-  .example-cards { grid-template-columns: 1fr; }
+  .example-cards,
+  .value-blocks { grid-template-columns: 1fr; }
   .donut-wrap { flex-direction: column; align-items: flex-start; }
   .footer-cols { flex-wrap: wrap; gap: var(--space-6); }
   .tool-row {
@@ -1657,6 +1770,13 @@ summary.faq-q::-webkit-details-marker { display: none; }
   .tool-row .row-cta { display: none; }
   table.amort th,
   table.amort td { padding: 10px 12px; }
+  /* Tighter cells buy horizontal room before the table has to scroll —
+     matters most for the 3-column charts on the converter landing pages. */
+  .common-table th,
+  .common-table td { padding: 10px 12px; }
+  .value-block { padding: var(--space-4); }
+  .internal-links li { padding: 12px var(--space-4); }
+  .hub-guide-item { padding: var(--space-4); }
 }
 
 @media (prefers-reduced-motion: reduce) {

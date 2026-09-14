@@ -1,0 +1,76 @@
+============================================================
+  On-Page SEO Audit
+============================================================
+
+  Pages audited: 37
+  Average score: 72.8/100
+  Total issues:  42
+  Total tips:    66
+
+  Grade Distribution:
+    B: 19 pages
+    C: 18 pages
+
+  ── Pages Needing Attention (bottom 10) ──
+
+    [C]  51/100  /search
+         ! Heading hierarchy skips levels (e.g., H1 → H3)
+         ! 0 images missing alt text
+         ~ Title is 18 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  52/100  /404.html
+         ! 0 images missing alt text
+         ~ Title is 26 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  65/100  /about
+         ! 0 images missing alt text
+         ~ Title is 27 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  65/100  /contact
+         ! 0 images missing alt text
+         ~ Title is 22 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  65/100  /converters/data-converter
+         ! 0 images missing alt text
+         ~ Title is 62 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  65/100  /disclaimer
+         ! 0 images missing alt text
+         ~ Title is 22 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  65/100  /everyday/discount-calculator
+         ! 0 images missing alt text
+         ~ Target keyword not found in title
+         ~ Meta description is 118 chars — optimal is 120-160
+
+    [C]  65/100  /privacy
+         ! 0 images missing alt text
+         ~ Title is 26 chars — optimal is 30-60
+         ~ Target keyword not found in title
+
+    [C]  67/100  /finance/loan-calculator
+         ! 0 images missing alt text
+         ~ Target keyword not found in title
+         ~ 9 H2 tags — consider consolidating
+
+    [C]  68/100  /everyday
+         ! Heading hierarchy skips levels (e.g., H1 → H3)
+         ! 0 images missing alt text
+         ~ Target keyword not found in title
+         ~ Target keyword not in first paragraph (BLUF)
+
+  ── Well-Optimized Pages (19) ──
+
+    [B]  76/100  /converters
+    [B]  76/100  /converters/length-converter
+    [B]  76/100  /
+    [B]  78/100  /finance/auto-loan-calculator
+    [B]  78/100  /finance/salary-calculator
+    ... and 14 more
+

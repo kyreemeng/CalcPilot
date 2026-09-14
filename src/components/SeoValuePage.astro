@@ -1,0 +1,103 @@
+---
+import Breadcrumb from './Breadcrumb.astro';
+import FAQ from './FAQ.astro';
+import RelatedCards from './RelatedCards.astro';
+import DisclaimerSnippet from './DisclaimerSnippet.astro';
+import PairWidget from './PairWidget.astro';
+import type { SeoValuePage as SeoValueConfig } from '../data/seo-pages';
+
+interface Props {
+  page: SeoValueConfig;
+}
+
+const { page } = Astro.props;
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converters', href: '/converters' },
+  { label: page.title },
+];
+---
+
+<div class="container" id="calc">
+  <Breadcrumb crumbs={crumbs} />
+
+  <div class="title-block">
+    <h1>{page.h1}</h1>
+    <p class="answer-lead">{page.answer}</p>
+    <p class="lead">{page.lead}</p>
+  </div>
+
+  <PairWidget
+    fromLabel={page.from.label}
+    toLabel={page.to.label}
+    fromUnit={page.from.unit}
+    toUnit={page.to.unit}
+    factor={page.factor}
+    precision={page.precision}
+    fromDefault={page.defaultFrom}
+    toDefault={page.defaultTo}
+    formula={page.formula}
+    note="Values update as you type. Swap units to reverse the direction."
+  />
+
+  <section class="section reveal">
+    <h2 class="section-title">How to convert {page.h1}</h2>
+    <div class="formula-panel">
+      <p class="formula-primary">{page.formula}</p>
+      <p class="formula-secondary">Reverse: pounds ÷ 2.2046226218 = kilograms</p>
+    </div>
+    <p class="understanding-desc" set:html={page.explanation}></p>
+    <p class="source-note">
+      Definition source:
+      <a href="https://www.nist.gov/pml/owm/si-units-mass" rel="external">NIST SI mass guidance</a>.
+    </p>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">{page.table.caption}</h2>
+    <div class="common-table">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{page.table.header[0]}</th>
+              <th scope="col">{page.table.header[1]}</th>
+              <th scope="col">{page.table.header[2]}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {page.table.rows.map((row) => (
+              <tr>
+                <td>{row.from}</td>
+                <td>{row.to}</td>
+                <td class="cell-reverse">{row.reverse}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <FAQ faqs={page.faqs} />
+
+  <section class="section reveal">
+    <h2 class="section-title">More weight conversions</h2>
+    <ul class="internal-links">
+      {page.internalLinks.map((link) => (
+        <li>
+          <a href={link.href}>{link.anchor}</a>
+          <span class="il-note">— {link.note}</span>
+        </li>
+      ))}
+      <li>
+        <a href="/">All CalcPilot calculators</a>
+        <span class="il-note">— the full catalog of free converters and calculators</span>
+      </li>
+    </ul>
+  </section>
+
+  <RelatedCards slugs={page.related} title="Related tools" verb="Open converter" />
+  <DisclaimerSnippet text="Conversion results use published unit definitions and are rounded for display. Verify critical engineering, medical, legal, or trade measurements with the relevant authority." />
+</div>

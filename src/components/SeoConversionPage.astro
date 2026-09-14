@@ -1,0 +1,137 @@
+---
+import Breadcrumb from './Breadcrumb.astro';
+import FAQ from './FAQ.astro';
+import RelatedCards from './RelatedCards.astro';
+import DisclaimerSnippet from './DisclaimerSnippet.astro';
+import PairWidget from './PairWidget.astro';
+import Icon from './Icon.astro';
+import type { SeoConversionPage as SeoConversionConfig } from '../data/seo-pages';
+
+interface Props {
+  page: SeoConversionConfig;
+}
+
+const { page } = Astro.props;
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converters', href: '/converters' },
+  { label: page.title },
+];
+---
+
+<div class="container" id="calc">
+  <Breadcrumb crumbs={crumbs} />
+
+  <div class="title-block">
+    <h1>{page.h1}</h1>
+    <p class="lead">{page.lead}</p>
+  </div>
+
+  <PairWidget
+    fromLabel={`${page.from.label}`}
+    toLabel={`${page.to.label}`}
+    fromUnit={page.from.unit}
+    toUnit={page.to.unit}
+    factor={page.factor}
+    precision={page.precision}
+    fromDefault={page.from.defaultValue}
+    toDefault={page.to.defaultValue}
+    formula={page.formula}
+    note="Values update as you type. Swap units to reverse the direction."
+  />
+
+  <section class="section reveal">
+    <h2 class="section-title">{page.from.unit} to {page.to.unit} formula</h2>
+    <div class="formula-panel">
+      <p class="formula-primary">{page.formula}</p>
+      <p class="formula-secondary">Reverse: {page.reverseFormula}</p>
+    </div>
+    <p class="understanding-desc" set:html={page.explanation}></p>
+    <p class="source-note">
+      Definition source:
+      <a href={page.source.url} rel="external">{page.source.label}</a>.
+    </p>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Worked examples</h2>
+    <div class="example-cards reveal-stagger">
+      {page.examples.map((example) => (
+        <article class="example-card">
+          <h3 class="ex-title">{example.label}</h3>
+          <p class="ex-input">{example.calculation}</p>
+          <p class="ex-result">{example.result}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">{page.table.caption}</h2>
+    <div class="common-table">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{page.table.header[0]}</th>
+              <th scope="col">{page.table.header[1]}</th>
+              <th scope="col">{page.table.header[2]}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {page.table.rows.map((row) => (
+              <tr>
+                <td>{row.from}</td>
+                <td>{row.to}</td>
+                <td class="cell-reverse">{row.reverse}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="table-footnote">
+      Every row is calculated from the exact published definition. The third column reads the same value in the
+      opposite direction, so the reverse conversion needs no second page.
+    </p>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Common {page.primaryKeyword} conversions</h2>
+    <div class="value-blocks">
+      {page.valueBlocks.map((block) => (
+        <div class="value-block">
+          <h3>{block.heading}</h3>
+          <p>{block.answer}</p>
+          {block.href && (
+            <a class="link-arrow" href={block.href}>
+              {block.linkLabel ?? 'Open page'} <Icon name="arrow-right" size={16} />
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <FAQ faqs={page.faqs} />
+
+  <section class="section reveal">
+    <h2 class="section-title">Related {page.categoryLabel.toLowerCase()} conversions</h2>
+    <ul class="internal-links">
+      {page.internalLinks.map((link) => (
+        <li>
+          <a href={link.href}>{link.anchor}</a>
+          <span class="il-note">— {link.note}</span>
+        </li>
+      ))}
+      <li>
+        <a href="/">All CalcPilot calculators</a>
+        <span class="il-note">— the full catalog of free converters and calculators</span>
+      </li>
+    </ul>
+  </section>
+
+  <RelatedCards slugs={page.related} title="Related tools" verb="Open converter" />
+  <DisclaimerSnippet text="Conversion results use published unit definitions and are rounded for display. Verify critical engineering, medical, legal, or trade measurements with the relevant authority." />
+</div>

@@ -1,0 +1,195 @@
+{
+  "keyword": "mortgage calculator",
+  "niche": "personal finance",
+  "subreddits_searched": [
+    "(API unavailable — Google demand only)"
+  ],
+  "google_demand": {
+    "keyword": "mortgage calculator",
+    "total_queries_found": 15,
+    "blue_ocean_count": 6,
+    "reddit_demand_queries": [
+      {
+        "query": "best mortgage calculator canada reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best mortgage calculator app reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best mortgage calculator uk reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best online mortgage calculator reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best free mortgage calculator reddit",
+        "source_search": "reddit free mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "reddit best mortgage calculator",
+        "source_search": "reddit mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 2
+      },
+      {
+        "query": "reddit mortgage calculator",
+        "source_search": "reddit mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 3,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit mortgage calculator excel",
+        "source_search": "reddit mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit mortgage calculator australia",
+        "source_search": "reddit mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit mortgage calculator canada",
+        "source_search": "reddit mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit good mortgage calculator",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit free mortgage calculator",
+        "source_search": "reddit free mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit ausfinance mortgage calculator",
+        "source_search": "reddit how to mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit accurate mortgage calculator",
+        "source_search": "reddit how to mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      },
+      {
+        "query": "reddit offset mortgage calculator",
+        "source_search": "reddit how to mortgage calculator",
+        "has_commercial_intent": false,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 0
+      }
+    ],
+    "blue_ocean_queries": [
+      {
+        "query": "best mortgage calculator canada reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best mortgage calculator app reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best mortgage calculator uk reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best online mortgage calculator reddit",
+        "source_search": "reddit best mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "best free mortgage calculator reddit",
+        "source_search": "reddit free mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "low",
+        "word_count": 5,
+        "blue_ocean_score": 3
+      },
+      {
+        "query": "reddit best mortgage calculator",
+        "source_search": "reddit mortgage calculator",
+        "has_commercial_intent": true,
+        "competition_estimate": "medium",
+        "word_count": 4,
+        "blue_ocean_score": 2
+      }
+    ]
+  },
+  "total_posts": 0,
+  "blue_ocean_count": 6,
+  "blue_ocean_posts": [],
+  "all_posts": [],
+  "recommendations": [
+    "GOOGLE DEMAND: 6 blue ocean Reddit queries found on Google.",
+    "  Search: 'best mortgage calculator uk reddit' (low competition, commercial)",
+    "  Search: 'best mortgage calculator app reddit' (low competition, commercial)",
+    "  Search: 'best mortgage calculator canada reddit' (low competition, commercial)",
+    "No clear blue ocean posts found for 'mortgage calculator'. Try a more specific long-tail variant."
+  ]
+}

@@ -1,18 +1,69 @@
 ---
 import Base from '../../layouts/Base.astro';
 import ConverterTool from '../../components/ConverterTool.astro';
+import SeoConversionPage from '../../components/SeoConversionPage.astro';
+import SeoValuePage from '../../components/SeoValuePage.astro';
 import { converterTools, getConverterTool } from '../../data/converters';
-import { converterJsonLd } from '../../lib/seo';
+import { seoConversionPages, seoValuePages, getSeoPage } from '../../data/seo-pages';
+import { converterJsonLd, simpleJsonLd } from '../../lib/seo';
 
+type PageSource = 'tool' | 'conversion' | 'value';
+
+// Three page families share this route:
+//   tool       — the original bidirectional converters (converters.ts)
+//   conversion — keyword-targeted conversion pages (seo-pages.ts)
+//   value      — single-magnitude long-tail answer pages (seo-pages.ts)
 export function getStaticPaths() {
-  return converterTools.map((t) => ({ params: { slug: t.slug } }));
+  return [
+    ...converterTools.map((t) => ({ params: { slug: t.slug }, props: { source: 'tool' as PageSource, slug: t.slug } })),
+    ...seoConversionPages.map((p) => ({
+      params: { slug: p.slug },
+      props: { source: 'conversion' as PageSource, slug: p.slug },
+    })),
+    ...seoValuePages.map((p) => ({ params: { slug: p.slug }, props: { source: 'value' as PageSource, slug: p.slug } })),
+  ];
 }
 
-const { slug } = Astro.params;
-const tool = getConverterTool(slug ?? '');
-if (!tool) return Astro.redirect('/404');
+const { source, slug } = Astro.props as { source: PageSource; slug: string };
+
+const tool = source === 'tool' ? getConverterTool(slug) : undefined;
+const seoPage = source !== 'tool' ? getSeoPage(slug) : undefined;
+
+if (!tool && !seoPage) return Astro.redirect('/404');
 ---
 
-<Base title={tool.seo.title} description={tool.seo.description} jsonLd={converterJsonLd(tool)}>
-  <ConverterTool tool={tool} />
-</Base>
+{
+  tool && (
+    <Base title={tool.seo.title} description={tool.seo.description} jsonLd={converterJsonLd(tool)}>
+      <ConverterTool tool={tool} />
+    </Base>
+  )
+}
+
+{
+  tool === undefined && seoPage?.kind === 'conversion' && (
+    <Base
+      title={seoPage.seo.title}
+      description={seoPage.seo.description}
+      jsonLd={simpleJsonLd(seoPage.title, `/converters/${seoPage.slug}`, 'UtilitiesApplication', seoPage.seo.description, {
+        faqs: seoPage.faqs,
+      })}
+    >
+      <SeoConversionPage page={seoPage} />
+    </Base>
+  )
+}
+
+{
+  tool === undefined && seoPage?.kind === 'value' && (
+    <Base
+      title={seoPage.seo.title}
+      description={seoPage.seo.description}
+      jsonLd={simpleJsonLd(seoPage.title, `/converters/${seoPage.slug}`, 'UtilitiesApplication', seoPage.seo.description, {
+        faqs: seoPage.faqs,
+      })}
+    >
+      <SeoValuePage page={seoPage} />
+    </Base>
+  )
+}

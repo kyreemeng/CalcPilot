@@ -1,0 +1,207 @@
+  [warn] no sitemap found for https://www.omnicalculator.com/sitemap-main.xml
+
+============================================================
+  calcpilot.net
+============================================================
+  Total pages: 35
+  Languages: {'root': 35}
+
+  Content patterns [ALL] (34 unique):
+      1x  about
+      1x  contact
+      1x  converters
+      1x  converters/area-converter
+      1x  converters/currency-converter
+      1x  converters/data-converter
+      1x  converters/kg-to-lbs-converter
+      1x  converters/length-converter
+      1x  converters/speed-converter
+      1x  converters/temperature-converter
+      1x  converters/time-converter
+      1x  converters/volume-converter
+      1x  disclaimer
+      1x  everyday
+      1x  everyday/bmi-calculator
+      1x  everyday/bmr-calorie-calculator
+      1x  everyday/discount-calculator
+      1x  everyday/percentage-calculator
+      1x  everyday/percentage-change-calculator
+      1x  everyday/tip-calculator
+      1x  finance
+      1x  finance/auto-loan-calculator
+      1x  finance/compound-calculator
+      1x  finance/loan-calculator
+      1x  finance/mortgage-calculator
+
+============================================================
+  www.calculator.net
+============================================================
+  Total pages: 222
+  Languages: {'root': 222}
+
+  Content patterns [ALL] (221 unique):
+      1x  financial-calculator.html
+      1x  mortgage-calculator.html
+      1x  loan-calculator.html
+      1x  auto-loan-calculator.html
+      1x  interest-calculator.html
+      1x  payment-calculator.html
+      1x  retirement-calculator.html
+      1x  amortization-calculator.html
+      1x  investment-calculator.html
+      1x  currency-calculator.html
+      1x  inflation-calculator.html
+      1x  finance-calculator.html
+      1x  mortgage-payoff-calculator.html
+      1x  tax-calculator.html
+      1x  compound-interest-calculator.html
+      1x  salary-calculator.html
+      1x  401k-calculator.html
+      1x  interest-rate-calculator.html
+      1x  sales-tax-calculator.html
+      1x  fitness-and-health-calculator.html
+      1x  bmi-calculator.html
+      1x  calorie-calculator.html
+      1x  body-fat-calculator.html
+      1x  bmr-calculator.html
+      1x  macro-calculator.html
+
+============================================================
+  www.calculatorsoup.com
+============================================================
+  Total pages: 1494
+  Languages: {'root': 1494}
+
+  Content patterns [ALL] (497 unique):
+      3x  index.php
+      3x  contact.php
+      3x  legal.php
+      3x  privacy.php
+      3x  scientific.php
+      3x  sitemap.php
+      3x  robots.txt
+      3x  calculators/algebra/absolute-difference-calculator.php
+      3x  calculators/algebra/absolute-value-calculator.php
+      3x  calculators/algebra/completing-the-square-calculator.php
+      3x  calculators/algebra/cube-calculator.php
+      3x  calculators/algebra/cubed-perfect-cubes.php
+      3x  calculators/algebra/cuberoots.php
+      3x  calculators/algebra/cubicequation.php
+      3x  calculators/algebra/difference-of-two-squares-calculator.php
+      3x  calculators/algebra/dot-product-calculator.php
+      3x  calculators/algebra/exponent-fractions.php
+      3x  calculators/algebra/exponent.php
+      3x  calculators/algebra/exponentsolve.php
+      3x  calculators/algebra/fifthroots.php
+      3x  calculators/algebra/fourthroots.php
+      3x  calculators/algebra/foil-calculator.php
+      3x  calculators/algebra/index.php
+      3x  calculators/algebra/large-exponent-calculator.php
+      3x  calculators/algebra/logarithm-equation-calculator.php
+
+============================================================
+  www.omnicalculator.com
+============================================================
+  Total pages: 277
+  Languages: {'root': 277}
+
+  Content patterns [ALL] (277 unique):
+      1x  what-is-apy
+      1x  z-score-and-z-critical-value
+      1x  privacy-policy
+      1x  reports/how-many-people-own-crypto
+      1x  f-critical-value-definition-formula-calculations
+      1x  apy-vs-apr
+      1x  fabric-math-for-circle-skirts
+      1x  apr-vs-ear
+      1x  contact
+      1x  privacy-policy-app
+      1x  what-is-a-good-apy
+      1x  cagr-vs-irr
+      1x  how-make-a-truth-table
+      1x  t-table
+      1x  t-critical-value-definition-formula-examples
+      1x  cross-product-two-vectors
+      1x  prediction-interval-vs-confidence-interval
+      1x  positive-slope-vs-negative-slope
+      1x  raw-food-diet-for-cats
+      1x  what-is-a-negative-slope-graphs-examples
+      1x  what-is-variance-in-statistics
+      1x  confidence-intervals-for-proportions
+      1x  what-is-an-outlier-in-a-dataset
+      1x  positive-slope-explained
+      1x  normality-vs-molarity
+
+============================================================
+  Cross-site comparison
+============================================================
+
+  Shared topics (0):
+
+  Unique to calcpilot.net (33):
+    about
+    converters
+    converters/area-converter
+    converters/currency-converter
+    converters/data-converter
+    converters/kg-to-lbs-converter
+    converters/length-converter
+    converters/speed-converter
+    converters/temperature-converter
+    converters/time-converter
+    converters/volume-converter
+    disclaimer
+    everyday
+    everyday/bmi-calculator
+    everyday/bmr-calorie-calculator
+
+  Unique to www.calculator.net (221):
+    401k-calculator.html
+    about-us.html
+    age-calculator.html
+    amortization-calculator.html
+    annuity-calculator.html
+    annuity-payout-calculator.html
+    anorexic-bmi-calculator.html
+    apr-calculator.html
+    area-calculator.html
+    army-body-fat-calculator.html
+    auto-lease-calculator.html
+    auto-loan-calculator.html
+    average-calculator.html
+    average-return-calculator.html
+    bac-calculator.html
+
+  Unique to www.calculatorsoup.com (497):
+    calculators/algebra/absolute-difference-calculator.php
+    calculators/algebra/absolute-value-calculator.php
+    calculators/algebra/completing-the-square-calculator.php
+    calculators/algebra/cube-calculator.php
+    calculators/algebra/cubed-perfect-cubes.php
+    calculators/algebra/cuberoots.php
+    calculators/algebra/cubicequation.php
+    calculators/algebra/difference-of-two-squares-calculator.php
+    calculators/algebra/dot-product-calculator.php
+    calculators/algebra/exponent-fractions.php
+    calculators/algebra/exponent.php
+    calculators/algebra/exponentsolve.php
+    calculators/algebra/fifthroots.php
+    calculators/algebra/foil-calculator.php
+    calculators/algebra/fourthroots.php
+
+  Unique to www.omnicalculator.com (276):
+    about-us
+    aft-score-charts
+    apa-sentence-case
+    apr-vs-ear
+    apy-vs-apr
+    apy-vs-interest-rate
+    army-aft-events
+    army-aft-standards
+    benefits-of-a-high-yield-savings-account
+    best-gear-ratio-for-acceleration
+    cagr-vs-annualized-return
+    cagr-vs-irr
+    calculator-widgets
+    can-grading-on-a-curve-hurt-you
+    can-rgb-make-all-colors
