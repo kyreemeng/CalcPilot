@@ -1,0 +1,432 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-24T20:30:00+08:00",
+  "scope": {
+    "mode": "site_inventory",
+    "targets": [
+      "https://calcpilot.net",
+      "https://calcpilot.net/converters/kg-to-lbs-converter",
+      "https://calcpilot.net/converters"
+    ],
+    "market": "US, UK, CA (English T1)",
+    "language": "en",
+    "device": "both",
+    "search_surface": "google-web",
+    "evidence_modes": [
+      "data",
+      "code"
+    ],
+    "authorized_action": "audit_only",
+    "work_mode_note": "site_inventory 用于站内资产盘点；搜索表现部分为 data 模式。未获授权修改代码、索引控制或线上数据。"
+  },
+  "coverage": {
+    "discovered": 52,
+    "selected": 52,
+    "fetched": 52,
+    "rendered": 52,
+    "data_backed": 7,
+    "failed": [],
+    "exclusions": [
+      "https://calcpilot.net/404 — 错误页，无 SEO 目标",
+      "https://calcpilot.net/search — robots.txt 已 Disallow，不计入可见性目标页"
+    ],
+    "limitations": [
+      "GSC 导出时间窗口为单日（2026-09-21，过滤器 sheet 确认），无法构成趋势分析",
+      "搜索类型仅「网络」，不覆盖图片/视频/Discover/生成式 AI 视图，不可互换",
+      "本导出不含索引覆盖率数据，无法回答收录问题",
+      "查询维度仅 15 行、印象合计 23，低于总量 42；45% 曝光落在未归属区间（GSC 匿名化与低量阈值行为）",
+      "全部单查询行的印象数 <= 8，个别 1 印象行给出的排名（如 87 位）属单点观测，不构成稳定排名",
+      "无品牌词过滤数据，无法拆分品牌与非品牌需求"
+    ]
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "category": "measurement",
+      "issue": "可见性处于冷启动区间：单日 42 次曝光、0 次点击，站点平均排名约 20 位（Google 网络搜索）",
+      "status": "warning",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "calcpilot.net-Performance-on-Search-2026-09-24.xlsx :: sheet 图表 — 2026-09-21, 点击 0 / 展示 42 / CTR 0% / 排名 23.7",
+          "observed_at": "2026-09-21"
+        }
+      ],
+      "impact": "high",
+      "confidence": "high",
+      "recommended_fix": "0 点击不是 CTR 问题而是位置问题：平均排名约 20 位落在结果页第二页，42 次曝光对应的期望点击在统计上本就近于 0。不要把优化方向放在标题/描述文案上，应先补足可比口径的 28 天基线，再按 F-002/F-010 处理位置与权威度。",
+      "effort": "xs",
+      "dependencies": [],
+      "verification": "重导过去 28 天 GSC，比较曝光/点击/排名三项的 28 天口径是否与单日快照方向一致。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-002",
+      "category": "content",
+      "issue": "位置分布出现断层：曝光落在 11-30 位的词数为 0，全站没有任何「差一点就进首页」的候选词池；分布呈双峰（5-10 位 11 次曝光 vs 61-87 位 9 次曝光）",
+      "status": "fail",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 查询数 — 分带统计：1-10 位 4 词/11 次；11-30 位 0 词/0 次；31-60 位 3 词/3 次；61-100 位 8 词/9 次",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "file",
+          "ref": "docs/GSC-WEEKLY-TRACKING.md :: 指标 3「曝光落在 10~30 位的词数」—— 记为「待补」，目标 +5",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "critical",
+      "confidence": "high",
+      "recommended_fix": "这是全站最关键的诊断结论，它推翻了现有路线的前提假设。既然 11-30 位没有词，就等于没有「推一把就能进首页」的存量池，因此当前阶段的内容工作不应该是加页面，而应该是让现有页面进入这个带：给已经在自然流量中出现的数值长尾（17000 / 22000 / 211 / 24.6 / 2.6）在父页补 H3 值块并加强内链，先把这个带填出 5 个词，再谈扩张。",
+      "effort": "s",
+      "dependencies": ["现有 /converters/[slug].astro 与 SeoConversionPage.valueBlocks 结构已支持，加数据即可"],
+      "verification": "8 周后重导查询表，统计 10 <= 平均排名 <= 30 且 展示次数 > 0 的词数是否 >= 5。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-003",
+      "category": "architecture",
+      "issue": "曝光高度集中于单一 URL：kg-to-lbs-converter 占页面维度曝光的 78%（35/45），而 2026-09-14 发布的 12 个新 SEO 页在 7 天内曝光为 0",
+      "status": "warning",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 网页 — 7 行，kg-to-lbs-converter 35 次 @ 19.69；/converters 5 次 @ 59.6；其余 5 页各 1 次",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "file",
+          "ref": "src/data/seo-pages.ts — 7 个 SeoConversionPage + 5 个 SeoValuePage",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "high",
+      "confidence": "medium",
+      "recommended_fix": "新页 7 天 0 曝光属于预期范围（文档自定的观察窗口为 1-3 周），不构成失败证据，但也不构成加速页量扩张的依据。当前动作是核验收录状态而非改内容；单点依赖风险应通过内链编织分散，而不是靠新建页面。",
+      "effort": "xs",
+      "dependencies": ["F-007 索引数据"],
+      "verification": "4 周内新页是否出现首次曝光；超 4 周仍为 0 则按 GSC-WEEKLY-TRACKING.md 预案查收录。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-004",
+      "category": "on_page",
+      "issue": "语义错配尚未清除：页面仍被展示给长度→质量的无意义查询（centimeter to pounds 70.5 位、centimeters to lbs 70 位、cm lbs 76 位）",
+      "status": "warning",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 查询数 — 3 词共 4 次曝光，全部落在 70 位以外",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "file",
+          "ref": "docs/GSC-WEEKLY-TRACKING.md — 2026-09-14 已按「主题写窄」施工，观察错配词是否让位",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "low",
+      "confidence": "medium",
+      "recommended_fix": "不要为这些词建页 —— 厘米换磅在物理上不成立，即使排上去也无法满足搜索者。保持主题收窄，继续观察占比是否下降即可。曝光量（4 次）不足以支撑任何页面级改动。",
+      "effort": "xs",
+      "dependencies": [],
+      "verification": "后续导出中该族词占全站曝光比例是否下降；同时 kg↔lbs 族曝光是否上升。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-005",
+      "category": "measurement",
+      "issue": "移动端与桌面端平均排名相差 30.14 位（移动 19 次 @ 7.21 vs 桌面 23 次 @ 37.35）",
+      "status": "warning",
+      "evidence_level": "inferred",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 设备 — 桌面 23 次 @ 37.35；移动设备 19 次 @ 7.21",
+          "observed_at": "2026-09-21"
+        }
+      ],
+      "impact": "low",
+      "confidence": "low",
+      "recommended_fix": "不要据此做任何移动端专项改动。平均排名是聚合诊断值而非固定名次，两台设备很可能承载完全不同的查询构成（移动端吃到了那批 5-10 位的数值长尾），因此不能推出「移动端排名更好」。需要按设备 × 查询做 28 天分段后才能判断。",
+      "effort": "xs",
+      "dependencies": ["28 天数据", "查询 × 设备交叉分段"],
+      "verification": "导出查询 × 设备交叉表，若同族查询在两端的排名差 < 5 位，则本项为查询构成差异，非设备差异。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-006",
+      "category": "technical",
+      "issue": "技术交付面无阻断性问题：52 页构建校验 0 error / 0 warning，SSG 静态输出、canonical 自指、schema 完整、sitemap 覆盖 50 个 URL",
+      "status": "pass",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "other",
+          "ref": "node scripts/seo-validate.mjs — pages scanned 52 / errors 0 / warnings 0",
+          "observed_at": "2026-09-24"
+        },
+        {
+          "kind": "rendered_dom",
+          "ref": "dist/converters/kg-to-lbs-converter/index.html — JSON-LD: WebPage + WebApplication + HowTo + FAQPage + BreadcrumbList；h2 x10 / h3 x17 / 静态表格 112 行",
+          "observed_at": "2026-09-24"
+        },
+        {
+          "kind": "file",
+          "ref": "public/robots.txt — Allow /，Disallow /search，声明 sitemap-index.xml",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "none",
+      "confidence": "high",
+      "recommended_fix": "无需修复。这也意味着本次流量不足不能归因于技术 SEO，把资源投到技术层的边际收益接近 0。",
+      "effort": "xs",
+      "dependencies": [],
+      "verification": "每次改站后继续跑 npm run seo:audit 保持 0 error。"
+    },
+    {
+      "id": "F-007",
+      "category": "indexing",
+      "issue": "索引覆盖率完全未知：本导出为「效果」报告，不含任何索引状态数据，52 个页面中有多少被编制索引无法从该文件推断",
+      "status": "not_checked",
+      "evidence_level": "missing evidence",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "calcpilot.net-Performance-on-Search-2026-09-24.xlsx — 7 个 sheet 均为效果维度，无「页面索引」数据",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "critical",
+      "confidence": "high",
+      "recommended_fix": "补导 GSC「页面」索引报告（或对被屏蔽/未收录页用 URL 检查工具逐个核验），并与 sitemap 的 50 个 URL 做对账。这是回答「索引情况」的唯一途径，不能从效果数据替代。",
+      "effort": "xs",
+      "dependencies": ["GSC 账号访问权限"],
+      "verification": "sitemap 已发现 URL 数与「已编入索引」URL 数的差额、以及各状态（已抓取未索引 / 已发现未抓取）的分布。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-008",
+      "category": "measurement",
+      "issue": "品牌词需求未知：导出未按品牌词过滤，无法拆分品牌与非品牌曝光",
+      "status": "not_checked",
+      "evidence_level": "missing evidence",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 过滤器 — 仅「搜索类型=网络」「日期=单日」，无查询包含过滤",
+          "observed_at": "2026-09-21"
+        }
+      ],
+      "impact": "medium",
+      "confidence": "high",
+      "recommended_fix": "按 GSC-WEEKLY-TRACKING.md 指标 4 加一次「查询包含 calcpilot」的过滤导出，同时统计拼错变体占比，作为口碑成型与否的判据。",
+      "effort": "xs",
+      "dependencies": [],
+      "verification": "品牌词曝光数与拼错变体占比的时间序列。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-009",
+      "category": "measurement",
+      "issue": "45% 的曝光无法归属到任何可见查询：总量 42 次，查询维度仅合计 23 次",
+      "status": "warning",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 图表 展示合计 42 ；sheet 查询数 展示合计 23（差 19）",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "official_doc",
+          "ref": "data/seo-source-registry.json :: google-search-console-data — 匿名化查询与低量行不出现在表中，但计入总量",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "medium",
+      "confidence": "high",
+      "recommended_fix": "接受这是 GSC 的已知口径行为，不要在脚本里用「总量减查询表」反推隐藏词集合。做关键词决策时以可见查询为下限、以总曝光为上限，并显式标注这个不确定性。",
+      "effort": "xs",
+      "dependencies": [],
+      "verification": "28 天导出中该缺口比例是否收窄（曝光量上升时匿名化占比通常下降）。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-010",
+      "category": "content",
+      "issue": "可见性的天花板由站外权威度决定：52 页站点单日仅 42 次曝光，说明站点尚未进入 Google 的可竞争候选池",
+      "status": "fail",
+      "evidence_level": "inferred",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 图表 — 2026-09-21 单日 42 次曝光 / 0 点击",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "file",
+          "ref": "docs/SEO-STRATEGY.md :: 五、自动化复盘管道「站点验证与真实档案配置」—— sameAs 仅含 GitHub 仓库",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "critical",
+      "confidence": "medium",
+      "recommended_fix": "把站外权威度列为 P0 战略项，优先级高于任何站内改动。注意本导出不含引荐域数据，DR 与引荐域数需用外部工具独立测量（标记 unknown，不要估算）。可行路径见 docs/LINK-BUILDING-PLAN.md，但落点应集中在已在 20 位附近的 kg↔lbs 族与 /converters hub，而不是铺开。",
+      "effort": "l",
+      "dependencies": ["外部引荐域数据", "可引用的独家资产（方法论/公式页）"],
+      "verification": "4/8/12 周节点上：有曝光的页面数、以及重点页平均排名的移动方向。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-011",
+      "category": "architecture",
+      "issue": "既有文档中的 PSEO 页量扩张计划（地区维度 50+ 页、单位组合 100+ 页）与当前证据方向相反",
+      "status": "warning",
+      "evidence_level": "inferred",
+      "evidence_refs": [
+        {
+          "kind": "file",
+          "ref": "docs/SEO-STRATEGY.md :: 三、PSEO 页面矩阵扩展策略 — 预估 100+ 页",
+          "observed_at": "2026-09-24"
+        },
+        {
+          "kind": "search_console",
+          "ref": "sheet 网页 — 12 个 2026-09-14 发布的手写新页 7 天内曝光为 0",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "official_doc",
+          "ref": "data/seo-source-registry.json :: google-helpful-content / google-crawl-budget",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "high",
+      "confidence": "medium",
+      "recommended_fix": "把页量扩张设为「权威度达成后才能解锁」的项：在 F-010 出现正向信号（有曝光页面数上升、11-30 位带出现 >= 5 个词）之前，不批量生成模板页。替代动作是靠 H3 值块在存量页上覆盖长尾，这是零新增页面的长尾策略。替代解释：7 天窗口过短，也可能是新页尚未被抓取或重新评估，因此本项为推断而非结论。",
+      "effort": "xs",
+      "dependencies": ["F-002 的 11-30 带计数"],
+      "verification": "若 8 周后 11-30 带仍为 0 且新页仍 0 曝光，则本项判断被证实；若新页开始起量，则可重新评估扩张节奏。",
+      "engine_scope": ["google"]
+    },
+    {
+      "id": "F-012",
+      "category": "measurement",
+      "issue": "外链建设的启动门槛（重点页曝光进入 30 位）已达成：kg-to-lbs-converter 平均排名 19.69",
+      "status": "pass",
+      "evidence_level": "observed",
+      "evidence_refs": [
+        {
+          "kind": "search_console",
+          "ref": "sheet 网页 — kg-to-lbs-converter 35 次曝光 @ 19.69 位",
+          "observed_at": "2026-09-21"
+        },
+        {
+          "kind": "file",
+          "ref": "docs/LINK-BUILDING-PLAN.md — 约定 DR >= 10 且重点页进 30 位后启动",
+          "observed_at": "2026-09-24"
+        }
+      ],
+      "impact": "high",
+      "confidence": "medium",
+      "recommended_fix": "这是一个已到期的决策点：位置条件已满足（19.69 < 30），DR 条件需用外部工具独立确认。建议在 28 天数据确认该排名不是单日波动后，正式启动外链计划。",
+      "effort": "m",
+      "dependencies": ["28 天口径复核", "外部 DR/引荐域数据"],
+      "verification": "28 天窗口下 kg-to-lbs-converter 的平均排名是否仍 < 30。",
+      "engine_scope": ["google"]
+    }
+  ],
+  "action_plan": [
+    {
+      "id": "A-001",
+      "finding_ids": ["F-001", "F-007", "F-008", "F-009"],
+      "action": "重建测量口径：重导过去 28 天的 GSC 效果数据（网络搜索，全部维度），并补导「页面」索引报告、「查询包含 calcpilot」的品牌词过滤视图。三份并列为基线，不再用单日快照做决策。",
+      "impact": "critical",
+      "effort": "xs",
+      "owner": "seo",
+      "verification": "三份导出归档到 docs/ 并填入 GSC-WEEKLY-TRACKING.md 记录表；28 天曝光与单日快照方向一致。"
+    },
+    {
+      "id": "A-002",
+      "finding_ids": ["F-003", "F-007"],
+      "action": "逐个核验 12 个新页（6 个 SeoConversionPage + 5 个 SeoValuePage + /converters）的收录状态：GSC URL 检查 + sitemap 已发现 URL 数对账。未收录的按预案请求索引。",
+      "impact": "high",
+      "effort": "s",
+      "owner": "seo",
+      "verification": "新页逐个跟踪表（GSC-WEEKLY-TRACKING.md 第二节）填上收录状态与首次曝光日期。"
+    },
+    {
+      "id": "A-003",
+      "finding_ids": ["F-002", "F-011"],
+      "action": "暂停页量扩张，先把 11-30 位带填出来：在 kg-to-lbs-converter 等父页为已出现的数值长尾（17000 / 22000 / 211 / 24.6 / 2.6 kg）补 H3 值块并加强内链，零新增页面。",
+      "impact": "high",
+      "effort": "s",
+      "owner": "content",
+      "verification": "8 周后 10 <= 平均排名 <= 30 的词数 >= 5；跑 npm run seo:audit 保持 0 error。"
+    },
+    {
+      "id": "A-004",
+      "finding_ids": ["F-010", "F-012"],
+      "action": "启动外链建设（触发起始条件已满足）：先用外部工具确认 DR 与引荐域数，然后按 LINK-BUILDING-PLAN 集中给 kg↔lbs 族 + /converters hub 配引用域，每个落地页独立配 5-15 个不同引用域。",
+      "impact": "critical",
+      "effort": "l",
+      "owner": "seo",
+      "verification": "4/8/12 周：有曝光的页面数、重点页平均排名、以及新增不同引用域数。"
+    },
+    {
+      "id": "A-005",
+      "finding_ids": ["F-004", "F-005"],
+      "action": "维持主题收窄，不做错配词建页、不做移动端专项改动，只把两项纳入周度观察。",
+      "impact": "low",
+      "effort": "xs",
+      "owner": "seo",
+      "verification": "错配词族占全站曝光比例下降；设备差在查询 × 设备分段后能否用查询构成解释。"
+    },
+    {
+      "id": "A-006",
+      "finding_ids": ["F-002"],
+      "action": "暂不设计 SEO 对照实验：单日 42 次曝光、单查询 <= 8 次的样本量不足以区分信号与噪声，任何 A/B 结论都不可信。改用变更点观察 + 变更日志，等 11-30 位带出现 >= 5 个词后再启动真正的实验设计。",
+      "impact": "medium",
+      "effort": "xs",
+      "owner": "seo",
+      "verification": "实验启动前记录基线窗口与最小样本条件；无条件时不启动。"
+    }
+  ],
+  "missing_evidence": [
+    "GSC 索引覆盖率报告（页面索引状态、已抓取未索引 / 已发现未抓取分布）——这是回答「索引情况」的唯一途径",
+    "28 天（或更长）的曝光/点击/排名时间序列，用于确认单日快照不是波动",
+    "品牌词曝光量与拼错变体占比",
+    "外部引荐域数与域名权威度（Ahrefs / Semrush 等第三方估算，需标注 provider 与日期）",
+    "图片/视频/Discover 等其它搜索类型的表现",
+    "服务器日志与抓取统计（Googlebot 抓取频次），用于判断抓取预算是否成为瓶颈",
+    "Core Web Vitals 现场数据（CrUX）——曝光量过低时通常样本不足，需确认是否有字段数据",
+    "GA4 或站点分析数据，用于把曝光接到真实访问与转化"
+  ],
+  "source_review": {
+    "reviewed_at": "2026-09-24",
+    "source_ids": [
+      "google-search-console-data",
+      "google-search-analytics-api",
+      "google-crawling-indexing",
+      "google-crawl-budget",
+      "google-helpful-content",
+      "google-search-essentials",
+      "webdev-cwv-thresholds"
+    ],
+    "overdue_sources": [
+      "google-ai-features",
+      "google-ai-optimization",
+      "google-search-appearance",
+      "openai-crawlers",
+      "openai-publisher-faq",
+      "perplexity-crawlers"
+    ],
+    "note": "validate_knowledge.py 报告 33 个来源中 6 个逾期。本次审计未依赖 AI 搜索与搜索呈现相关断言，因此逾期来源不影响本报告结论；但后续若要评估 AI Search 可见性或富结果资格，必须先复查这 6 个来源。"
+  }
+}

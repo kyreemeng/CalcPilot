@@ -18,11 +18,15 @@ import {
   LB_PER_KG,
   KG_PER_LB,
   KG_PER_STONE,
+  MB_PER_GB,
   fmt,
+  headlineValue,
   makeFactorRows,
   range,
   round,
+  sameMagnitude,
   type ConversionRow,
+  type SameMagnitudeRow,
 } from '../lib/convert-tables';
 
 /** Trim a magnitude to its natural precision ("24,000" / "11.79" / "2.415"). */
@@ -97,6 +101,8 @@ export interface SeoValuePage {
   formula: string;
   explanation: string;
   table: { caption: string; header: [string, string, string]; rows: ConversionRow[] };
+  /** The same magnitude restated across every unit the site covers. */
+  unitBreakdown: SameMagnitudeRow[];
   faqs: { q: string; a: string }[];
   internalLinks: InternalLink[];
   related: string[];
@@ -174,9 +180,9 @@ const kilosToPounds: SeoConversionPage = {
   title: 'Kilos to Pounds Converter',
   h1: 'Kilos to Pounds Converter',
   seo: {
-    title: 'Kilos to Pounds Converter — Kilos to Lbs | CalcPilot',
+    title: `Kilos to Pounds Converter | 1 kilo = ${headlineValue(LB_PER_KG, 5)} lb`,
     description:
-      'Convert kilos to pounds instantly. 1 kilo = 2.2046 lbs. Free kilos to pounds weight converter with a kilo-to-pound chart and the exact formula.',
+      'Convert kilos to pounds instantly. 1 kilo equals 2.2046226218 pounds. Learn how to convert kilos to lbs with a kilo-to-pound chart and the exact formula.',
   },
   lead: 'Convert kilos to pounds instantly — a free kilos to lbs weight converter with a full conversion chart and the exact formula. One kilo equals 2.2046 pounds.',
   category: 'weight',
@@ -260,9 +266,9 @@ const lbsToKg: SeoConversionPage = {
   title: 'LBS to KG Converter',
   h1: 'LBS to KG Converter',
   seo: {
-    title: 'LBS to KG Converter — Pounds to Kilograms | CalcPilot',
+    title: `LBS to KG Converter | 1 lb = ${fmt(KG_PER_LB, 8)} kg`,
     description:
-      'Convert lbs to kg instantly. 1 lb = 0.45359237 kg. Free pounds to kilograms converter with a full lbs-to-kg chart and the exact reverse formula.',
+      'Convert lbs to kg instantly. 1 pound equals exactly 0.45359237 kilograms. Learn how to convert lbs to kg with a full lbs-to-kg chart and the reverse formula.',
   },
   lead: 'Convert lbs to kg instantly — a free pounds to kilograms converter with a full lbs to kg chart and the exact reverse formula. One pound equals 0.45359237 kilograms.',
   category: 'weight',
@@ -323,9 +329,9 @@ const kilogramsToPounds: SeoConversionPage = {
   title: 'Kilograms to Pounds Converter',
   h1: 'Kilograms to Pounds Converter',
   seo: {
-    title: 'Kilograms to Pounds Converter — KG to LBS | CalcPilot',
+    title: `Kilograms to Pounds Converter | 1 kg = ${headlineValue(LB_PER_KG, 5)} lb`,
     description:
-      'Convert kilograms to pounds instantly. 1 kilogram = 2.2046 pounds. Free kilogram-to-pound converter with a full chart, worked examples and the formula.',
+      'Convert kilograms to pounds instantly. 1 kilogram equals 2.2046226218 pounds. Learn how to convert kg to lbs with a full chart, worked examples and the formula.',
   },
   lead: 'Convert kilograms to pounds instantly — a free kilogram to pound converter with a full chart, worked examples and the exact formula. One kilogram equals 2.2046226218 pounds.',
   category: 'weight',
@@ -383,9 +389,9 @@ const poundsToKg: SeoConversionPage = {
   title: 'Pounds to KG Converter',
   h1: 'Pounds to KG Converter',
   seo: {
-    title: 'Pounds to KG Converter — LBS to Kilograms | CalcPilot',
+    title: `Pounds to KG Converter | 1 lb = ${fmt(KG_PER_LB, 8)} kg`,
     description:
-      'Convert pounds to kg instantly. 1 pound = 0.45359237 kg. Free pounds to kilograms converter with a body-weight chart and the exact reverse formula.',
+      'Convert pounds to kg instantly. 1 pound equals exactly 0.45359237 kilograms. Learn how to convert lbs to kg with a body-weight chart and the exact formula.',
   },
   lead: 'Convert pounds to kg instantly with the exact 0.45359237 factor, including a body-weight chart and worked examples. One pound equals 0.45359237 kilograms.',
   category: 'weight',
@@ -439,9 +445,9 @@ const poundsToKilograms: SeoConversionPage = {
   title: 'Pounds to Kilograms Converter',
   h1: 'Pounds to Kilograms Converter',
   seo: {
-    title: 'Pounds to Kilograms Converter — LBS to KG | CalcPilot',
+    title: `Pounds to Kilograms Converter | 1 lb = ${fmt(KG_PER_LB, 8)} kg`,
     description:
-      'Convert pounds to kilograms instantly. 1 pound = 0.45359237 kg. Free pounds to kilograms converter with a metric weight chart and airline baggage values.',
+      'Convert pounds to kilograms instantly. 1 pound equals exactly 0.45359237 kilograms. Learn how to convert with a metric weight chart and airline baggage values.',
   },
   lead: 'Convert pounds to kilograms instantly. This page spells out both unit names for labels, forms and international paperwork, using the exact 0.45359237 factor.',
   category: 'weight',
@@ -495,9 +501,9 @@ const kgToStone: SeoConversionPage = {
   title: 'KG to Stone Converter',
   h1: 'KG to Stone Converter',
   seo: {
-    title: 'KG to Stone Converter — Kilograms to Stones | CalcPilot',
+    title: `KG to Stone Converter | 1 kg ≈ ${fmt(1 / KG_PER_STONE, 6)} st`,
     description:
-      'Convert kg to stone instantly. 1 kg = 0.15747 stone. Free kilograms to stones converter with a chart, stones-and-pounds notes and the exact formula.',
+      'Convert kg to stone instantly. 1 kilogram equals about 0.157473 stone. Learn how to convert kg to st with a chart, stones-and-pounds notes and the exact formula.',
   },
   lead: 'Convert kg to stone instantly — a free kilograms to stones converter with a chart and the formula. One kilogram equals 0.157473 stone, and one stone equals 6.35029 kg.',
   category: 'weight',
@@ -561,9 +567,9 @@ const gbToMb: SeoConversionPage = {
   title: 'GB to MB Converter',
   h1: 'GB to MB Converter',
   seo: {
-    title: 'GB to MB Converter — Gigabytes to Megabytes | CalcPilot',
+    title: `GB to MB Converter | 1 GB = ${fmt(MB_PER_GB, 0)} MB`,
     description:
-      'Convert GB to MB instantly. 1 GB = 1,024 MB in binary units. Free gigabytes to megabytes converter with a full chart and the 1,000 vs 1,024 explanation.',
+      'Convert GB to MB instantly. 1 GB equals 1,024 MB in binary units. Learn how the 1,000 vs 1,024 difference changes the answer, with a full chart and explanation.',
   },
   lead: 'Convert GB to MB instantly — a free gigabytes to megabytes converter with a full chart and the 1,000 vs 1,024 explanation. In binary units one GB equals 1,024 MB.',
   category: 'data',
@@ -645,7 +651,12 @@ function buildValuePage(seed: ValuePageSeed): SeoValuePage {
   const { kg } = seed;
   const lbs = kg * LB_PER_KG;
   const lbsRounded = fmt(lbs, 2);
-  const answer = `${mag(kg)} kilograms equals ${lbsRounded} pounds.`;
+  /**
+   * "1 kilograms" is wrong, and the 1 kg page is the highest-traffic round
+   * number in the family, so the singular form is not cosmetic here.
+   */
+  const kgWord = kg === 1 ? 'kilogram' : 'kilograms';
+  const answer = `${mag(kg)} ${kgWord} equals ${lbsRounded} pounds.`;
   return {
     slug: `${kg}-kg-to-lbs`,
     kind: 'value',
@@ -654,10 +665,17 @@ function buildValuePage(seed: ValuePageSeed): SeoValuePage {
     title: seed.title,
     h1: `${mag(kg)} kg to lbs`,
     seo: {
-      title: `${mag(kg)} kg to lbs — How Many Pounds Is ${mag(kg)} kg? | CalcPilot`,
-      description: `${mag(kg)} kilograms equals ${lbsRounded} pounds. Convert ${mag(kg)} kg to lbs instantly with the exact 2.2046226218 factor, a nearby-value chart and the formula.`,
+      // Answer-first title: the query leads, the computed result follows, and
+      // the spelled-out variant covers the "kilograms to pounds" phrasing. The
+      // brand suffix was dropped — an unestablished brand spends ~12 characters
+      // of every title on recognition it does not yet have.
+      title: `${mag(kg)} kg to lbs ≈ ${headlineValue(lbs)} lb (Kilograms to Pounds)`,
+      // First sentence is the answer (removes uncertainty), second sentence
+      // promises the method (gives a reason to click even though the answer
+      // was already shown). Matches the pattern in the competitor teardown.
+      description: `${mag(kg)} ${kgWord} equals ${lbsRounded} pounds. Learn how to convert ${mag(kg)} kg to lbs with the exact 2.2046226218 factor, a nearby-value chart and the formula.`,
     },
-    lead: `${seed.lead} ${mag(kg)} kilograms equals ${lbsRounded} pounds.`,
+    lead: `${seed.lead} ${mag(kg)} ${kgWord} equals ${lbsRounded} pounds.`,
     answer,
     from: { label: 'Kilograms (kg)', unit: 'kg' },
     to: { label: 'Pounds (lb)', unit: 'lb' },
@@ -672,6 +690,7 @@ function buildValuePage(seed: ValuePageSeed): SeoValuePage {
       header: ['Kilograms (kg)', 'Pounds (lb)', 'Pounds back to kilograms'],
       rows: makeFactorRows({ values: seed.tableValues, factor: LB_PER_KG, fromUnit: 'kg', toUnit: 'lb' }),
     },
+    unitBreakdown: sameMagnitude(kg),
     faqs: seed.faqs,
     internalLinks: [
       { anchor: 'kg to lbs converter', href: '/converters/kg-to-lbs-converter', note: 'convert any kilogram value' },

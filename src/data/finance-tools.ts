@@ -216,7 +216,7 @@ export const financeTools: FinanceToolConfig[] = [
     h1: 'USD Salary Calculator',
     intro: 'Turn an hourly wage or annual salary into USD monthly take-home pay after tax and deductions. Enter $22.50 an hour (or any rate), set hours and tax, and see weekly, monthly and annual figures update instantly.',
     seo: {
-      title: 'USD Monthly Salary Calculator — Hourly to Take-Home | CalcPilot',
+      title: 'USD Salary Calculator | Hourly to Monthly Take-Home',
       description: 'Free USD salary calculator: convert hourly wage to monthly pay after taxes. Example: $22.50/hour → monthly take-home. Instant, no sign-up.',
     },
     breadcrumb: ['Home', 'Finance', 'Salary Calculator'],

@@ -80,6 +80,36 @@ const crumbs = [
     </div>
   </section>
 
+  <section class="section reveal">
+    <h2 class="section-title">{page.h1} in other units</h2>
+    <div class="common-table">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Unit</th>
+              <th scope="col">Same mass</th>
+            </tr>
+          </thead>
+          <tbody>
+            {page.unitBreakdown.map((row) => (
+              <tr>
+                <td>{row.label}</td>
+                <td>{row.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="table-footnote">
+      {page.h1} is one mass, written six ways. Convert any of them with the
+      <a href="/converters/kg-to-lbs-converter">kg to lbs converter</a>, the
+      <a href="/converters/kg-to-stone-converter">kg to stone converter</a>, or the
+      <a href="/converters/kilos-to-pounds-converter">kilos to pounds converter</a>.
+    </p>
+  </section>
+
   <FAQ faqs={page.faqs} />
 
   <section class="section reveal">

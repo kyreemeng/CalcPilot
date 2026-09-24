@@ -3,6 +3,15 @@
 > 基于 SEO-Awesome 框架（Google API 一手数据驱动 + I-Lang 算法编码）
 > 生成日期：2026-08-14
 
+> **⚠️ 2026-09-24 修订说明（必读）**
+> 本文档中「结构化数据 / JSON-LD」被评为 A 级的部分结论**已失效**，请以下列为准：
+> - **HowTo 富结果已被 Google 彻底弃用**。2023-08-08 先收窄为仅桌面端，**2023-09-13 起桌面端也不再展示**，Google 官方表述为 "this result type is now deprecated"；Rich Results Test 与 Search Console 的 HowTo 报告已一并移除。
+>   来源：`developers.google.com/search/blog/2023/08/howto-faq-changes`（核对日 2026-09-24）
+> - **FAQ 富结果被大幅收窄**，仅对「知名的权威政府与健康类网站」展示。
+> - 结论：本站核心工具页挂载的 `HowTo` + `FAQPage` 在 Google 搜索中**不再产生富结果展示**。保留不造成惩罚（官方明确说明可保留），亦可服务非 Google 的 AI/解析器，**但不得再作为「富结果收益」或排期理由计入**。
+> - 仍然可能产生搜索呈现的是 `BreadcrumbList`（面包屑路径仍在渲染）与 `WebApplication`。
+> - 本轮全面升级的诊断与实施记录见 `docs/SEO-DIAGNOSIS-COVERAGE-2026-09-24.md`。
+
 ---
 
 ## 一、当前 SEO 资产审计
@@ -12,7 +21,7 @@
 | 维度 | 现状 | 评分 |
 |------|------|------|
 | 渲染模式 | Astro SSG 静态输出，Google 可完整抓取 | A |
-| 结构化数据 | Organization + WebSite + WebPage + WebApplication + HowTo + FAQPage + BreadcrumbList | A |
+| 结构化数据 | Organization + WebSite + WebPage + WebApplication + HowTo + FAQPage + BreadcrumbList | A → **B（已修订）** 语法有效，但 HowTo/FAQ 已无 Google 富结果展示，见顶部修订说明 |
 | Canonical | trailingSlash: never，每页唯一 canonical URL | A |
 | Sitemap | @astrojs/sitemap 自动生成，已配置 lastmod/changefreq/priority | A- |
 | robots.txt | 已配置，屏蔽 /search 和 /404，声明 sitemap | B+ |
@@ -167,6 +176,11 @@
 
 ## 三、PSEO 页面矩阵扩展策略
 
+> **⚠️ 2026-09-24 追加约束：本节的页量扩张计划已冻结。**
+> GSC 索引数据（`calcpilot.net-Coverage-2026-09-24.xlsx`）显示：已编入索引页数 **自 2026-08-18 起连续 35 天冻结在 25 页**，另有 **25 个 URL 处于「已发现 - 尚未编入索引」**（Google 已发现但未抓取），而「已抓取 - 尚未编入索引」为 **0**。
+> 这意味着 Google 不是拒绝收录，而是**未把抓取预算分配给我们**。在这种状态下铺量不会带来索引增量，只会扩大未抓取队列。
+> **解锁条件**：11–30 位排名带宽出现 ≥5 个词，且「已发现 - 尚未编入索引」数量开始下降。在此之前改用「存量页补 H3 值块 + 跨单位内容块」覆盖长尾，不新增页面。
+
 ### 品类 × 维度矩阵
 
 CalcPilot 当前工具页由统一注册表与静态路由生成，可以通过维度扩展更多高质量长尾页：
@@ -256,7 +270,7 @@ CalcPilot 当前工具页由统一注册表与静态路由生成，可以通过�
 - [x] Canonical URL（每页唯一）
 - [x] Sitemap 自动生成 + lastmod
 - [x] robots.txt 配置正确
-- [x] JSON-LD 结构化数据完整
+- [x] JSON-LD 结构化数据完整（语法层面；HowTo/FAQ 的富结果资格已于 2023-09 被 Google 取消，见顶部修订说明）
 - [x] BreadcrumbList 面包屑导航
 - [x] SearchAction（sitelinks search box）
 - [x] 语义化 HTML（H1-H4 层级）

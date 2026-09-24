@@ -27,9 +27,9 @@ export const pairConversions: PairConversionConfig[] = [
     h1: 'cm to Inches Converter',
     shortDesc: 'Convert centimeters to inches with the exact 2.54 cm factor.',
     seo: {
-      title: 'cm to Inches Converter — Formula & Chart | CalcPilot',
+      title: 'cm to Inches Converter | 1 in = 2.54 cm',
       description:
-        'Convert cm to inches instantly. Use inches = cm ÷ 2.54, see worked examples and a centimeter-to-inch chart. Free, no sign-up.',
+        'Convert cm to inches instantly. 1 inch equals exactly 2.54 centimeters. Learn how to convert cm to inches — inches = cm ÷ 2.54 — with worked examples and a chart.',
     },
     lead:
       'Convert centimeters to inches instantly using the exact international definition: one inch equals 2.54 centimeters.',
@@ -74,9 +74,9 @@ export const pairConversions: PairConversionConfig[] = [
     h1: 'Meters to Feet Converter',
     shortDesc: 'Convert meters to feet with the exact 0.3048 m per foot definition.',
     seo: {
-      title: 'Meters to Feet Converter — Formula & Chart | CalcPilot',
+      title: 'Meters to Feet Converter | 1 m = 3.28084 ft',
       description:
-        'Convert meters to feet instantly. Use feet = meters ÷ 0.3048, see worked examples and a meter-to-feet chart. Free, no sign-up.',
+        'Convert meters to feet instantly. 1 meter equals about 3.28084 feet. Learn how to convert m to ft — feet = meters ÷ 0.3048 — with worked examples and a chart.',
     },
     lead:
       'Convert meters to feet instantly using the exact definition: one international foot equals 0.3048 meters.',
@@ -121,9 +121,9 @@ export const pairConversions: PairConversionConfig[] = [
     h1: 'Celsius to Fahrenheit Converter',
     shortDesc: 'Convert Celsius to Fahrenheit with the exact offset formula.',
     seo: {
-      title: 'Celsius to Fahrenheit Converter — Formula & Chart | CalcPilot',
+      title: 'Celsius to Fahrenheit | Formula: F = (C × 9/5) + 32',
       description:
-        'Convert Celsius to Fahrenheit instantly with °F = °C × 9/5 + 32. Includes worked examples and a temperature chart. Free, no sign-up.',
+        'Convert Celsius to Fahrenheit instantly. The formula is °F = °C × 9/5 + 32. Learn how to convert °C to °F with worked examples and a temperature chart.',
     },
     lead:
       'Convert Celsius to Fahrenheit instantly with the exact offset formula, including common weather, body, freezing, and boiling temperatures.',

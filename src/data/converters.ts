@@ -1,7 +1,19 @@
 // Converter registry — single source of truth for unit converters.
 // All converters are bidirectional and compute client-side (<200ms).
 
-import { LB_PER_KG, makeFactorRows, range, type ConversionRow } from '../lib/convert-tables';
+import {
+  LB_PER_KG,
+  makeFactorRows,
+  range,
+  fmt,
+  headlineValue,
+  CM_PER_IN,
+  KM_PER_MILE,
+  M2_PER_ACRE,
+  L_PER_US_GAL,
+  MB_PER_GB,
+  type ConversionRow,
+} from '../lib/convert-tables';
 
 export interface ConverterUnit {
   label: string;
@@ -84,8 +96,12 @@ export const converterTools: ConverterConfig[] = [
     h1: 'KG to LBS Converter',
     intro: 'Convert kilograms (kg) to pounds (lbs) instantly — free weight converter with a full kg-to-lbs conversion chart and the exact formula. 1 kilogram equals 2.2046226218 pounds.',
     seo: {
-      title: 'KG to LBS Converter — Kilograms to Pounds (Free)',
-      description: 'Convert kilograms to pounds instantly. 1 kg = 2.20462 lbs. Free kilogram to pound converter with a full 1 to 100 kg chart and the exact formula.',
+      // Leads with the abbreviated query form deliberately: the spelled-out
+      // "Kilograms to Pounds Converter" title belongs to the dedicated
+      // kilograms-to-pounds landing page, so the two do not compete with an
+      // identical <title> in the same SERP.
+      title: `KG to LBS Converter | 1 kg = ${headlineValue(LB_PER_KG, 5)} lb`,
+      description: 'Convert kilograms to pounds instantly. 1 kilogram equals 2.2046226218 pounds. Learn how to convert kg to lbs — full 1 to 100 kg chart and the exact formula.',
     },
     breadcrumb: ['Home', 'Converters', 'Weight'],
     a: { label: 'Kilograms (kg)', unit: 'kg', placeholder: '0', defaultValue: '1' },
@@ -128,9 +144,12 @@ export const converterTools: ConverterConfig[] = [
         ['1 kg', '2.2046 lb'],
         ['2.415 kg', '5.3242 lb'],
         ['2.47 kg', '5.4454 lb'],
+        ['2.6 kg', '5.7320 lb'],
         ['11.79 kg', '25.9925 lb'],
+        ['24.6 kg', '54.2337 lb'],
         ['60 kg', '132.2774 lb'],
         ['100 kg', '220.4623 lb'],
+        ['211 kg', '465.1754 lb'],
         ['11,793 kg', '25,999.1146 lb'],
         ['17,000 kg', '37,478.5846 lb'],
         ['22,000 kg', '48,501.6977 lb'],
@@ -163,6 +182,10 @@ export const converterTools: ConverterConfig[] = [
           answer: '2.47 kilograms equals 5.4454 pounds (2.47 × 2.2046226218).',
         },
         {
+          heading: '2.6 kg to lbs',
+          answer: '2.6 kilograms equals 5.7320 pounds (2.6 × 2.2046226218).',
+        },
+        {
           heading: '10 kg to lbs',
           answer: '10 kilograms equals 22.0462 pounds.',
           href: '/converters/10-kg-to-lbs',
@@ -171,6 +194,14 @@ export const converterTools: ConverterConfig[] = [
         {
           heading: '11.79 kg to lbs',
           answer: '11.79 kilograms equals 25.9925 pounds (11.79 × 2.2046226218).',
+        },
+        {
+          heading: '24.6 kg to lbs',
+          answer: '24.6 kilograms equals 54.2337 pounds (24.6 × 2.2046226218).',
+        },
+        {
+          heading: '211 kg to lbs',
+          answer: '211 kilograms equals 465.1754 pounds (211 × 2.2046226218).',
         },
         {
           heading: '50 kg to lbs',
@@ -288,8 +319,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Length Converter',
     intro: 'Convert cm to inches, meters to feet, kilometers to miles, and more. Choose any two units — results update as you type.',
     seo: {
-      title: 'Length Converter — cm to Inches, Meters to Feet | CalcPilot',
-      description: 'Free length converter: cm to inches, meters to feet, km to miles. Bidirectional with a conversion chart — no sign-up.',
+      title: `Length Converter | 1 in = ${fmt(CM_PER_IN, 2)} cm (Feet, Miles)`,
+      description: 'Free length converter: cm to inches, meters to feet, km to miles. Learn how to convert with the exact 2.54 cm per inch definition, plus a conversion chart.',
     },
     breadcrumb: ['Home', 'Converters', 'Length'],
     a: { label: 'From value', unit: 'm', placeholder: '0', defaultValue: '1' },
@@ -353,8 +384,10 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Celsius to Fahrenheit Converter',
     intro: 'Convert Celsius to Fahrenheit (and back) with the formula °F = °C × 9/5 + 32. Type in either box for an instant result and a conversion chart below.',
     seo: {
-      title: 'Celsius to Fahrenheit — Formula & Chart | CalcPilot',
-      description: 'Free Celsius to Fahrenheit converter: °F = °C × 9/5 + 32. Bidirectional, with a conversion chart — no sign-up.',
+      // Hub-style title: this is the multi-unit temperature tool, so the
+      // dedicated celsius-to-fahrenheit page owns the formula-led title.
+      title: 'Temperature Converter | °C, °F & Kelvin',
+      description: 'Convert temperatures between Celsius, Fahrenheit and Kelvin. Learn how to convert with the formula °F = °C × 9/5 + 32, plus a conversion chart.',
     },
     breadcrumb: ['Home', 'Converters', 'Temperature'],
     a: { label: 'Celsius (°C)', unit: '°C', placeholder: '0', defaultValue: '0' },
@@ -405,8 +438,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Time Converter',
     intro: 'Convert between hours and minutes instantly. Type a value in either box and the other updates in real time.',
     seo: {
-      title: 'Time Converter — Hours, Minutes & Seconds | CalcPilot',
-      description: 'Free time converter for hours, minutes, seconds, and days. Bidirectional — type in either box for instant results, plus a quick-reference conversion table.',
+      title: 'Time Converter | Hours, Minutes, Days & Seconds',
+      description: 'Free time converter for hours, minutes, seconds, and days. Learn how to convert between time units — type in either box for instant results, plus a reference table.',
     },
     breadcrumb: ['Home', 'Converters', 'Time'],
     a: { label: 'Hours (hr)', unit: 'hr', placeholder: '0', defaultValue: '1' },
@@ -455,8 +488,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Data Converter — KB, MB, GB & TB',
     intro: 'Convert data sizes from kilo to mega, mega to giga, and beyond using binary (base-2) units. Type a value in either box and the other updates in real time — for example 1024 KB = 1 MB.',
     seo: {
-      title: 'MB to GB Converter — KB, MB, GB & TB | CalcPilot',
-      description: 'Convert MB to GB and KB to MB using binary units. See 1000 MB and 1024 MB results, plus a KB–MB–GB–TB chart. Free and instant.',
+      title: 'MB to GB Converter | 1 GB = 1,024 MB (KB, TB)',
+      description: 'Convert MB to GB and KB to MB using binary units. 1 GB = 1,024 MB. Learn how the 1,000 vs 1,024 difference changes the answer, with a KB–MB–GB–TB chart.',
     },
     breadcrumb: ['Home', 'Converters', 'Data'],
     a: { label: 'Megabytes (MB)', unit: 'MB', placeholder: '0', defaultValue: '1024' },
@@ -508,8 +541,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Speed Converter',
     intro: 'Convert between meters per second, kilometers per hour, miles per hour, knots, and feet per second with instant bidirectional results.',
     seo: {
-      title: 'Speed Converter — m/s, km/h, mph & Knots | CalcPilot',
-      description: 'Convert speed units including m/s, km/h, mph, knots, and ft/s. Choose any two units and get an instant, accurate result with formulas and reference values.',
+      title: `Speed Converter | 1 mile/h = ${fmt(KM_PER_MILE, 6)} km/h`,
+      description: 'Convert speed units including m/s, km/h, mph, knots, and ft/s. Learn how to convert between them — choose any two units for an instant result with formulas.',
     },
     breadcrumb: ['Home', 'Converters', 'Speed'],
     a: { label: 'From value', unit: 'm/s', placeholder: '0', defaultValue: '10' },
@@ -566,8 +599,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Area Converter',
     intro: 'Convert square meters, square kilometers, square feet, square yards, acres, hectares, and square miles instantly.',
     seo: {
-      title: 'Area Converter — m², ft², Acres & Hectares | CalcPilot',
-      description: 'Free area converter for m², km², ft², yd², acres, hectares, and mi². Select any two units for fast, accurate land and floor-area conversions.',
+      title: `Area Converter | 1 acre = ${headlineValue(M2_PER_ACRE)} m²`,
+      description: 'Free area converter for m², km², ft², yd², acres, hectares, and mi². Learn how to convert — 1 acre is 4,046.86 m². Select any two units for a fast result.',
     },
     breadcrumb: ['Home', 'Converters', 'Area'],
     a: { label: 'From value', unit: 'm²', placeholder: '0', defaultValue: '100' },
@@ -626,8 +659,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Liter & Volume Converter',
     intro: 'Convert volume into liters (litres), milliliters, cubic meters, US gallons, quarts, cups, fluid ounces, and cubic feet instantly.',
     seo: {
-      title: 'Liter Converter — Liters, Gallons & Cups | CalcPilot',
-      description: 'Convert volume into liters or litres, mL, m³, US gallons, quarts, cups, fluid ounces, and ft³. Choose any two units for an instant result.',
+      title: `Liter Converter | 1 US gal = ${fmt(L_PER_US_GAL, 6)} L`,
+      description: 'Convert volume into liters or litres, mL, m³, US gallons, quarts, cups, fluid ounces, and ft³. Learn how to convert — 1 US gallon is 3.785412 liters.',
     },
     breadcrumb: ['Home', 'Converters', 'Volume'],
     a: { label: 'From value', unit: 'L', placeholder: '0', defaultValue: '1' },
@@ -689,8 +722,8 @@ export const converterTools: ConverterConfig[] = [
     h1: 'Currency Converter',
     intro: 'Convert between major currencies using a public ECB reference rate (Frankfurter), with a CDN fallback. You can still override the rate manually for bank quotes or accounting records.',
     seo: {
-      title: 'Currency Converter — FX Rates & Manual Override | CalcPilot',
-      description: 'Convert USD, EUR, GBP, JPY and more with public reference exchange rates. Override the rate manually anytime — free, private, no sign-up.',
+      title: 'Currency Converter | Manual & Live FX Rates',
+      description: 'Convert USD, EUR, GBP, JPY and more with public ECB reference rates. Learn how to set the exact rate for your case, with a manual override and no sign-up.',
     },
     breadcrumb: ['Home', 'Converters', 'Currency'],
     a: { label: 'Amount', unit: 'USD', placeholder: '0', defaultValue: '100' },
