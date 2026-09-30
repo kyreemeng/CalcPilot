@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import PairConversionTool from '../../components/PairConversionTool.astro';
+import { getPairConversion } from '../../data/pair-conversions';
+import { simpleJsonLd } from '../../lib/seo';
+
+const tool = getPairConversion('liters-to-gallons')!;
+const path = `/converters/${tool.slug}`;
+const howToSteps = [
+  'Enter the liter value in the first field.',
+  'Read the equivalent number of US gallons instantly.',
+  'Edit the gallons field to convert back to liters.',
+];
+---
+
+<Base
+  title={tool.seo.title}
+  description={tool.seo.description}
+  jsonLd={simpleJsonLd(tool.title, path, 'UtilitiesApplication', tool.seo.description, {
+    howToSteps,
+    faqs: tool.faqs,
+  })}
+>
+  <PairConversionTool tool={tool} />
+</Base>

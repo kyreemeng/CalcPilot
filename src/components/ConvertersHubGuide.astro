@@ -1,11 +1,13 @@
 ---
 // Long-form body for the /converters hub.
 //
-// The hub was previously a bare navigation list even though it is the single
-// most-impressed page on the site. This adds the explanatory text that a
-// category page needs to rank, plus a curated entry point into each family so
-// the hub also works as the weight-distribution layer between the homepage and
-// the individual converter pages.
+// The hub is the second-largest impression source in GSC (128 impressions,
+// position ~62), so it is built as a Unit Conversion Topic Hub rather than a
+// bare link directory: every family carries the conversion formulas, the
+// popular (GSC-verified) conversions with their answers, and the tools that
+// serve the family. That gives Google entity-level structure to rank the hub
+// for "unit converter" queries while distributing weight to the cluster pages
+// below it.
 
 interface FamilyLink {
   anchor: string;
@@ -17,6 +19,11 @@ interface Family {
   id: string;
   heading: string;
   body: string;
+  /** Exact formulas the family rests on — shown as mono chips. */
+  formulas: string[];
+  /** Most-searched conversions, each with the answer in the note. */
+  popular: FamilyLink[];
+  /** The converters and related calculators serving this family. */
   links: FamilyLink[];
 }
 
@@ -25,17 +32,34 @@ const families: Family[] = [
     id: 'weight',
     heading: 'Weight and mass converters',
     body: 'Weight conversion is the busiest family on CalcPilot. A kilogram equals 2.2046226218 pounds, a pound equals exactly 0.45359237 kilograms, and a stone equals 6.35029318 kilograms or 14 pounds. People land here with three different habits: metric users converting body weight or a shipping carton into pounds, US users reading a label in kilograms, and UK users who still think in stones. The kg to lbs converter handles every one of those directions and shows both readings from a single value.',
+    formulas: ['1 kg = 2.2046226218 lb', '1 lb = 0.45359237 kg', '1 stone = 6.35029318 kg'],
+    popular: [
+      { anchor: '2.47 kg to lbs', href: '/converters/2.47-kg-to-lbs', note: '2.47 kg = 5.4454 lb' },
+      { anchor: '2.6 kg to lbs', href: '/converters/2.6-kg-to-lbs', note: '2.6 kg = 5.7320 lb' },
+      { anchor: '24.6 kg to lbs', href: '/converters/24.6-kg-to-lbs', note: '24.6 kg = 54.2337 lb' },
+      { anchor: '60 kg to lbs', href: '/converters/60-kg-to-lbs', note: '60 kg = 132.2774 lb' },
+      { anchor: '100 kg to lbs', href: '/converters/100-kg-to-lbs', note: '100 kg = 220.4623 lb' },
+    ],
     links: [
       { anchor: 'kg to lbs converter', href: '/converters/kg-to-lbs-converter', note: 'full 1 to 100 kg chart' },
       { anchor: 'kilos to pounds converter', href: '/converters/kilos-to-pounds-converter', note: 'everyday “kilos” wording' },
       { anchor: 'lbs to kg converter', href: '/converters/lbs-to-kg-converter', note: 'pounds into kilograms' },
+      { anchor: 'kilograms to pounds converter', href: '/converters/kilograms-to-pounds-converter', note: 'spelled-out, for freight and paperwork' },
       { anchor: 'kg to stone converter', href: '/converters/kg-to-stone-converter', note: 'UK body weight in stones and pounds' },
+      { anchor: 'BMI calculator', href: '/everyday/bmi-calculator', note: 'body-weight context in kg and lb' },
     ],
   },
   {
     id: 'length',
     heading: 'Length and distance converters',
     body: 'Length conversions rest on exact definitions: one inch is 2.54 centimetres, one international foot is 0.3048 metres, and one mile is 1.609344 kilometres. Because those numbers are fixed, results never drift. The length converter covers millimetres, centimetres, metres, kilometres, inches, feet, yards and miles in one bidirectional tool, which is usually faster than hunting for a single-pair page. Area follows the same definitions squared — one square foot is 0.09290304 square metres — so land measurements use their own converter.',
+    formulas: ['1 in = 2.54 cm', '1 ft = 0.3048 m', '1 mi = 1.609344 km'],
+    popular: [
+      { anchor: '10 cm to inches', href: '/converters/cm-to-inches', note: '10 cm = 3.9370 in' },
+      { anchor: '30 cm to inches', href: '/converters/cm-to-inches', note: '30 cm = 11.8110 in' },
+      { anchor: '1 meter to feet', href: '/converters/meters-to-feet', note: '1 m = 3.2808 ft' },
+      { anchor: '10 meters to feet', href: '/converters/meters-to-feet', note: '10 m = 32.8084 ft' },
+    ],
     links: [
       { anchor: 'length converter', href: '/converters/length-converter', note: 'mm, cm, m, km, in, ft, yd, mi' },
       { anchor: 'cm to inches converter', href: '/converters/cm-to-inches', note: 'screen, clothing and paper sizes' },
@@ -47,7 +71,14 @@ const families: Family[] = [
     id: 'volume',
     heading: 'Volume and capacity converters',
     body: 'Volume is where US and UK customary units diverge most, and picking the wrong one produces a real error. A US liquid gallon is 3.785411784 litres, while an imperial gallon is about 4.546 litres — roughly 20% larger. The volume converter uses US customary units throughout, covers litres, millilitres, cubic metres, US gallons, quarts, cups, fluid ounces and cubic feet, and states that convention on the page so recipe and fuel calculations stay honest.',
+    formulas: ['1 US gal = 3.785411784 L', '1 L = 0.264172 US gal', '1 m³ = 1,000 L'],
+    popular: [
+      { anchor: '1 liter to gallons', href: '/converters/liters-to-gallons', note: '1 L = 0.2642 US gal' },
+      { anchor: '5 liters to gallons', href: '/converters/liters-to-gallons', note: '5 L = 1.3209 US gal' },
+      { anchor: '1 gallon to liters', href: '/converters/volume-converter', note: '1 US gal = 3.7854 L' },
+    ],
     links: [
+      { anchor: 'liters to gallons converter', href: '/converters/liters-to-gallons', note: 'the dedicated litre–gallon pair' },
       { anchor: 'liter and volume converter', href: '/converters/volume-converter', note: 'L, mL, m³, US gal, qt, cup, fl oz, ft³' },
       { anchor: 'speed converter', href: '/converters/speed-converter', note: 'm/s, km/h, mph, knots, ft/s' },
     ],
@@ -56,6 +87,12 @@ const families: Family[] = [
     id: 'temperature',
     heading: 'Temperature converters',
     body: 'Temperature is the one everyday conversion that is not a simple multiplication, because Celsius and Fahrenheit have different zero points as well as different degree sizes. The formula is °F = °C × 9/5 + 32, and the reverse is °C = (°F − 32) × 5/9. Water freezes at 0 °C / 32 °F and boils at 100 °C / 212 °F; the two scales only agree at −40. Weather forecasts, oven settings and body temperature are the three cases where people need this most, and all three reference points are listed on the page.',
+    formulas: ['°F = °C × 9/5 + 32', '°C = (°F − 32) × 5/9'],
+    popular: [
+      { anchor: '20 Celsius to Fahrenheit', href: '/converters/celsius-to-fahrenheit', note: '20 °C = 68 °F' },
+      { anchor: '37 Celsius to Fahrenheit', href: '/converters/celsius-to-fahrenheit', note: '37 °C = 98.6 °F' },
+      { anchor: '100 Celsius to Fahrenheit', href: '/converters/celsius-to-fahrenheit', note: '100 °C = 212 °F' },
+    ],
     links: [
       { anchor: 'Celsius to Fahrenheit converter', href: '/converters/celsius-to-fahrenheit', note: 'formula, chart and worked examples' },
       { anchor: 'temperature converter', href: '/converters/temperature-converter', note: 'bidirectional °C and °F tool' },
@@ -65,6 +102,12 @@ const families: Family[] = [
     id: 'data',
     heading: 'Data storage converters',
     body: 'Storage sizes have two competing conventions. Operating systems use binary multiples, where 1 GB equals 1,024 MB, while drive manufacturers and network specs use decimal multiples, where 1 GB equals 1,000 MB. That gap is the whole explanation for a “500 GB” drive reporting about 465 GB of usable space. The converters below use binary units and say so explicitly, and each page also explains the decimal alternative. The full chain divides by 1,024 at every step: 1,024 KB to a MB, 1,024 MB to a GB, 1,024 GB to a TB.',
+    formulas: ['1 GB = 1,024 MB (binary)', '1 TB = 1,024 GB', '1 MB = 1,024 KB'],
+    popular: [
+      { anchor: '1 GB to MB', href: '/converters/gb-to-mb-converter', note: '1 GB = 1,024 MB' },
+      { anchor: '1,000 MB to GB', href: '/converters/data-converter', note: '0.9766 GB in binary units' },
+      { anchor: '1,024 MB to GB', href: '/converters/data-converter', note: 'exactly 1 GB' },
+    ],
     links: [
       { anchor: 'GB to MB converter', href: '/converters/gb-to-mb-converter', note: 'gigabytes to megabytes, binary units' },
       { anchor: 'MB to GB converter', href: '/converters/data-converter', note: 'megabytes to gigabytes, plus KB and TB' },
@@ -74,11 +117,49 @@ const families: Family[] = [
     id: 'time',
     heading: 'Time and duration converters',
     body: 'Time runs on a base-60 system inherited from Babylonian mathematics: 60 seconds to a minute, 60 minutes to an hour, 24 hours to a day. The time converter moves between hours, minutes, seconds and days instantly, which is the fastest way to answer questions like how many minutes are in a working week or how many seconds are in a day. For calendar arithmetic rather than durations — days between two dates, or your exact age — the date tools handle the leap years for you.',
+    formulas: ['1 hr = 60 min', '1 day = 24 hr', '1 day = 1,440 min'],
+    popular: [
+      { anchor: '1 hour to minutes', href: '/converters/time-converter', note: '1 hr = 60 min' },
+      { anchor: '1 day to minutes', href: '/converters/time-converter', note: '1 day = 1,440 min' },
+    ],
     links: [
       { anchor: 'time converter', href: '/converters/time-converter', note: 'hours, minutes, seconds and days' },
       { anchor: 'date difference calculator', href: '/time-date/date-difference-calculator', note: 'exact days between two dates' },
       { anchor: 'age calculator', href: '/time-date/age-calculator', note: 'your age in years, months and days' },
     ],
+  },
+  {
+    id: 'speed',
+    heading: 'Speed converters',
+    body: 'Speed mixes metric and US units on the same road sign: kilometres per hour and miles per hour. The exact tie between them is 1 mile = 1.609344 km. The speed converter also covers metres per second (the SI unit), knots for aviation and marine use, and feet per second, with every factor normalised through m/s so mixed conversions stay consistent.',
+    formulas: ['1 mph = 1.609344 km/h', '1 m/s = 3.6 km/h', '1 kn = 1.852 km/h'],
+    popular: [
+      { anchor: '60 mph to km/h', href: '/converters/speed-converter', note: '60 mph = 96.5606 km/h' },
+      { anchor: '1 m/s to km/h', href: '/converters/speed-converter', note: '1 m/s = 3.6 km/h' },
+    ],
+    links: [{ anchor: 'speed converter', href: '/converters/speed-converter', note: 'm/s, km/h, mph, knots, ft/s' }],
+  },
+  {
+    id: 'area',
+    heading: 'Area and land converters',
+    body: 'Area factors are linear factors squared, which is why one square foot is 0.09290304 square metres and one acre is 4,046.8564224 square metres. The area converter handles square metres, square kilometres, square feet, square yards, acres, hectares and square miles — the set that property listings, land purchases and farm planning actually use. Hectares and acres are the pair to get right: one hectare is about 2.4711 acres.',
+    formulas: ['1 acre = 4,046.8564224 m²', '1 ha = 10,000 m²', '1 mi² = 640 acres'],
+    popular: [
+      { anchor: '1 acre to square metres', href: '/converters/area-converter', note: '1 acre = 4,046.8564 m²' },
+      { anchor: '1 hectare to acres', href: '/converters/area-converter', note: '1 ha = 2.4711 acres' },
+    ],
+    links: [{ anchor: 'area converter', href: '/converters/area-converter', note: 'm², km², ft², yd², acre, ha, mi²' }],
+  },
+  {
+    id: 'currency',
+    heading: 'Currency converter',
+    body: 'Currency is the one family where the factor moves daily, so the converter loads a public European Central Bank reference rate and lets you override it with your bank’s quote. It is built for planning: compare a price in EUR against a USD budget, or check what an invoice is worth before fees and spreads. For anything binding, edit the rate to match the quote your bank or card actually gives you.',
+    formulas: ['amount × rate = converted', 'rates: ECB daily reference (Frankfurter)'],
+    popular: [
+      { anchor: 'USD to EUR', href: '/converters/currency-converter', note: 'live ECB reference rate' },
+      { anchor: 'GBP to USD', href: '/converters/currency-converter', note: 'enter any pair of 12 currencies' },
+    ],
+    links: [{ anchor: 'currency converter', href: '/converters/currency-converter', note: 'USD, EUR, GBP, JPY and more' }],
   },
 ];
 ---
@@ -88,8 +169,8 @@ const families: Family[] = [
   <p class="hub-guide-intro">
     A unit converter turns one measurement into another using a fixed published definition. Every tool below runs
     entirely in your browser: type a value and the answer appears immediately, with no account, no download and no
-    page reload. Each page also shows the formula behind the result, a quick-reference chart and answers to the
-    questions people ask most, so you can check the number rather than just trust it.
+    page reload. Each family lists the exact formulas behind its conversions, the values people search most, and the
+    calculators that serve it, so you can check the number rather than just trust it.
   </p>
 
   <div class="hub-guide">
@@ -98,6 +179,21 @@ const families: Family[] = [
         <article class="hub-guide-item" id={family.id}>
           <h3>{family.heading}</h3>
           <p>{family.body}</p>
+          <ul class="hub-formulas" role="list">
+            {family.formulas.map((formula) => (
+              <li><code>{formula}</code></li>
+            ))}
+          </ul>
+          <h4>Popular conversions</h4>
+          <ul class="hub-guide-links">
+            {family.popular.map((link) => (
+              <li>
+                <a href={link.href}>{link.anchor}</a>
+                <span class="il-note">— {link.note}</span>
+              </li>
+            ))}
+          </ul>
+          <h4>Converters and related calculators</h4>
           <ul class="hub-guide-links">
             {family.links.map((link) => (
               <li>

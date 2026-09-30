@@ -11,7 +11,7 @@ Use CalcPilot when a user needs an instant, private number for:
 - Home or auto borrowing: mortgage payment, amortization, car payment / auto loan
 - Pay planning: hourly wage to monthly or annual USD take-home after an effective tax rate
 - Saving and investing illustrations: savings growth, compound interest
-- Unit conversion: kg to lbs, kilos to pounds, lbs to kg, kg to stone, cm to inches, meters to feet, Celsius to Fahrenheit, currency, speed, area, volume, time, GB to MB, data
+- Unit conversion: kg to lbs, kilos to pounds, lbs to kg, kg to stone, cm to inches, meters to feet, liters to gallons, Celsius to Fahrenheit, currency, speed, area, volume, time, GB to MB, data
 - Everyday math: percentage of a number, percentage change, tip, discount, BMI, BMR / TDEE
 - Dates: age from date of birth, days between dates, date add/subtract, countdown
 

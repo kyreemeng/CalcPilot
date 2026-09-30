@@ -33,10 +33,14 @@ When to use: instant browser calculators for finance, unit conversion, dates, an
 - https://calcpilot.net/converters/kg-to-stone-converter
 - https://calcpilot.net/converters/gb-to-mb-converter
 - https://calcpilot.net/converters/1-kg-to-lbs
+- https://calcpilot.net/converters/2.47-kg-to-lbs
+- https://calcpilot.net/converters/2.6-kg-to-lbs
+- https://calcpilot.net/converters/24.6-kg-to-lbs
 - https://calcpilot.net/converters/10-kg-to-lbs
 - https://calcpilot.net/converters/50-kg-to-lbs
 - https://calcpilot.net/converters/60-kg-to-lbs
 - https://calcpilot.net/converters/100-kg-to-lbs
+- https://calcpilot.net/converters/liters-to-gallons
 
 ## Time & date
 - https://calcpilot.net/time-date

@@ -1129,6 +1129,34 @@ html[data-theme='dark'] .theme-toggle .icon-moon { display: none; }
 }
 .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 
+/* Mode switch — segmented pill control (percentage calculator) */
+.mode-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+.mode-btn {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.mode-btn:hover { border-color: var(--primary); color: var(--text-primary); transform: translateY(-1px); }
+.mode-btn:active { transform: scale(0.97); }
+.mode-btn.is-active {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 .donut-wrap {
   position: relative;
   display: flex;
@@ -1640,6 +1668,30 @@ summary.faq-q::-webkit-details-marker { display: none; }
   color: var(--text-secondary);
   line-height: 1.75;
   margin-bottom: var(--space-3);
+}
+.hub-guide-item h4 {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: var(--space-4) 0 var(--space-2);
+}
+.hub-formulas {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0 0 var(--space-2);
+}
+.hub-formulas code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  white-space: nowrap;
 }
 .hub-guide-links {
   list-style: none;

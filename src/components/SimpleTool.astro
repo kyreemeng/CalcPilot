@@ -15,6 +15,8 @@ interface Props {
   lead: string;
   howTo?: { title?: string; steps: string[] };
   understanding?: { title?: string; desc: string };
+  /** Additional content sections rendered after the understanding block. */
+  sections?: { title: string; html: string }[];
   faqs?: { q: string; a: string }[];
   related?: string[];
   relatedTitle?: string;
@@ -28,6 +30,7 @@ const {
   lead,
   howTo,
   understanding,
+  sections = [],
   faqs = [],
   related = [],
   relatedTitle,
@@ -74,6 +77,15 @@ const {
         <p class="understanding-desc" set:html={understanding.desc} />
       </section>
     )
+  }
+
+  {
+    sections.map((s) => (
+      <section class="section reveal">
+        <h2 class="section-title">{s.title}</h2>
+        <div set:html={s.html} />
+      </section>
+    ))
   }
 
   {faqs.length > 0 && <FAQ faqs={faqs} />}

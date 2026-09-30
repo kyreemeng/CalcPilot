@@ -657,6 +657,18 @@ function buildValuePage(seed: ValuePageSeed): SeoValuePage {
    */
   const kgWord = kg === 1 ? 'kilogram' : 'kilograms';
   const answer = `${mag(kg)} ${kgWord} equals ${lbsRounded} pounds.`;
+  /**
+   * Decimal magnitudes (2.47, 24.6, …) need matching table precision, or the
+   * "from" column would print "2 kg" and "25 kg" instead of the searched
+   * decimals. Integers keep the historical 0-decimal tables.
+   */
+  const fromDigits = Math.max(
+    0,
+    ...seed.tableValues.map((v) => {
+      const s = String(v);
+      return s.includes('.') ? s.split('.')[1].length : 0;
+    }),
+  );
   return {
     slug: `${kg}-kg-to-lbs`,
     kind: 'value',
@@ -688,7 +700,7 @@ function buildValuePage(seed: ValuePageSeed): SeoValuePage {
     table: {
       caption: seed.tableCaption,
       header: ['Kilograms (kg)', 'Pounds (lb)', 'Pounds back to kilograms'],
-      rows: makeFactorRows({ values: seed.tableValues, factor: LB_PER_KG, fromUnit: 'kg', toUnit: 'lb' }),
+      rows: makeFactorRows({ values: seed.tableValues, factor: LB_PER_KG, fromUnit: 'kg', toUnit: 'lb', fromDigits }),
     },
     unitBreakdown: sameMagnitude(kg),
     faqs: seed.faqs,
@@ -777,6 +789,73 @@ const valuePageSeeds: ValuePageSeed[] = [
       { q: 'How many pounds is 100 kg in stones?', a: '100 kg is 220.4623 lb, which is 15 stone 10.5 pounds. Use the kg to stone converter for the full breakdown.' },
     ],
     related: ['kg-to-lbs-converter', 'kilograms-to-pounds-converter', 'kg-to-stone-converter'],
+  },
+  {
+    // GSC top query in the whole export: "2.47kg in pounds" — 40 impressions at
+    // position 7.05. This page exists because Google already demonstrated the
+    // demand, not to farm decimals.
+    kg: 2.47,
+    title: '2.47 kg to lbs',
+    lead: 'A value like 2.47 kg comes straight off a scale, a product label or a shipping manifest, so it deserves the exact figure rather than a rounded one.',
+    explanation:
+      '<strong>2.47 kilograms equals 5.4454 pounds.</strong> The arithmetic is a straight multiplication: 2.47 × <strong>2.2046226218</strong> = 5.445417876 lb, and the tail past four decimals never matters in everyday use. People arrive at this exact decimal from a digital kitchen or luggage scale, a baby’s birth weight, or a courier label — and they need the precise figure, because rounding 2.47 to “about 2.5 kg” already shifts the result by 0.07 pounds. In smaller units, 2.47 kg is 2,470 grams or about 87.1 ounces. Read in reverse, 5.4454 lb ÷ 2.2046226218 = 2.47 kg — the <a href="/converters/lbs-to-kg-converter">lbs to kg converter</a> does that directly. Nearby magnitudes are in the chart below: 2.4 kg is 5.2911 lb, 2.5 kg is 5.5116 lb, and the <a href="/converters/2.6-kg-to-lbs">2.6 kg to lbs</a> page covers the next decimal up.',
+    tableValues: [2.2, 2.3, 2.4, 2.45, 2.47, 2.5, 2.55, 2.6],
+    tableCaption: 'Kilogram values around 2.47 kg in pounds',
+    faqs: [
+      { q: 'What is 2.47 kg in lbs?', a: '2.47 kilograms equals 5.4454 pounds (2.47 × 2.2046226218 = 5.445417876).' },
+      {
+        q: 'Is 2.47 kg the same as 5.45 pounds?',
+        a: 'Almost — 5.45 lb is the four-decimal answer 5.4454 lb rounded to two decimals, an error of less than 0.005 pounds.',
+      },
+      { q: 'How many grams is 2.47 kg?', a: '2.47 kilograms is 2,470 grams, or about 87.1 ounces.' },
+      { q: 'What is 2.47 lbs in kg?', a: '2.47 pounds equals 1.1204 kilograms (2.47 × 0.45359237).' },
+    ],
+    related: ['kg-to-lbs-converter', '2.6-kg-to-lbs', 'lbs-to-kg-converter'],
+  },
+  {
+    // Second GSC cluster: "2.6 kg to pounds", "2.6 kgs in pounds",
+    // "2.6 kilograms to pounds", "what is 2.6 kg in lbs", "2.6 kilos to
+    // pounds" — 17 impressions combined, position ~41–51.
+    kg: 2.6,
+    title: '2.6 kg to lbs',
+    lead: 'Two point six kilograms is a one-hand-carry weight — a small dog, a mid-size laptop bag — and the query is searched in more phrasings than almost any other decimal.',
+    explanation:
+      '<strong>2.6 kilograms equals 5.7320 pounds.</strong> Every phrasing of the question — “2.6 kg to pounds”, “2.6 kgs in pounds”, “2.6 kilograms to pounds”, “what is 2.6 kg in lbs”, “2.6 kilos to pounds” — resolves to the same multiplication: 2.6 × <strong>2.2046226218</strong> = 5.732018817 lb. The mental shortcut works well here: double 2.6 to get 5.2, add about 10% (0.52), and you land at 5.72 — within 0.02 pounds of the exact figure. In smaller units, 2.6 kg is 2,600 grams or about 91.7 ounces, which reads as 5 pounds 11.7 ounces on a US kitchen or nursery scale. Going the other way, 5.732 lb ÷ 2.2046226218 = 2.6 kg. The chart below covers the neighbouring decimals, and the <a href="/converters/2.47-kg-to-lbs">2.47 kg to lbs</a> page handles the next decimal down.',
+    tableValues: [2.3, 2.4, 2.5, 2.55, 2.6, 2.65, 2.7, 2.75, 2.8],
+    tableCaption: 'Kilogram values around 2.6 kg in pounds',
+    faqs: [
+      { q: 'What is 2.6 kg in lbs?', a: '2.6 kilograms equals 5.7320 pounds (2.6 × 2.2046226218 = 5.732018817).' },
+      {
+        q: 'What is 2.6 kg in pounds and ounces?',
+        a: '2.6 kg is 5.7320 lb, which is 5 pounds 11.7 ounces (0.7320 × 16 = 11.7 oz).',
+      },
+      { q: 'How many ounces is 2.6 kg?', a: '2.6 kilograms is about 91.7 ounces — 2,600 grams divided by 28.3495 grams per ounce.' },
+      { q: 'What is 2.6 lbs in kg?', a: '2.6 pounds equals 1.1793 kilograms (2.6 × 0.45359237).' },
+    ],
+    related: ['kg-to-lbs-converter', '2.47-kg-to-lbs', 'lbs-to-kg-converter'],
+  },
+  {
+    // Third GSC value: "24.6 kg to lbs" — 5 impressions at position 42.20.
+    kg: 24.6,
+    title: '24.6 kg to lbs',
+    lead: 'Twenty-four point six kilograms sits just above the classic 23 kg checked-baggage allowance, which is the most common reason this exact value gets searched.',
+    explanation:
+      '<strong>24.6 kilograms equals 54.2337 pounds.</strong> The exact result is 24.6 × <strong>2.2046226218</strong> = 54.23371649 lb. Baggage is the everyday case that lands people on this page: most airlines allow 23 kg (50.7063 lb) per checked bag, so a 24.6 kg suitcase is roughly 1.6 kg — 3.5 pounds — over the limit, which is where overweight fees start. The same magnitude reads as the weight of a large dog or a seven- to eight-year-old child. In other units, 24.6 kg is 24,600 grams, about 867.7 ounces, or 3.8739 stone (3 st 12.2 lb in the stones-and-pounds format UK scales use). To reverse it, 54.2337 lb ÷ 2.2046226218 = 24.6 kg, or use the <a href="/converters/lbs-to-kg-converter">lbs to kg converter</a>; for the UK body-weight format, the <a href="/converters/kg-to-stone-converter">kg to stone converter</a> handles stones directly.',
+    tableValues: [23.6, 23.8, 24, 24.2, 24.4, 24.6, 24.8, 25, 25.2],
+    tableCaption: 'Kilogram values around 24.6 kg in pounds',
+    faqs: [
+      { q: 'What is 24.6 kg in lbs?', a: '24.6 kilograms equals 54.2337 pounds (24.6 × 2.2046226218 = 54.23371649).' },
+      {
+        q: 'Is 24.6 kg over the checked baggage limit?',
+        a: 'Usually yes. The standard allowance is 23 kg (50.7063 lb), so 24.6 kg is about 1.6 kg or 3.5 pounds over — into overweight-fee territory on most carriers.',
+      },
+      {
+        q: 'How many stones is 24.6 kg?',
+        a: '24.6 kg is 3.8739 stone, which reads as 3 stone 12.2 pounds in the stones-and-pounds format.',
+      },
+      { q: 'What is 24.6 lbs in kg?', a: '24.6 pounds equals 11.1584 kilograms (24.6 × 0.45359237).' },
+    ],
+    related: ['kg-to-lbs-converter', '2.6-kg-to-lbs', 'kg-to-stone-converter'],
   },
 ];
 

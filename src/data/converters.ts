@@ -180,10 +180,14 @@ export const converterTools: ConverterConfig[] = [
         {
           heading: '2.47 kg to lbs',
           answer: '2.47 kilograms equals 5.4454 pounds (2.47 × 2.2046226218).',
+          href: '/converters/2.47-kg-to-lbs',
+          linkLabel: 'Open the 2.47 kg to lbs page',
         },
         {
           heading: '2.6 kg to lbs',
           answer: '2.6 kilograms equals 5.7320 pounds (2.6 × 2.2046226218).',
+          href: '/converters/2.6-kg-to-lbs',
+          linkLabel: 'Open the 2.6 kg to lbs page',
         },
         {
           heading: '10 kg to lbs',
@@ -198,6 +202,8 @@ export const converterTools: ConverterConfig[] = [
         {
           heading: '24.6 kg to lbs',
           answer: '24.6 kilograms equals 54.2337 pounds (24.6 × 2.2046226218).',
+          href: '/converters/24.6-kg-to-lbs',
+          linkLabel: 'Open the 24.6 kg to lbs page',
         },
         {
           heading: '211 kg to lbs',
@@ -712,7 +718,7 @@ export const converterTools: ConverterConfig[] = [
       { q: 'Are US and UK gallons the same?', a: 'No. A US gallon is about 3.785 liters, while a UK imperial gallon is about 4.546 liters. This converter uses US customary units.' },
       { q: 'How many fluid ounces are in a US cup?', a: 'One US customary cup contains 8 US fluid ounces.' },
     ],
-    related: ['area-converter', 'length-converter', 'kg-to-lbs-converter'],
+    related: ['liters-to-gallons', 'area-converter', 'length-converter'],
   },
   {
     id: 'currency',

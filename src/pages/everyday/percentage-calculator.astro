@@ -4,8 +4,10 @@ import SimpleTool from '../../components/SimpleTool.astro';
 import { simpleJsonLd } from '../../lib/seo';
 
 const title = 'Percentage Calculator';
+// "PCT calculator" is the abbreviated query GSC shows impressions for; the
+// plain-language "percent calculator" variant rides along in the description.
 const desc =
-  'Free percentage calculator: find X% of Y instantly. Formula, discounts, tips and everyday percent math — no sign-up.';
+  'Free percentage calculator (PCT calculator): what is X% of Y, and what percent is X of Y — plus percentage increase, decrease, change and difference formulas. No sign-up.';
 const path = '/everyday/percentage-calculator';
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -14,13 +16,22 @@ const crumbs = [
 ];
 const howTo = {
   steps: [
-    'Enter the base number you want to take a percentage of.',
-    'Enter the percentage value (for example 15 for 15%).',
-    'Read the result and the breakdown showing the exact multiplication used.',
+    'Pick a mode: “What is X% of Y?” or “X is what percent of Y?”.',
+    'Enter the two numbers — for example 15 and 200.',
+    'Read the result and the breakdown showing the exact calculation used.',
   ],
 };
 const understanding = {
-  desc: 'A percentage is a fraction of 100. To find X% of Y, multiply Y by X and divide by 100: result = Y × (X ÷ 100). For bill totals and splits, use the <a href="/everyday/tip-calculator">Tip Calculator</a>; for sale prices and savings, use the <a href="/everyday/discount-calculator">Discount Calculator</a>.',
+  desc: 'A percentage is a fraction of 100. To find <strong>X% of Y</strong>, multiply Y by X and divide by 100: <strong>result = Y × (X ÷ 100)</strong> — so 15% of 200 is 200 × 0.15 = 30. The reverse question, <strong>“what percent is X of Y?”</strong>, divides instead: X ÷ Y × 100, so 30 is 15% of 200. For bill totals and splits, use the <a href="/everyday/tip-calculator">Tip Calculator</a>; for sale prices and savings, use the <a href="/everyday/discount-calculator">Discount Calculator</a>.',
+};
+const changeSection = {
+  title: 'Percentage increase, decrease and change',
+  html: `<p class="understanding-desc">When a value moves from one number to another, the <strong>percentage change</strong> is (new − old) ÷ old × 100. A rise gives a positive percentage increase (80 → 100 is +25%) and a fall gives a negative percentage decrease (100 → 80 is −20%). The old value always divides the difference, which is why a 25% increase followed by a 25% decrease does not return to the start.</p>
+<div class="formula-panel">
+  <p class="formula-primary">% change = (new − old) ÷ old × 100</p>
+  <p class="formula-secondary">Increase and decrease use the same formula — only the sign differs</p>
+</div>
+<p class="understanding-desc">Enter both values and let the <a href="/everyday/percentage-change-calculator">Percentage Change Calculator</a> do this directly, including the absolute difference between the two numbers. It applies the same formula this page states, so both tools always agree.</p>`,
 };
 const faqs = [
   {
@@ -28,44 +39,57 @@ const faqs = [
     a: 'Multiply the number by the percentage, then divide by 100. Example: 15% of 200 = 200 × 0.15 = 30.',
   },
   {
+    q: 'What percent is X of Y?',
+    a: 'Divide X by Y and multiply by 100. Example: 30 is what percent of 200? 30 ÷ 200 × 100 = 15%. The second mode of this calculator does it instantly.',
+  },
+  {
     q: 'Can I use decimals like 12.5%?',
     a: 'Yes. Enter any decimal percentage and the result updates immediately.',
   },
   {
-    q: 'How is this different from a tip or discount calculator?',
-    a: 'This tool solves the plain math question “what is X% of Y?” Tip and discount calculators add bill totals, split shares, and savings context on top of that formula.',
+    q: 'Is a pct calculator the same as a percentage calculator?',
+    a: 'Yes. “PCT” is just the abbreviation for percent, so a pct calculator and a percentage calculator are the same tool — this page answers both phrasings.',
   },
   {
-    q: 'How do I calculate percentage increase or the difference between two numbers?',
-    a: 'Use the Percentage Change Calculator for increase, decrease, and the difference between two values. This page answers “what is X% of Y?”',
+    q: 'How do I calculate percentage increase or decrease?',
+    a: 'Use % change = (new − old) ÷ old × 100. A positive result is an increase, a negative one a decrease. The Percentage Change Calculator applies this formula for you.',
+  },
+  {
+    q: 'How is this different from a tip or discount calculator?',
+    a: 'This tool solves the plain math questions “what is X% of Y?” and “what percent is X of Y?” Tip and discount calculators add bill totals, split shares, and savings context on top of that formula.',
   },
 ];
 const related = ['percentage-change-calculator', 'tip-calculator', 'discount-calculator'];
 ---
 
 <Base
-  title={`${title} — X% of Y Formula | CalcPilot`}
+  title={`${title} — Free PCT Calculator | CalcPilot`}
   description={desc}
   jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
 >
   <SimpleTool
     crumbs={crumbs}
     title={title}
-    lead="Enter a number and a percentage to see X% of Y instantly — useful for tips, discounts, fees, and quick checks."
+    lead="A free PCT calculator for the two everyday percent questions — X% of a number, and one number as a percent of another — with tips, discounts and fees one click away."
     howTo={howTo}
     understanding={understanding}
+    sections={[changeSection]}
     faqs={faqs}
     related={related}
   >
     <div slot="form">
       <h2 class="form-title">Your details</h2>
+      <div class="mode-switch" role="group" aria-label="Calculation mode">
+        <button type="button" class="mode-btn is-active" data-mode="of" aria-pressed="true">What is X% of Y?</button>
+        <button type="button" class="mode-btn" data-mode="ratio" aria-pressed="false">X is what percent of Y?</button>
+      </div>
       <div class="field">
-        <label for="value">Number</label>
+        <label for="value" id="label-value">Number</label>
         <div class="input-wrap"><input id="value" type="number" inputmode="decimal" step="any" value="200" /></div>
       </div>
       <div class="field">
-        <label for="pct">Percentage</label>
-        <div class="input-wrap"><input id="pct" type="number" inputmode="decimal" step="any" value="15" /><span class="suffix">%</span></div>
+        <label for="pct" id="label-pct">Percentage</label>
+        <div class="input-wrap"><input id="pct" type="number" inputmode="decimal" step="any" value="15" /><span class="suffix" id="suffix-pct">%</span></div>
       </div>
     </div>
 
@@ -75,7 +99,7 @@ const related = ['percentage-change-calculator', 'tip-calculator', 'discount-cal
       <div class="result-subtitle" id="sub">15% of 200</div>
       <hr class="result-divider" />
       <div class="breakdown" id="detail">
-        <div class="breakdown-row"><span class="blabel">200 × 15%</span><span class="bvalue">30</span></div>
+        <div class="breakdown-row"><span class="blabel">200 × 15% =</span><span class="bvalue">30</span></div>
       </div>
     </div>
   </SimpleTool>
@@ -87,20 +111,62 @@ const related = ['percentage-change-calculator', 'tip-calculator', 'discount-cal
   const resEl = document.getElementById('res')!;
   const subEl = document.getElementById('sub')!;
   const detailEl = document.getElementById('detail')!;
+  const labelValue = document.getElementById('label-value')!;
+  const labelPct = document.getElementById('label-pct')!;
+  const suffixPct = document.getElementById('suffix-pct')!;
+  const modeBtns = Array.from(document.querySelectorAll('.mode-btn')) as HTMLButtonElement[];
+
+  const fmtNum = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 4 });
+
+  // "of" answers "what is X% of Y?"; "ratio" answers the reverse, "what
+  // percent is X of Y?". Both reuse the same two inputs.
+  let mode = 'of';
 
   function calc() {
-    const value = parseFloat(valueEl.value);
-    const pct = parseFloat(pctEl.value);
-    if (!Number.isFinite(value) || !Number.isFinite(pct)) return;
-    const result = (value * pct) / 100;
+    const a = parseFloat(valueEl.value);
+    const b = parseFloat(pctEl.value);
+    if (!Number.isFinite(a) || !Number.isFinite(b)) return;
 
-    resEl.textContent = result.toLocaleString('en-US', { maximumFractionDigits: 4 });
-    subEl.textContent = `${pct}% of ${value.toLocaleString('en-US')}`;
-    detailEl.innerHTML = `
-      <div class="breakdown-row"><span class="blabel">${value.toLocaleString('en-US')} × ${pct}%</span><span class="bvalue">${result.toLocaleString('en-US', { maximumFractionDigits: 4 })}</span></div>
-    `;
+    if (mode === 'of') {
+      const result = (a * b) / 100;
+      resEl.textContent = fmtNum(result);
+      subEl.textContent = `${fmtNum(b)}% of ${a.toLocaleString('en-US')}`;
+      // The "=" keeps the extracted text readable ("200 × 15% = 30") —
+      // without it the label and value concatenate into "200 × 15%30".
+      detailEl.innerHTML = `
+        <div class="breakdown-row"><span class="blabel">${a.toLocaleString('en-US')} × ${fmtNum(b)}% =</span><span class="bvalue">${fmtNum(result)}</span></div>
+      `;
+    } else {
+      if (b === 0) return;
+      const result = (a / b) * 100;
+      resEl.textContent = `${fmtNum(result)}%`;
+      subEl.textContent = `${a.toLocaleString('en-US')} is ${fmtNum(result)}% of ${b.toLocaleString('en-US')}`;
+      detailEl.innerHTML = `
+        <div class="breakdown-row"><span class="blabel">${a.toLocaleString('en-US')} ÷ ${b.toLocaleString('en-US')} × 100 =</span><span class="bvalue">${fmtNum(result)}%</span></div>
+      `;
+    }
   }
 
+  function setMode(next: string) {
+    mode = next;
+    for (const btn of modeBtns) {
+      const active = btn.dataset.mode === next;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    }
+    if (next === 'of') {
+      labelValue.textContent = 'Number';
+      labelPct.textContent = 'Percentage';
+      suffixPct.style.display = '';
+    } else {
+      labelValue.textContent = 'Part (X)';
+      labelPct.textContent = 'Whole (Y)';
+      suffixPct.style.display = 'none';
+    }
+    calc();
+  }
+
+  for (const btn of modeBtns) btn.addEventListener('click', () => setMode(btn.dataset.mode!));
   valueEl.addEventListener('input', calc);
   pctEl.addEventListener('input', calc);
   calc();

@@ -110,6 +110,7 @@ const crumbs = [
             <tr>
               <th scope="col">{tool.from.label} ({tool.from.unit})</th>
               <th scope="col">{tool.to.label} ({tool.to.unit})</th>
+              <th scope="col">{tool.to.unit} back to {tool.from.unit}</th>
             </tr>
           </thead>
           <tbody>
@@ -117,6 +118,7 @@ const crumbs = [
               <tr>
                 <td>{row.from}</td>
                 <td>{row.to}</td>
+                <td class="cell-reverse">{row.reverse}</td>
               </tr>
             ))}
           </tbody>
@@ -124,6 +126,22 @@ const crumbs = [
       </div>
     </div>
   </section>
+
+  {
+    tool.internalLinks && tool.internalLinks.length > 0 && (
+      <section class="section reveal">
+        <h2 class="section-title">More conversions</h2>
+        <ul class="internal-links">
+          {tool.internalLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.anchor}</a>
+              <span class="il-note">— {link.note}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   <FAQ faqs={tool.faqs} />
   <RelatedCards slugs={tool.related} title="Related conversion tools" verb="Open converter" />
