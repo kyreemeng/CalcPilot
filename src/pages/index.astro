@@ -2,12 +2,13 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import CategoryCard from '../components/CategoryCard.astro';
-import { brand, categories, categoryIcons, getToolRef, toolIcon, popularSlugs } from '../data/site';
+import { brand, categories, categoryIcons, getToolRef, toolIcon, popularSlugs, toolRefsFor, latestSlugs } from '../data/site';
 
 const featured = popularSlugs
   .map((slug) => getToolRef(slug))
   .filter((t): t is NonNullable<typeof t> => Boolean(t))
   .slice(0, 5);
+const latest = toolRefsFor(latestSlugs);
 ---
 
 <Base
@@ -109,6 +110,26 @@ const featured = popularSlugs
         {popularSlugs.map((slug) => {
           const t = getToolRef(slug);
           if (!t) return null;
+          const verb = t.category === 'converters' ? 'Open converter' : 'Open calculator';
+          return (
+            <a class="tool-row" href={t.href}>
+              <span class="tool-icon"><Icon name={toolIcon(t.slug)} size={18} /></span>
+              <div>
+                <h3>{t.title}</h3>
+                <p>{t.shortDesc}</p>
+              </div>
+              <span class="row-cta">{verb}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2 class="section-title">Latest tools & pages</h2>
+      <p class="section-kicker">Freshly shipped calculators and conversion pages.</p>
+      <div class="tool-list reveal-stagger">
+        {latest.map((t) => {
           const verb = t.category === 'converters' ? 'Open converter' : 'Open calculator';
           return (
             <a class="tool-row" href={t.href}>

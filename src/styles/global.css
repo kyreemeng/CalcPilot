@@ -1733,7 +1733,7 @@ summary.faq-q::-webkit-details-marker { display: none; }
   .factor-cards { grid-template-columns: repeat(2, 1fr); }
   .proof-strip { grid-template-columns: 1fr; gap: var(--space-4); }
   .footer-grid { grid-template-columns: 1fr; }
-  .footer-cols { justify-content: flex-start; }
+  .footer-cols { justify-content: flex-start; flex-wrap: wrap; row-gap: var(--space-6); }
   .header-search { display: none; }
   .header-inner {
     min-height: 60px;

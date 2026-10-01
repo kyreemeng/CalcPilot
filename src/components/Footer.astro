@@ -1,6 +1,8 @@
 ---
 import Icon from './Icon.astro';
-import { brand, footerColumns } from '../data/site';
+import { brand, footerColumns, toolRefsFor, footerToolSlugs } from '../data/site';
+
+const footerTools = toolRefsFor(footerToolSlugs);
 ---
 
 <footer class="site-footer">
@@ -22,6 +24,16 @@ import { brand, footerColumns } from '../data/site';
       </div>
 
       <div class="footer-cols">
+        <div class="footer-col">
+          <h2 class="footer-col-title">Popular tools</h2>
+          <ul>
+            {
+              footerTools.map((t) => (
+                <li><a href={t.href}>{t.title}</a></li>
+              ))
+            }
+          </ul>
+        </div>
         {
           footerColumns.map((col) => (
             <div class="footer-col">

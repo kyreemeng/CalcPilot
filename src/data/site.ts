@@ -120,8 +120,51 @@ export const popularSlugs = [
   'bmr-calorie-calculator',
 ];
 
+/**
+ * Pages shipped most recently, newest first.
+ *
+ * The homepage freshness block lists these so Googlebot — which crawls the
+ * homepage more often than any other page — discovers new URLs on its first
+ * visit after launch, instead of waiting on sitemap processing. Update this
+ * list whenever a new page ships; keep it to the last ~6.
+ */
+export const latestSlugs = [
+  '2.47-kg-to-lbs',
+  '2.6-kg-to-lbs',
+  '24.6-kg-to-lbs',
+  'liters-to-gallons',
+  'gb-to-mb-converter',
+  'kg-to-stone-converter',
+];
+
+/**
+ * High-value deep pages linked from every page's footer.
+ *
+ * Ranking signals favour links pointing at inner pages rather than only the
+ * homepage, and a footer that surfaces the money pages keeps every tool
+ * within three clicks of every other. Curated by hand — head terms plus the
+ * busiest everyday and finance tools.
+ */
+export const footerToolSlugs = [
+  'kg-to-lbs-converter',
+  'lbs-to-kg-converter',
+  'cm-to-inches',
+  'liters-to-gallons',
+  'data-converter',
+  'percentage-calculator',
+  'salary-calculator',
+  'mortgage-calculator',
+];
+
 export function getToolRef(slug: string): ToolRef | undefined {
   return allTools.find((t) => t.slug === slug);
+}
+
+/** Resolve a slug list to ToolRefs, skipping anything unknown. */
+export function toolRefsFor(slugs: string[]): ToolRef[] {
+  return slugs
+    .map((slug) => getToolRef(slug))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t));
 }
 
 export function getToolTitle(slug: string): string {
