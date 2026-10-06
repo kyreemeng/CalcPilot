@@ -18,6 +18,15 @@
 | D6 | 多语言暂缓 | GSC 流量 100% 来自 US/UK/CA/AU 英语区；hreflang 成本先花在主市场 | 2026-10-01 |
 | D7 | Footer「Popular tools」采用单列 8 链接（不用双列） | 双列在页脚容器内折行破坏可读性；完整描述性锚文本比列数更有价值 | 2026-10-01 |
 | D8 | P2 清单中 cm/m/liters 等的数值长尾页冻结，等 GSC 出现 ≥2 impressions 再建 | 同 D3；这些 pair 目前无数值型 query 证据 | 2026-09-30 |
+| D9 | 新增 `/everyday/board-foot-calculator`，覆盖 board foot / feet / boardfoot / ft 四个拼写变体于同一页 | 四变体搜索意图与 SERP 完全相同，拆页只会自我蚕食（同 D4 风险，但此处合并是主动选择）。页内差异化靠「成本 + 圆木 Doyle/Scribner + 反查数量」三模式承担 | 2026-10-06 |
+| D10 | 圆木模式改用各规则的**权威原始形式**：Doyle `(D−4)²×L/16`、International 1/4" 段式 `0.905×Σ(0.22d²−0.71d)`（按 4 ft 分段、每段 +0.5 in 锥度、取整 5 BF）、Scribner 直接查官方 16 ft 表后按长度缩放（取整 10 BF） | 初版误用 `(D²−k)×L÷12` 通式，16"×16' 算出 Doyle 320 BF，正确值 144 BF——**数值错误比排名差更伤 E-E-A-T**。三条规则本身量纲不同（公式规则/图表规则），用一个通式套是概念性错误。International 段式公式已对 USDA/VT 官方表 10 个直径全部命中；Scribner 表与 Idaho Board of Scaling Practices 的 Coconino Decimal C 表逐行核对一致 | 2026-10-06 |
+| D11 | `<1119px` 时把结果卡片移到表单**上方**并 `position: sticky` 吸附，隐藏 breakdown 行 | 原先堆叠后表单高 740px，结果卡片落在 y=1113（视口仅 844），与「首屏直接给答案」的目标冲突。置顶后首屏可见（top 350 / 高 191），滚动填表时答案仍在视线内实时更新；实测不遮挡任何字段 | 2026-10-06 |
+| D12 | 木材厚度加 3/4–8/4 五个 chip 快捷键；删掉 `.form-hint` 死类名；补 `log board foot calculator` 与「该用哪条规则」两条 FAQ | chip 把「4/4 是多少英寸」这一最高频疑问变成一次点击；死类名无样式，属于无效代码 | 2026-10-06 |
+| D13 | related 从 `[percentage, discount, tip]` 换成 `[area, volume, length-converter]` | 原推荐与木工场景零相关，跳出率高且浪费内链权重；三个转换器均与「尺寸／体积」意图邻接，且都存在、可正常解析 | 2026-10-06 |
+| D14 | 全站移动端（≤1119px）结果卡片上移到表单前并吸顶；≤767px 时财务页隐藏 donut | 实测 18 个页面里 14 个的结果卡片落在 y=635–1049，手机视口仅 844——用户要先划过大半屏才看到自己刚算的东西，与「首屏给答案」直接冲突。上移后全部进首屏（top 275–350），实测不遮挡任何输入框 | 2026-10-06 |
+| D15 | `.result-card` 在窄屏由 `position: static` 改为 `relative` | **真 bug**：卡片改为 static 后不再是包含块，`::before` 光晕（`right:-20%`、宽 70%）改相对外层祖先定位且无人裁剪，导致**全站所有页面**在手机上横向溢出 78px（=20%×390）。这是 `overflow: hidden` 只裁后代、不裁包含块在自身之外的绝对定位元素所致 | 2026-10-06 |
+| D16 | finance 三处数学修正：贷款 extra payment 真正缩短期限并降息、储蓄/复利不再把本金算成利息、salary 与 auto-loan 的环形图对齐中心数 | 三处都属「文案承诺 A、代码做 B」：①页面写 "extra payments shorten your term and cut total interest"，代码只在月供上加钱，利息与期数完全不变；②`grossInterest = gross - totalContrib` 漏减本金，把本金当利息征税后再从头条里丢掉，头条约少算 $10,000 且与环形图对不上；③环形图三段之和 ≠ 中心数 | 2026-10-06 |
+| D17 | 日期类改用日历运算（`setDate` / 逐日计数）替代毫秒运算 | **真 bug**：`age-calculator` 用 `floor(ms/86400000)`，DST 让某些本地日长 23 或 25 小时，跨 30 年可差 1–2 天（悉尼 160/216、纽约 36/216 组合出错）；`date-add` 用 `+n*86400000`，2026 年在纽约有 38 个日期组合算错（如 10-03 +30 天显示 Nov 1，应为 Nov 2）。`date-difference`/`countdown` 用 `round` 因正负偏差抵消而侥幸正确，暂不动 | 2026-10-06 |
 
 ## 二、运行规则（发页/改页时必须执行）
 
@@ -35,6 +44,13 @@
 | F4 | CTR 优化首批候选：`2.47kg in pounds`（#7.05、40 imp、1 click）数据积累后适合 `.agents/skills/ctr-snippet-optimization` 流程；`pct calculator`（34 imp / #68.71）位置太深，不属于 CTR 技能范围，走内容/内链 | 数据满 28–90 天窗口后 |
 | F5 | PageSpeed 基线实测：代码侧已最优（SSG/自托管字体/内联 CSS），用 pagespeed.web.dev 跑首页 + kg-to-lbs 页留档 | 下一轮部署稳定后 |
 | F6 | Finance 页面合规复查：salary/mortgage 属 YMYL 邻近域，已有免责声明与「estimates only」措辞，按 `.agents/skills/legal-regulatory-compliance` 核对educational/advice 边界 | 下次改动 finance 内容时 |
+| F7 | board-foot-calculator 蚕食与蚕食反向监控：新页与既有 54 页主题（转换器/财务）相关性弱，需观察 GSC 是否将其归入 construction 类而非 finance；另监控 boardfoot 无空格变体是否被同页覆盖而非另起意图 | 部署后 28–60 天 |
+| F8 | 页内木材价格区间（rough $2–6 / surfaced $4–11 / walnut $10–18）为 2026 年公开来源快照，具时效性 | 每 6 个月复核一次，木材价格波动时立即更新 |
+| F9 | 圆木模式的 Doyle/Scribner/International 输出已对 VT/USDA 与 IBSP 官方表校验（16 ft 全直径段）；但表只覆盖 6–40 in，超出范围当前做端点钳制，未给提示 | 若 GSC 出现 >40 in 或超大径查询，补边界提示 |
+| F10 | 移动端结果卡片改为置顶吸附加隐藏 breakdown（D11），属于**该页独有**的移动端布局，与站内其他工具页不一致 | 部署后看 GSC 移动端可用性 + 行为数据；若其他页也需同款，抽成公共类而非逐页复制 |
+| F11 | D14 已把「结果卡片置顶吸顶」从 board-foot 单页提升为全站规则，F10 的复查项合并到这里 | 部署后看 GSC 移动端可用性与滚动深度 |
+| F12 | 日期计算（D17）只修了 age 与 date-add 两页；`date-difference` 和 `countdown` 目前靠 `Math.round` 的正负抵消侥幸正确，逻辑仍脆弱 | 下次改动日期类页面时一并换成日历运算 |
+| F13 | `npx astro check` 有 1 条 `MB_PER_GB` 未使用告警（converters.ts 引入未用） | 下次改 converters.ts 时顺手清理 |
 
 ## 四、技能包路由表（seoo skill pack × CalcPilot）
 

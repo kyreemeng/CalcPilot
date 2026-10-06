@@ -95,7 +95,11 @@ const related = ['date-difference-calculator', 'countdown-calculator', 'age-calc
     if (isNaN(start.getTime()) || !Number.isFinite(n)) return;
 
     const delta = opEl.value === 'subtract' ? -n : n;
-    const result = new Date(start.getTime() + delta * 86400000);
+    // Shift the calendar day rather than adding 24-hour blocks. A local day is
+    // not always 86400000 ms long: across a DST boundary the millisecond
+    // version lands an hour short (or long) and can report the wrong date.
+    const result = new Date(start);
+    result.setDate(result.getDate() + delta);
 
     outEl.textContent = result.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     subEl.textContent = `${opEl.value === 'subtract' ? 'minus' : 'plus'} ${n} day${n === 1 ? '' : 's'}`;

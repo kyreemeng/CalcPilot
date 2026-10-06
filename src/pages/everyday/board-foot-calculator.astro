@@ -1,0 +1,529 @@
+---
+import Base from '../../layouts/Base.astro';
+import SimpleTool from '../../components/SimpleTool.astro';
+import { simpleJsonLd } from '../../lib/seo';
+
+const title = 'Board Foot Calculator';
+// Variants covered by one page on purpose: "board feet calculator" (GSC
+// search interest 100, +50%), "boardfoot calculator" and "board ft calculator".
+// They share the same intent and the same SERP, so separate pages would only
+// split our own authority (see docs/SEO-DECISIONS.md D4/F3 precedent).
+const desc =
+  'Free board foot calculator: turn lumber dimensions into board feet and cost, with hardwood thickness presets, Doyle/Scribner log scaling and a waste allowance.';
+const path = '/everyday/board-foot-calculator';
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Everyday', href: '/everyday' },
+  { label: title },
+];
+const howTo = {
+  steps: [
+    'Choose a mode: “Board feet” measures volume, “Cost” prices a list, “By log” scales a round log, and “Find pieces” works backwards from a target board-foot total.',
+    'Enter thickness and width in inches, length in feet, and how many identical pieces you need. Fractional inches like 6 1/2 are fine — enter 6.5.',
+    'For cost, add your price per board foot and a waste allowance. Hardwood is normally quoted by board foot, so the cost column updates with the volume.',
+    'For a log on the ground, switch to “By log”, enter the small-end diameter measured inside the bark, and check which rule your buyer quotes against.',
+  ],
+};
+const understanding = {
+  desc: 'A <strong>board foot (BF)</strong> is a volume, not a length: one board foot equals <strong>144 cubic inches</strong>, which is a piece 1 inch thick, 12 inches wide and 12 inches long. Because volume is what hardwood mills sell, <strong>boardFeet = (thickness in × width in × length ft) ÷ 12</strong> — a 1 × 6 board 8 ft long is 1 × 6 × 8 ÷ 12 = <strong>4 BF</strong>. Two things trip people up. First, hardwood is quoted on <strong>nominal</strong> (rough-sawn) dimensions, so a “6/4” board is measured as 1.5 in even though it surfaces thinner. Second, dimensional softwood is usually sold by the piece or by the linear foot, so board feet mainly matter for hardwood, plywood and rough lumber. The same tool answers to several names — a <strong>board feet calculator</strong>, a <strong>boardfoot calculator</strong>, a <strong>board ft calculator</strong> or a <strong>board footage calculator</strong> — every spelling means the same thing and this page answers each of them. For the same job measured in square feet, use the <a href="/converters/area-converter">area converter</a>; for round logs, use the <strong>By log</strong> mode above, which applies the Doyle, Scribner and International 1/4" rules.',
+};
+const sizingSection = {
+  title: 'Board feet for common nominal sizes',
+  html: `<p class="understanding-desc">Hardwood is quoted in <strong>quarters</strong>: 4/4 means 1 in thick, 5/4 is 1.25 in, 6/4 is 1.5 in and 8/4 is 2 in, all measured <em>rough-sawn</em>. Use the nominal figure, not the surfaced size — a mill will price a 6/4 board off 1.5 in even if it planes down to 1.3 in. If you want to know <strong>how to calculate board feet</strong> without a tool, that is the whole method: read the nominal thickness and width, multiply by the length in feet and divide by 12. The table below does that arithmetic once for the sizes a lumber yard stocks most, using the nominal dimensions printed on the stamp, so you can look up a figure instead of working it out. The calculator above handles any size, the quantity and the cost.</p>
+<div class="table-scroll"><table class="amort">
+<thead><tr><th>Nominal size</th><th>Board feet per linear foot</th><th>8 ft board</th><th>12 ft board</th><th>16 ft board</th></tr></thead>
+<tbody>
+<tr><td>1 × 4</td><td class="num">0.333</td><td class="num">2.67</td><td class="num">4</td><td class="num">5.33</td></tr>
+<tr><td>1 × 6</td><td class="num">0.5</td><td class="num">4</td><td class="num">6</td><td class="num">8</td></tr>
+<tr><td>1 × 8</td><td class="num">0.667</td><td class="num">5.33</td><td class="num">8</td><td class="num">10.67</td></tr>
+<tr><td>1 × 12</td><td class="num">1</td><td class="num">8</td><td class="num">12</td><td class="num">16</td></tr>
+<tr><td>2 × 4</td><td class="num">0.667</td><td class="num">5.33</td><td class="num">8</td><td class="num">10.67</td></tr>
+<tr><td>2 × 6</td><td class="num">1</td><td class="num">8</td><td class="num">12</td><td class="num">16</td></tr>
+<tr><td>2 × 8</td><td class="num">1.333</td><td class="num">10.67</td><td class="num">16</td><td class="num">21.33</td></tr>
+<tr><td>2 × 12</td><td class="num">2</td><td class="num">16</td><td class="num">24</td><td class="num">32</td></tr>
+<tr><td>4 × 4</td><td class="num">1.333</td><td class="num">10.67</td><td class="num">16</td><td class="num">21.33</td></tr>
+<tr><td>4 × 8</td><td class="num">2.667</td><td class="num">21.33</td><td class="num">32</td><td class="num">42.67</td></tr>
+<tr><td>6 × 6</td><td class="num">3</td><td class="num">24</td><td class="num">36</td><td class="num">48</td></tr>
+</tbody></table></div>
+<p class="understanding-desc">These rows use the <strong>nominal</strong> dimensions printed on the stamp, so a 2 × 4 × 8 ft shows 5.33 BF rather than the 3.50 BF you would get from its actual 1.5 × 3.5 in size. That gap is not an error — it is exactly why a yard sells framing lumber by the piece and prices hardwood by the foot. Enter the nominal numbers above when you are quoting a yard, and the measured numbers when a supplier has already told you what the board actually measures.</p>`,
+};
+const logSection = {
+  title: 'Log board foot calculator — scaling a round log (Doyle, Scribner, International 1/4")',
+  html: `<p class="understanding-desc">A round log cannot be measured with the T × W × L formula, so forestry uses <strong>log rules</strong> to estimate the lumber it will yield from the small-end diameter (measured <em>inside</em> the bark) and the log length. Three rules are standard in North America, and because each was built on different assumptions they disagree badly on small logs — the <strong>By log</strong> mode above is a complete <strong>log board foot calculator</strong> that runs all three on your numbers at once.</p>
+<div class="formula-panel">
+  <p class="formula-primary">Doyle · BF = (D − 4)² × L ÷ 16</p>
+  <p class="formula-secondary">D = small-end diameter inside the bark (in) · L = log length (ft). The flat 4 in is a slab allowance, and squaring what is left is why Doyle reads so low on small logs: a 10 in log is scaled on 6 in, barely a third of its diameter.</p>
+</div>
+<div class="formula-panel">
+  <p class="formula-primary">International 1/4" · BF = 0.905 × Σ (0.22d² − 0.71d)</p>
+  <p class="formula-secondary">The log is scaled as 4 ft sections, each 1/2 in wider than the section below it to allow for taper, and each section contributes 0.22d² − 0.71d board feet at its own small-end diameter d. The total is rounded to the nearest 5 BF.</p>
+</div>
+<p class="understanding-desc"><strong>Scribner</strong> is the odd one out: it has no exact formula. It began in 1846 as a drawing of 1 in boards with a 1/4 in kerf nested inside a circle, and it is still published as a table. The <strong>Decimal C</strong> edition that log buyers quote rounds every entry to the nearest 10 BF. This calculator reads the published 16 ft table and scales it by length, so its Scribner column matches the table below; calculators that substitute a curve fit instead drift several board feet either side of the official figures.</p>
+<p class="understanding-desc">The three rules disagree exactly where small woodlots live. A 12 in × 16 ft log scales <strong>64 BF</strong> by Doyle, <strong>80 BF</strong> by Scribner Decimal C and <strong>95 BF</strong> by the International 1/4" rule — the same log, a 48% spread. That is why sellers prefer International and buyers prefer Doyle, and why the rule must be agreed before a load is scaled, not after.</p>
+<div class="table-scroll"><table class="amort">
+<thead><tr><th>Small-end diameter</th><th>Doyle</th><th>Scribner Decimal C</th><th>International 1/4"</th></tr></thead>
+<tbody>
+<tr><td>8 in</td><td class="num">16</td><td class="num">30</td><td class="num">40</td></tr>
+<tr><td>10 in</td><td class="num">36</td><td class="num">60</td><td class="num">65</td></tr>
+<tr><td>12 in</td><td class="num">64</td><td class="num">80</td><td class="num">95</td></tr>
+<tr><td>14 in</td><td class="num">100</td><td class="num">110</td><td class="num">135</td></tr>
+<tr><td>16 in</td><td class="num">144</td><td class="num">160</td><td class="num">180</td></tr>
+<tr><td>18 in</td><td class="num">196</td><td class="num">210</td><td class="num">230</td></tr>
+<tr><td>20 in</td><td class="num">256</td><td class="num">280</td><td class="num">290</td></tr>
+<tr><td>24 in</td><td class="num">400</td><td class="num">400</td><td class="num">425</td></tr>
+<tr><td>30 in</td><td class="num">676</td><td class="num">660</td><td class="num">675</td></tr>
+<tr><td>36 in</td><td class="num">1,024</td><td class="num">920</td><td class="num">980</td></tr>
+</tbody></table></div>
+<p class="source-note">Board feet from a 16 ft log. Reference values: <a href="https://www.pubs.ext.vt.edu/420/420-085/420-085.html" rel="external">Virginia Cooperative Extension, Forest Landowner’s Guide to the Measurement of Timber and Logs</a> (USDA Forest Service tables).</p>
+<p class="understanding-desc">A scaled figure is an estimate of yield, never a promise of saleable lumber: taper, sweep, rot and the sawyer’s cutting pattern all take their share, and the rules assume straight, sound logs. Scale the load, then deduct for visible defect before you agree a price.</p>`,
+};
+const costSection = {
+  title: 'Pricing lumber and planning waste',
+  html: `<p class="understanding-desc">Hardwood is sold by the board foot, so the order you place is <strong>volume × price per board foot</strong>. In the <strong>Cost</strong> mode above, enter the per-BF price your supplier quotes and the calculator returns the material cost of the whole list, waste included — that is all a <strong>board foot price calculator</strong> needs to do, and it is why a figure quoted per board foot cannot be compared with one quoted per linear foot until you know the width and thickness.</p>
+<p class="understanding-desc">Published US hardwood prices for 2026 vary widely by species, grade, thickness and — most of all — whether the stock is <strong>rough-sawn</strong> or <strong>surfaced</strong>. Rough lumber from a sawmill runs roughly <strong>$2–$6 per board foot</strong> for species like poplar, red oak and hard maple, while surfaced retail stock from a dealer runs about <strong>$4–$11</strong> for the same species. Black walnut sits at the top of the ladder at roughly <strong>$10–$18</strong> surfaced. Regional spread and grade are large enough that these figures are only a sanity check — always price a project against a current quote from your own supplier, and note that a dealer yard commonly prices well above a local mill.</p>
+<p class="understanding-desc">Plan for <strong>15–20% waste</strong> on hardwood projects (up to 25% on rough stock you are surfacing yourself). Defects, grain matching, end cuts and kerf all remove saleable wood, and a mill will not sell you the drop. Enter the allowance as a percentage in the calculator and it shows both the net volume you need and the gross volume to order. For dimensional softwood priced by the piece or the linear foot, board feet still help you compare a wide short board against a narrow long one.</p>`,
+};
+const faqs = [
+  {
+    q: 'How do I calculate board feet?',
+    a: 'Multiply thickness (inches) × width (inches) × length (feet) and divide by 12. Example: 1 in × 6 in × 8 ft = 1 × 6 × 8 ÷ 12 = 4 board feet.',
+  },
+  {
+    q: 'What is a board foot?',
+    a: 'A unit of lumber volume equal to 144 cubic inches — a piece 1 inch thick, 12 inches wide and 12 inches long. It measures volume, not length.',
+  },
+  {
+    q: 'Is a board foot the same as a linear foot?',
+    a: 'No. A linear foot measures length only. A board foot measures volume, so it accounts for thickness and width too. A 2 × 12 board 8 ft long is 8 linear feet but 16 board feet.',
+  },
+  {
+    q: 'How much waste should I add?',
+    a: 'Plan on 15–20% extra for hardwood to cover defects, end cuts and grain matching — up to 25% on rough stock you surface yourself. Enter the percentage into the calculator to see the gross volume to order.',
+  },
+  {
+    q: 'Why is a 2 × 4 not actually 2 by 4?',
+    a: 'Nominal sizes are named before the board is dried and planed. A finished 2 × 4 measures about 1.5 × 3.5 inches, which is 3.50 board feet over 8 ft rather than the 5.33 BF its nominal stamp implies. Lumber priced by the foot uses the nominal numbers, so always ask which convention your supplier quotes in.',
+  },
+  {
+    q: 'How do I calculate board feet in a log?',
+    a: 'Use the small-end diameter measured inside the bark and the log length with a log rule. Doyle is (D − 4)² × L ÷ 16. The International 1/4" rule scales the log as 4 ft sections at 0.22d² − 0.71d each and rounds to the nearest 5 BF. Scribner is a published table, not a formula. A 16 in × 16 ft log is 144 BF by Doyle, 160 by Scribner and 180 by International — the “By log” mode above compares all three.',
+  },
+  {
+    q: 'Which log rule should I use — Doyle, Scribner or International?',
+    a: 'Whichever one the buyer names, because the same log scales very differently under each. Doyle is the usual default for hardwood in the eastern and southern United States and is the most conservative on small logs. Scribner Decimal C is the standard in California and the Pacific Northwest. The International 1/4" rule is the most accurate of the three, so it is the one to quote if you get to choose — but a quoted price per thousand board feet means nothing until you know which rule it was scaled under.',
+  },
+  {
+    q: 'What does “board footage” mean?',
+    a: 'Board footage and board foot are the same thing — the volume of lumber measured in board feet. A board footage calculator and a board foot calculator return identical results.',
+  },
+  {
+    q: 'How do I calculate the price of lumber per board foot?',
+    a: 'Multiply the board feet by the price per board foot. Ten 1 × 6 boards 8 ft long are 40 BF, so at $5.50 per board foot the material costs 40 × $5.50 = $220. Add a waste allowance first if you are ordering: 15% turns 40 BF into 46 BF, or $253. The “Cost” mode above does both steps.',
+  },
+  {
+    q: 'What is the difference between a boardfoot calculator and a board foot calculator?',
+    a: 'None — they are the same tool. “Boardfoot” is just the two words run together, and “board ft” is the abbreviated form. All three spellings return the same board feet for the same dimensions.',
+  },
+  {
+    q: 'What are board feet for 2 × 4, 2 × 6 and 4 × 4?',
+    a: 'Per linear foot on nominal sizing: 2 × 4 = 0.667 BF, 2 × 6 = 1.0 BF, 4 × 4 = 1.333 BF. So an 8 ft 2 × 6 is 8 board feet and a 16 ft 4 × 4 is 21.33. The size chart above covers the common dimensions at 8, 12 and 16 ft.',
+  },
+];
+const related = ['area-converter', 'volume-converter', 'length-converter'];
+---
+
+<Base
+  title={`${title} — Lumber Volume & Cost | CalcPilot`}
+  description={desc}
+  jsonLd={simpleJsonLd(title, path, 'UtilitiesApplication', desc, { howToSteps: howTo.steps, faqs })}
+>
+  <div class="answer-first">
+    <SimpleTool
+      crumbs={crumbs}
+      title={title}
+      lead="Convert lumber dimensions to board feet and cost — with the common hardwood thicknesses one tap away, round-log scaling (Doyle, Scribner and International 1/4&quot;) and a waste allowance. Works as a boardfoot calculator, board ft calculator and board footage calculator."
+      howTo={howTo}
+      understanding={understanding}
+      sections={[sizingSection, logSection, costSection]}
+      faqs={faqs}
+      related={related}
+    >
+    <div slot="form">
+      <h2 class="form-title">Your board</h2>
+      <p class="field-hint">Start with the default 1 × 6 × 8 board below — the answer updates as you type. Switch modes only if you need cost, a round log, or a piece count.</p>
+      <div class="mode-switch" role="group" aria-label="Calculation mode">
+        <button type="button" class="mode-btn is-active" data-mode="bf" aria-pressed="true">Board feet</button>
+        <button type="button" class="mode-btn" data-mode="cost" aria-pressed="false">Cost</button>
+        <button type="button" class="mode-btn" data-mode="log" aria-pressed="false">By log</button>
+        <button type="button" class="mode-btn" data-mode="find" aria-pressed="false">Find pieces</button>
+      </div>
+
+      <div data-panel="bf">
+        <div class="field">
+          <label for="thickness">Thickness (inches)</label>
+          <div class="input-wrap"><input id="thickness" type="number" inputmode="decimal" step="any" value="1" /></div>
+          <div class="chip-row" role="group" aria-label="Common hardwood thicknesses">
+            <button type="button" class="chip" data-thickness="0.75" title="3/4 in surfaced">3/4</button>
+            <button type="button" class="chip" data-thickness="1" title="4/4 rough">4/4</button>
+            <button type="button" class="chip" data-thickness="1.25" title="5/4 rough">5/4</button>
+            <button type="button" class="chip" data-thickness="1.5" title="6/4 rough">6/4</button>
+            <button type="button" class="chip" data-thickness="2" title="8/4 rough">8/4</button>
+          </div>
+          <p class="field-hint">Tap a hardwood size, or type any thickness. Hardwood is quoted on the nominal rough-sawn figure — 4/4 = 1 in, 5/4 = 1.25 in, 8/4 = 2 in.</p>
+        </div>
+        <div class="field">
+          <label for="width">Width (inches)</label>
+          <div class="input-wrap"><input id="width" type="number" inputmode="decimal" step="any" value="6" /></div>
+        </div>
+        <div class="field">
+          <label for="length">Length (feet)</label>
+          <div class="input-wrap"><input id="length" type="number" inputmode="decimal" step="any" value="8" /></div>
+        </div>
+        <div class="field">
+          <label for="qty">How many pieces?</label>
+          <div class="input-wrap"><input id="qty" type="number" inputmode="decimal" step="any" value="1" /></div>
+        </div>
+      </div>
+
+      <div data-panel="cost" hidden>
+        <div class="field">
+          <label for="c-thickness">Thickness (inches)</label>
+          <div class="input-wrap"><input id="c-thickness" type="number" inputmode="decimal" step="any" value="1" /></div>
+        </div>
+        <div class="field">
+          <label for="c-width">Width (inches)</label>
+          <div class="input-wrap"><input id="c-width" type="number" inputmode="decimal" step="any" value="6" /></div>
+        </div>
+        <div class="field">
+          <label for="c-length">Length (feet)</label>
+          <div class="input-wrap"><input id="c-length" type="number" inputmode="decimal" step="any" value="8" /></div>
+        </div>
+        <div class="field">
+          <label for="c-qty">How many pieces?</label>
+          <div class="input-wrap"><input id="c-qty" type="number" inputmode="decimal" step="any" value="10" /></div>
+        </div>
+        <div class="field">
+          <label for="c-price">Price per board foot ($)</label>
+          <div class="input-wrap"><span class="prefix">$</span><input id="c-price" type="number" inputmode="decimal" step="any" value="5.5" /></div>
+        </div>
+        <div class="field">
+          <label for="c-waste">Waste allowance (%)</label>
+          <div class="input-wrap"><input id="c-waste" type="number" inputmode="decimal" step="any" value="15" /><span class="suffix">%</span></div>
+        </div>
+      </div>
+
+      <div data-panel="log" hidden>
+        <div class="field">
+          <label for="l-diameter">Small-end diameter (inches)</label>
+          <div class="input-wrap"><input id="l-diameter" type="number" inputmode="decimal" step="any" value="16" /></div>
+          <p class="field-hint">Measured inside the bark at the small end, not at the butt.</p>
+        </div>
+        <div class="field">
+          <label for="l-length">Log length (feet)</label>
+          <div class="input-wrap"><input id="l-length" type="number" inputmode="decimal" step="any" value="16" /></div>
+        </div>
+        <div class="field">
+          <label for="l-rule">Scaling rule</label>
+          <div class="input-wrap"><select id="l-rule">
+            <option value="doyle">Doyle — most common hardwood rule</option>
+            <option value="scribner">Scribner Decimal C</option>
+            <option value="intl">International 1/4" — most accurate</option>
+          </select></div>
+          <p class="field-hint">Switch rules to see the spread on the same log, then quote against the rule your buyer uses.</p>
+        </div>
+      </div>
+
+      <div data-panel="find" hidden>
+        <div class="field">
+          <label for="f-thickness">Thickness (inches)</label>
+          <div class="input-wrap"><input id="f-thickness" type="number" inputmode="decimal" step="any" value="1" /></div>
+        </div>
+        <div class="field">
+          <label for="f-width">Width (inches)</label>
+          <div class="input-wrap"><input id="f-width" type="number" inputmode="decimal" step="any" value="6" /></div>
+        </div>
+        <div class="field">
+          <label for="f-length">Length (feet)</label>
+          <div class="input-wrap"><input id="f-length" type="number" inputmode="decimal" step="any" value="8" /></div>
+        </div>
+        <div class="field">
+          <label for="f-target">Target board feet</label>
+          <div class="input-wrap"><input id="f-target" type="number" inputmode="decimal" step="any" value="40" /></div>
+          <p class="field-hint">Returns how many boards you need to reach that volume.</p>
+        </div>
+      </div>
+    </div>
+
+    <div slot="result">
+      <p class="result-label" id="res-label">Total board feet</p>
+      <div class="result-amount" id="res">4 BF</div>
+      <div class="result-subtitle" id="sub">1 × 6 in × 8 ft = 4 board feet</div>
+      <hr class="result-divider" />
+      <div class="breakdown" id="detail"></div>
+      <div class="result-actions">
+        <button type="button" class="copy-btn" id="copy-btn" aria-label="Copy result">
+          <span id="copy-label">Copy result</span>
+        </button>
+      </div>
+    </div>
+    </SimpleTool>
+  </div>
+
+  <style>
+    /* The hoisted, stuck result card is a site-wide rule (see
+       docs/SEO-DECISIONS.md D14). This page carries the extra breakdown rows
+       on top of it, so at phone widths they are dropped and the padding is
+       tightened to keep the stuck card from eating the screen. */
+    @media (max-width: 1119px) {
+      .answer-first :global(.result-card) { padding: var(--space-4); }
+      .answer-first :global(.result-divider),
+      .answer-first :global(.breakdown) {
+        display: none;
+      }
+    }
+  </style>
+</Base>
+
+<script>
+  const $ = (id: string) => document.getElementById(id) as HTMLInputElement;
+  const resEl = document.getElementById('res')!;
+  const subEl = document.getElementById('sub')!;
+  const detailEl = document.getElementById('detail')!;
+  const labelEl = document.getElementById('res-label')!;
+  const ruleEl = document.getElementById('l-rule') as HTMLSelectElement;
+  const modeBtns = Array.from(document.querySelectorAll('.mode-btn')) as HTMLButtonElement[];
+  const panels = Array.from(document.querySelectorAll('[data-panel]')) as HTMLElement[];
+
+  const num = (v: string) => parseFloat(v);
+  // Board feet are quoted to hundredths, so trim trailing zeros rather than
+  // padding every figure to a fixed decimal count.
+  const fmt = (n: number) =>
+    n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  const money = (n: number) =>
+    n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+
+  let mode = 'bf';
+  // Plain-text summary the Copy button hands over — the numbers a user needs
+  // to quote a yard, rather than just the headline figure.
+  let copyText = '';
+
+  function show(next: string) {
+    mode = next;
+    for (const btn of modeBtns) {
+      const active = btn.dataset.mode === next;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    }
+    for (const p of panels) p.hidden = p.dataset.panel !== next;
+    calc();
+  }
+
+  function calc() {
+    if (mode === 'bf') return calcBf();
+    if (mode === 'cost') return calcCost();
+    if (mode === 'log') return calcLog();
+    return calcFind();
+  }
+
+  function calcBf() {
+    const t = num($('thickness').value);
+    const w = num($('width').value);
+    const l = num($('length').value);
+    const q = num($('qty').value);
+    if (![t, w, l, q].every(Number.isFinite) || t <= 0 || w <= 0 || l <= 0 || q <= 0) {
+      resEl.textContent = '—';
+      subEl.textContent = 'Enter a thickness, width, length and quantity above';
+      detailEl.innerHTML = '';
+      return;
+    }
+    const each = (t * w * l) / 12;
+    const total = each * q;
+    labelEl.textContent = 'Total board feet';
+    resEl.textContent = `${fmt(total)} BF`;
+    subEl.textContent = `${fmt(t)} × ${fmt(w)} in × ${fmt(l)} ft${q > 1 ? ` × ${fmt(q)} pieces` : ''} = ${fmt(total)} board feet`;
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">Board feet per piece =</span><span class="bvalue">${fmt(each)} BF</span></div>
+      <div class="breakdown-row"><span class="blabel">Cubic inches per piece =</span><span class="bvalue">${fmt(t * w * (l * 12))} in³</span></div>
+      <div class="breakdown-row"><span class="blabel">1 board foot =</span><span class="bvalue">144 in³</span></div>`;
+    copyText = `Board foot calculator — ${fmt(t)} in thick × ${fmt(w)} in wide × ${fmt(l)} ft${q > 1 ? ` × ${fmt(q)} pieces` : ''} = ${fmt(total)} board feet (${fmt(each)} BF per piece).`;
+  }
+
+  function calcCost() {
+    const t = num($('c-thickness').value);
+    const w = num($('c-width').value);
+    const l = num($('c-length').value);
+    const q = num($('c-qty').value);
+    const price = num($('c-price').value);
+    const waste = num($('c-waste').value);
+    if (![t, w, l, q, price].every(Number.isFinite) || t <= 0 || w <= 0 || l <= 0 || q <= 0 || price < 0) {
+      resEl.textContent = '—';
+      subEl.textContent = 'Enter the board dimensions, quantity and price per board foot';
+      detailEl.innerHTML = '';
+      return;
+    }
+    const net = ((t * w * l) / 12) * q;
+    // Blank waste field should read as "no allowance", not NaN — the same
+    // guard feeds the headline, the breakdown row and the copied text.
+    const wastePct = Number.isFinite(waste) ? waste : 0;
+    const gross = net * (1 + wastePct / 100);
+    labelEl.textContent = 'Material cost';
+    resEl.textContent = money(gross * price);
+    subEl.textContent = `${fmt(gross)} BF incl. waste × ${money(price)}/BF`;
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">Net volume =</span><span class="bvalue">${fmt(net)} BF</span></div>
+      <div class="breakdown-row"><span class="blabel">To order (${fmt(wastePct)}% waste) =</span><span class="bvalue">${fmt(gross)} BF</span></div>
+      <div class="breakdown-row"><span class="blabel">Cost before waste =</span><span class="bvalue">${money(net * price)}</span></div>`;
+    copyText = `Board foot calculator — ${fmt(t)} in × ${fmt(w)} in × ${fmt(l)} ft × ${fmt(q)} pieces = ${fmt(net)} BF net, ${fmt(gross)} BF with ${fmt(wastePct)}% waste, ${money(gross * price)} at ${money(price)}/BF.`;
+  }
+
+  // Log rules, each kept in the form its own authority publishes.
+  // Doyle is a closed formula; International 1/4" is a per-section sum; Scribner
+  // is a diagram rule with no exact formula, so it is looked up in the published
+  // 16 ft table below (Scribner Decimal C) and scaled by length.
+  const DOYLE = (d: number, l: number) => ((d - 4) ** 2 * l) / 16;
+
+  const INTL_SECTION = (d: number) => 0.22 * d * d - 0.71 * d;
+  const intl = (d: number, l: number) => {
+    let total = 0;
+    let remaining = l;
+    let section = 0;
+    while (remaining > 0) {
+      const span = Math.min(4, remaining);
+      total += INTL_SECTION(d + 0.5 * section) * (span / 4);
+      remaining -= span;
+      section += 1;
+    }
+    return total * 0.905;
+  };
+
+  // Scribner Decimal C, board feet in a 16 ft log by small-end diameter.
+  // 6 in is the smallest sawlog the rule covers; below that the stem is pulpwood.
+  const SCRIBNER_16FT: Record<number, number> = {
+    6: 20, 7: 30, 8: 30, 9: 40, 10: 60, 11: 70, 12: 80, 13: 100, 14: 110,
+    15: 140, 16: 160, 17: 180, 18: 210, 19: 240, 20: 280, 21: 300, 22: 330,
+    23: 380, 24: 400, 25: 460, 26: 500, 27: 550, 28: 580, 29: 610, 30: 660,
+    31: 710, 32: 740, 33: 780, 34: 800, 35: 880, 36: 920, 37: 1030, 38: 1070,
+    39: 1120, 40: 1200,
+  };
+  const scribner = (d: number, l: number) => {
+    if (d < 6) return 0;
+    const lo = Math.min(40, Math.floor(d));
+    const hi = Math.min(40, lo + 1);
+    const table = lo === hi
+      ? SCRIBNER_16FT[lo]
+      : SCRIBNER_16FT[lo] + (d - lo) * (SCRIBNER_16FT[hi] - SCRIBNER_16FT[lo]);
+    return (table * l) / 16;
+  };
+
+  // Published rules are quoted rounded: Doyle to 1 BF, International to 5 BF
+  // and Scribner Decimal C to 10 BF.
+  const roundTo = (n: number, step: number) => Math.round(n / step) * step;
+
+  const logRules = [
+    { id: 'doyle', label: 'Doyle', round: 1, fn: DOYLE },
+    { id: 'scribner', label: 'Scribner Decimal C', round: 10, fn: scribner },
+    { id: 'intl', label: 'International ¼"', round: 5, fn: intl },
+  ];
+  const logValue = (ruleId: string, d: number, l: number) => {
+    const rule = logRules.find((r) => r.id === ruleId)!;
+    return roundTo(Math.max(0, rule.fn(d, l)), rule.round);
+  };
+
+  function calcLog() {
+    const d = num($('l-diameter').value);
+    const l = num($('l-length').value);
+    if (![d, l].every(Number.isFinite) || d <= 0 || l <= 0) {
+      resEl.textContent = '—';
+      subEl.textContent = 'Enter the small-end diameter and log length';
+      detailEl.innerHTML = '';
+      return;
+    }
+    const chosen = logValue(ruleEl.value, d, l);
+    const ruleName = ruleEl.selectedOptions[0].textContent.split('—')[0].trim();
+    labelEl.textContent = 'Estimated yield';
+    // No published board-foot rule covers a stem under 6 in at the small end.
+    resEl.textContent = d < 6 ? '—' : `${fmt(chosen)} BF`;
+    subEl.textContent = d < 6
+      ? `${fmt(d)} in is under the 6 in sawlog minimum — this is pulpwood, not board feet`
+      : `${fmt(d)} in small-end diameter × ${fmt(l)} ft, ${ruleName}`;
+    detailEl.innerHTML = `
+      ${logRules.map((r) => `<div class="breakdown-row"><span class="blabel">${r.label}${r.id === ruleEl.value ? ' (selected)' : ''} =</span><span class="bvalue">${fmt(logValue(r.id, d, l))} BF</span></div>`).join('')}`;
+    copyText = `Log scale — ${fmt(d)} in small-end diameter × ${fmt(l)} ft: ${ruleName} = ${fmt(chosen)} BF (Doyle ${fmt(logValue('doyle', d, l))}, Scribner Decimal C ${fmt(logValue('scribner', d, l))}, International 1/4" ${fmt(logValue('intl', d, l))}).`;
+  }
+
+  function calcFind() {
+    const t = num($('f-thickness').value);
+    const w = num($('f-width').value);
+    const l = num($('f-length').value);
+    const target = num($('f-target').value);
+    if (![t, w, l, target].every(Number.isFinite) || t <= 0 || w <= 0 || l <= 0 || target <= 0) {
+      resEl.textContent = '—';
+      subEl.textContent = 'Enter the board size and your target board feet';
+      detailEl.innerHTML = '';
+      return;
+    }
+    const each = (t * w * l) / 12;
+    const needed = Math.ceil(target / each);
+    labelEl.textContent = 'Pieces needed';
+    resEl.textContent = `${fmt(needed)} pieces`;
+    subEl.textContent = `${fmt(needed)} × ${fmt(each)} BF = ${fmt(needed * each)} BF`;
+    detailEl.innerHTML = `
+      <div class="breakdown-row"><span class="blabel">Board feet per piece =</span><span class="bvalue">${fmt(each)} BF</span></div>
+      <div class="breakdown-row"><span class="blabel">Target ÷ per piece =</span><span class="bvalue">${fmt(target / each)} → ${fmt(needed)}</span></div>
+      <div class="breakdown-row"><span class="blabel">Total volume =</span><span class="bvalue">${fmt(needed * each)} BF</span></div>`;
+    copyText = `Board foot calculator — ${fmt(needed)} pieces of ${fmt(t)} in × ${fmt(w)} in × ${fmt(l)} ft = ${fmt(needed * each)} BF total (${fmt(each)} BF each) to reach ${fmt(target)} BF.`;
+  }
+
+  for (const btn of modeBtns) btn.addEventListener('click', () => show(btn.dataset.mode!));
+  for (const el of document.querySelectorAll('input')) el.addEventListener('input', calc);
+  ruleEl.addEventListener('change', calc);
+
+  // Thickness chips: fill the field, then keep the highlighted chip in step
+  // with whatever the user types.
+  const thicknessEl = $('thickness');
+  const chips = Array.from(document.querySelectorAll('.chip')) as HTMLButtonElement[];
+  const syncChips = () => {
+    for (const chip of chips) {
+      chip.classList.toggle('is-active', num(chip.dataset.thickness!) === num(thicknessEl.value));
+    }
+  };
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      thicknessEl.value = chip.dataset.thickness!;
+      syncChips();
+      calc();
+    });
+  }
+  thicknessEl.addEventListener('input', syncChips);
+  syncChips();
+
+  const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement;
+  const copyLabel = document.getElementById('copy-label')!;
+  let copyTimer: ReturnType<typeof setTimeout>;
+  copyBtn.addEventListener('click', async () => {
+    const text = copyText;
+    try {
+      // clipboard.writeText needs a secure context; the dev server on
+      // http://localhost qualifies, but plain HTTP on a LAN IP does not.
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    copyLabel.textContent = 'Copied';
+    copyBtn.classList.add('is-copied');
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => {
+      copyLabel.textContent = 'Copy result';
+      copyBtn.classList.remove('is-copied');
+    }, 1800);
+  });
+
+  calc();
+</script>

@@ -194,7 +194,7 @@ export const financeTools: FinanceToolConfig[] = [
     examples: {
       title: 'Worked examples',
       cards: [
-        { title: '5-year personal loan', input: '$25,000 at 7.50% APR', result: 'About $503 per month' },
+        { title: '5-year personal loan', input: '$25,000 at 7.50% APR', result: 'About $501 per month, $5,057 total interest' },
         { title: '3-year loan', input: 'Same amount, shorter term', result: 'Higher payment · less total interest' },
       ],
     },
@@ -238,11 +238,13 @@ export const financeTools: FinanceToolConfig[] = [
       { key: 'annual', label: 'Gross / year' },
     ],
     donut: [
-      { key: 'gross', label: 'Gross pay', color: COLORS.primary },
-      { key: 'tax', label: 'Tax withheld', color: COLORS.warning },
       { key: 'net', label: 'Take-home', color: COLORS.accent },
+      { key: 'tax', label: 'Tax withheld', color: COLORS.warning },
+      { key: 'deductions', label: 'Deductions', color: COLORS.neutral },
     ],
-    donutCenter: { valueKey: 'main', label: 'per month' },
+    // The ring splits gross pay, so the centre has to read gross too —
+    // otherwise the middle number contradicts the segments around it.
+    donutCenter: { valueKey: 'gross', label: 'gross / month' },
     howTo: {
       title: 'How to use this calculator',
       steps: [
@@ -462,7 +464,9 @@ export const financeTools: FinanceToolConfig[] = [
       { key: 'interest', label: 'Total interest', color: COLORS.warning },
       { key: 'taxFees', label: 'Tax and fees', color: COLORS.neutral },
     ],
-    donutCenter: { valueKey: 'main', label: 'per month' },
+    // Ring and centre both describe the whole loan (vehicle balance + interest
+    // + tax and fees), not the monthly payment shown in the headline.
+    donutCenter: { valueKey: 'total', label: 'total paid' },
     howTo: {
       title: 'How to use this auto loan calculator',
       steps: [

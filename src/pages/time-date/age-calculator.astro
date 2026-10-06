@@ -99,7 +99,14 @@ const related = ['date-difference-calculator', 'date-add-calculator', 'countdown
       months += 12;
     }
 
-    const totalDays = Math.floor((now.getTime() - birth.getTime()) / 86400000);
+    // Count calendar days, not 24-hour blocks: a DST transition makes one
+    // local day 23 or 25 hours long, which throws a floor() of the raw
+    // millisecond gap off by a day (or by two across a 30-year span).
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let totalDays = 0;
+    for (const cursor = new Date(birth); cursor < midnight; cursor.setDate(cursor.getDate() + 1)) {
+      totalDays += 1;
+    }
     const totalWeeks = Math.floor(totalDays / 7);
 
     ageEl.textContent = String(years);

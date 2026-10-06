@@ -1127,6 +1127,41 @@ html[data-theme='dark'] .theme-toggle .icon-moon { display: none; }
   color: var(--result-text);
   font-weight: 500;
 }
+/* Copy result — job-site users paste these numbers into a supplier email. */
+.result-actions {
+  position: relative;
+  margin-top: var(--space-5);
+}
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 10px var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--result-text);
+  background: rgba(248, 250, 252, 0.06);
+  border: 1px solid var(--result-divider);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.18s var(--ease-out), border-color 0.18s var(--ease-out),
+    color 0.18s var(--ease-out);
+}
+.copy-btn:hover {
+  background: rgba(248, 250, 252, 0.12);
+  border-color: rgba(248, 250, 252, 0.28);
+}
+.copy-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.copy-btn.is-copied {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 
 /* Mode switch — segmented pill control (percentage calculator) */
@@ -1155,6 +1190,34 @@ html[data-theme='dark'] .theme-toggle .icon-moon { display: none; }
   background: var(--primary-soft);
   border-color: var(--primary);
   color: var(--primary);
+}
+
+/* Quick-pick chips: one tap fills a field with a standard size. */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.chip {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-tiny);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+.chip:hover { border-color: var(--primary); color: var(--text-primary); }
+.chip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.chip.is-active {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .donut-wrap {
@@ -1725,7 +1788,34 @@ summary.faq-q::-webkit-details-marker { display: none; }
   .hero h1 { max-width: none; }
   .hero-panel { min-height: 0; }
   .calc-block { grid-template-columns: 1fr; }
-  .result-card { position: static; }
+  /* Drop the sticky behaviour once the grid collapses, but stay a containing
+     block: the ::before glow is absolutely positioned, and against a static
+     card its containing block jumps to an outer ancestor, leaving the 70%-wide
+     circle unclipped and scrolling the whole page sideways on phones. */
+  .result-card { position: relative; }
+  /* Stacked above the form on phones. The form is routinely taller than the
+     viewport, so a result card placed after it starts around 1000px down and
+     the pre-filled answer is never seen. Reordering puts the figure on the
+     first screen, and the sticky offset keeps it in view while the fields are
+     edited further down the page. */
+  .calc-block {
+    display: flex;
+    flex-direction: column;
+  }
+  .calc-block > .result-card {
+    order: -1;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-2));
+    z-index: 5;
+  }
+  /* Finance cards carry a breakdown and a donut on top of the headline, which
+     pushes them past a phone screen even when hoisted above the form. The
+     headline is what has to be readable on arrival; the supporting rows stay
+     in the desktop layout and rejoin the card as soon as there is room. */
+  @media (max-width: 767px) {
+    .form-card .field:last-child { margin-bottom: 0; }
+    .result-card:has(.donut-wrap) .donut-wrap { display: none; }
+  }
   .grid-4,
   .catalog-grid { grid-template-columns: repeat(2, 1fr); }
   .card-grid,

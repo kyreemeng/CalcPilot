@@ -18,25 +18,37 @@ export interface FinanceResult {
   amortFirstCol?: string; // "Year" | "Payment"
 }
 
-/** Full monthly amortization schedule for a fixed-rate, fully-amortizing loan. */
-export function amortSchedule(principal: number, annualRate: number, years: number) {
+/**
+ * Monthly amortization schedule for a fixed-rate, fully-amortizing loan.
+ *
+ * `extraMonthly` is added on top of the scheduled payment. When it is set the
+ * loop stops as soon as the balance clears, so a shorter `monthly` array is
+ * what proves the term actually shortened — previously the extra payment only
+ * inflated the headline figure and the interest total ignored it entirely.
+ */
+export function amortSchedule(principal: number, annualRate: number, years: number, extraMonthly = 0) {
   const r = annualRate / 100 / 12;
   const n = Math.max(1, Math.round(years * 12));
-  let payment = 0;
+  let scheduled = 0;
   if (r === 0) {
-    payment = principal / n;
+    scheduled = principal / n;
   } else {
-    payment = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    scheduled = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }
+  const extra = Math.max(0, extraMonthly);
+  const payment = scheduled + extra;
   const monthly: { month: number; interest: number; principal: number; balance: number }[] = [];
   let balance = principal;
   for (let m = 1; m <= n; m++) {
+    if (extra > 0 && balance <= 0) break;
     const interest = balance * r;
-    const principalPart = payment - interest;
+    let principalPart = payment - interest;
+    // A shortened schedule ends on a partial payment rather than overpaying.
+    if (extra > 0 && principalPart > balance) principalPart = balance;
     balance = Math.max(0, balance - principalPart);
     monthly.push({ month: m, interest, principal: principalPart, balance });
   }
-  return { payment, monthly };
+  return { payment, scheduled, monthly };
 }
 
 /** Mortgage — monthly P&I + property tax + home insurance, with yearly amortization. */
@@ -75,12 +87,19 @@ export function computeMortgage(v: Record<string, number>): FinanceResult {
 /** Loan — fixed-rate personal/auto/student loan with origination fee. */
 export function computeLoan(v: Record<string, number>): FinanceResult {
   const principal = Math.max(0, v.amount ?? 0);
-  const sched = amortSchedule(principal, v.rate ?? 0, v.term ?? 5);
-  const basePayment = sched.payment;
-  const payment = basePayment + (v.extra ?? 0);
+  const extra = Math.max(0, v.extra ?? 0);
+  const sched = amortSchedule(principal, v.rate ?? 0, v.term ?? 5, extra);
+  const payment = sched.payment;
   const totalInterest = sched.monthly.reduce((sum, m) => sum + m.interest, 0);
   const fee = v.fee ?? 0;
   const total = principal + totalInterest + fee;
+  // With an extra payment the loan clears early, so say so rather than
+  // repeating the nominal term back to the user.
+  const months = sched.monthly.length;
+  const years = months / 12;
+  const termLabel = years >= 1
+    ? `${Number.isInteger(years) ? years : years.toFixed(1)} years`
+    : `${months} months`;
 
   const all: AmortRow[] = sched.monthly.map((m) => ({
     n: m.month,
@@ -92,8 +111,8 @@ export function computeLoan(v: Record<string, number>): FinanceResult {
 
   return {
     main: payment,
-    subtitle: 'per month',
-    values: { pi: basePayment, principal, interest: totalInterest, fee, total },
+    subtitle: extra > 0 ? `per month · paid off in ${termLabel}` : 'per month',
+    values: { pi: payment, principal, interest: totalInterest, fee, total },
     amortization: all,
     amortFirstCol: 'Payment',
   };
@@ -162,10 +181,14 @@ function computeGrowth(v: Record<string, number>, subtitle: string): FinanceResu
   const fvContrib = r === 0 ? perPeriod * n : perPeriod * ((Math.pow(1 + r, n) - 1) / r);
   const gross = fvBalance + fvContrib;
   const totalContrib = contribution * (v.years ?? 0) * 12;
-  const grossInterest = gross - totalContrib;
+  // Interest is what the balance grew by, so the money paid in has to come out:
+  // both the starting balance and the contributions. Subtracting only the
+  // contributions counted the starting balance as earnings, taxed it, and then
+  // dropped it from the headline — which no longer matched the ring.
+  const grossInterest = gross - balance - totalContrib;
   const tax = grossInterest * ((v.taxRate ?? 0) / 100);
   const interest = grossInterest - tax;
-  const main = totalContrib + interest;
+  const main = balance + totalContrib + interest;
   return {
     main,
     subtitle,

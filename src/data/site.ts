@@ -96,6 +96,7 @@ export const timeDateToolRefs: ToolRef[] = [
 ];
 
 export const everydayToolRefs: ToolRef[] = [
+  { slug: 'board-foot-calculator', title: 'Board Foot Calculator', shortDesc: 'Lumber volume, cost and log scaling.', category: 'everyday', href: '/everyday/board-foot-calculator' },
   { slug: 'percentage-calculator', title: 'Percentage Calculator', shortDesc: 'Find a percentage of any number.', category: 'everyday', href: '/everyday/percentage-calculator' },
   { slug: 'percentage-change-calculator', title: 'Percentage Change Calculator', shortDesc: 'Calculate percentage increase or decrease.', category: 'everyday', href: '/everyday/percentage-change-calculator' },
   { slug: 'tip-calculator', title: 'Tip Calculator', shortDesc: 'Tip amount and total bill, including split.', category: 'everyday', href: '/everyday/tip-calculator' },
@@ -129,12 +130,12 @@ export const popularSlugs = [
  * list whenever a new page ships; keep it to the last ~6.
  */
 export const latestSlugs = [
+  'board-foot-calculator',
   '2.47-kg-to-lbs',
   '2.6-kg-to-lbs',
   '24.6-kg-to-lbs',
   'liters-to-gallons',
   'gb-to-mb-converter',
-  'kg-to-stone-converter',
 ];
 
 /**
@@ -299,6 +300,7 @@ export const toolIcons: Record<string, string> = {
   'discount-calculator': 'tag',
   'bmi-calculator': 'activity',
   'bmr-calorie-calculator': 'activity',
+  'board-foot-calculator': 'box',
 };
 
 export const categoryIcons: Record<string, string> = {
