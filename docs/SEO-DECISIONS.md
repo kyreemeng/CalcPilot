@@ -68,3 +68,22 @@
 | legal-regulatory-compliance | ⚠️ finance 内容适用，见 F6 |
 | ctr-snippet-optimization | ⏳ 等 F4 数据成熟 |
 | traffic-drop-diagnosis / indexing-crawl-health-audit / site-migration-safety / backlink-profile-audit / measurement-discipline / seo-growth-stage-strategy | 📦 情境备用，触发时按技能步骤执行 |
+
+## 五、AI-SEO + 全站审计（2026-10-07）
+
+| # | 决策 | 原因 |
+|---|------|------|
+| A1 | llms.txt/llms-full.txt 纳入部署校验：URL 集合必须与 sitemap-0.xml 完全一致 | 上轮上线 board-foot 后 llms-full 落后 2 个 URL（缺首页 + 新页）。机器可读目录与 sitemap 失配会让 AI 爬虫拿到过期目录；后续每次发新页把两个文件当作一个原子提交 |
+| A2 | 全站工具页免责声明块显示「Content updated <build date>」（与 JSON-LD dateModified 同源） | 新鲜度原来只存在于结构化数据里，页面不可见。GEO 研究与 Google 指南都把「可见的更新日期」当作 freshness/E-E-A-T 信号；渲染在 6 个工具模板上，一次改动全站生效 |
+| A3 | methodology「Last reviewed」从 8-26 刷新至 10-07 | 页面可见日期与 dateModified 断档 6 周，是全站唯一过期的 freshness 信号 |
+| A4 | meta description 全站 ≤165 字符；liters-to-gallons（170）与 percentage-calculator（170）修剪至 151/150 | SERP 约 155-160 字符截断，超出部分被省略号吃掉，行动引导丢失 |
+| A5 | contact 页从 159 词扩到 ~450 词（报告分诊、如何提交、FAQ 指引） | 全站唯一 thin content 页；contact 是 trust 页，薄内容拖低整站质量信号 |
+| A6 | vercel.json 补 X-Frame-Options: SAMEORIGIN | 原来只有 nosniff/referrer/HSTS，缺 clickjacking 头。CSP frame-ancestors 更现代但 SAMEORIGIN 是零成本兼容层 |
+
+## 六、审计基线（2026-10-07 快照，用于下次对照）
+
+- 57 页 / 56 个 index 页全扫描：title 18-62 字符、description 102-170、正文 250-2490 词（中位 617）
+- JSON-LD 全覆盖：Organization/WebSite/WebPage/BreadcrumbList/WebApplication/HowTo/FAQPage/ItemList，无缺页
+- 全站 2288 个内链，无 <5 唯一内链的孤页；canonical 全部自引用；重定向链规范（http→https、www→裸域、尾斜杠 308）
+- search 页 noindex 正确；404 返回真 404；HSTS 2 年
+- 未做项：hreflang（GSC 流量 100% 英语区，暂不需要）；OG 图全站共用一张（工具页个性化 OG 图是后续可选项）
