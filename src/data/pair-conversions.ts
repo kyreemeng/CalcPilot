@@ -151,7 +151,7 @@ export const pairConversions: PairConversionConfig[] = [
     seo: {
       title: 'Liters to Gallons Converter | 1 L = 0.26417 gal',
       description:
-        'Convert liters to gallons instantly. 1 US gallon equals exactly 3.785411784 liters, so 1 liter is 0.2642 gallons. Chart, formula and the US vs imperial gallon difference.',
+        'Convert liters to gallons instantly. 1 US gallon equals exactly 3.785411784 liters, so 1 liter is 0.2642 gallons. Chart, formula, US vs imperial.',
     },
     lead:
       'Convert liters to US gallons instantly using the exact definition: one US liquid gallon equals 3.785411784 liters.',
