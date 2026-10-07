@@ -2,6 +2,8 @@
 
 When to use: instant browser calculators for finance, unit conversion, dates, and everyday math. How to use: open the URL; no API.
 
+- Home: https://calcpilot.net/
+
 ## Finance
 - https://calcpilot.net/finance
 - https://calcpilot.net/finance/mortgage-calculator
@@ -51,6 +53,7 @@ When to use: instant browser calculators for finance, unit conversion, dates, an
 
 ## Everyday
 - https://calcpilot.net/everyday
+- https://calcpilot.net/everyday/board-foot-calculator
 - https://calcpilot.net/everyday/percentage-calculator
 - https://calcpilot.net/everyday/percentage-change-calculator
 - https://calcpilot.net/everyday/tip-calculator

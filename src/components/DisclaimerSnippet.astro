@@ -6,6 +6,13 @@ interface Props {
 }
 
 const { text } = Astro.props;
+const updated = new Date().toISOString().slice(0, 10);
+const updatedLabel = new Date(updated + 'T00:00:00Z').toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 ---
 
 <section class="section section--tight">
@@ -15,6 +22,9 @@ const { text } = Astro.props;
       <p class="disc-title">Disclaimer</p>
       <p>
         {text} Review our <a href="/methodology">calculation methodology</a> and full <a href="/disclaimer">disclaimer</a>.
+      </p>
+      <p>
+        Content updated <time datetime={updated}>{updatedLabel}</time>.
       </p>
     </div>
   </div>

@@ -35,6 +35,7 @@ Open the matching URL and enter values in the form. There is no API, npm install
 - meters to feet: https://calcpilot.net/converters/meters-to-feet
 - Celsius to Fahrenheit: https://calcpilot.net/converters/celsius-to-fahrenheit
 - Percentage calculator: https://calcpilot.net/everyday/percentage-calculator
+- Board foot calculator (lumber volume and cost): https://calcpilot.net/everyday/board-foot-calculator
 - Age from date of birth: https://calcpilot.net/time-date/age-calculator
 - Methodology: https://calcpilot.net/methodology
 - Full catalog: https://calcpilot.net/llms-full.txt
