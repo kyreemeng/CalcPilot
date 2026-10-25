@@ -41,6 +41,7 @@ const safeJsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': 
     {description && <meta name="description" content={description} />}
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
+    <meta name="toolfound-verify" content="1279a8ff09f525acf71dd4097349a8b39cf7c628d2981e87" />
     {canonical && <link rel="canonical" href={canonical} />}
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
